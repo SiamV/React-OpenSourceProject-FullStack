@@ -1,0 +1,44 @@
+{
+  "name": "React-OpenSourceProject-FullStack",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "repository": "https://github.com/SiamV/React-OpenSourceProject-FullStack.git",
+  "author": "Vitaly Siam",
+  "license": "MIT",
+  "scripts": {
+    "build": "webpack -p --mode production --config ./webpack.config.cjs",
+    "dev": "concurrently \"yarn run watch:server\" \"yarn run watch:client \" ",
+    "watch:server": "nodemon ./server/server.js",
+    "watch:client": "webpack-dev-server --mode development --config ./webpack.dev.config.cjs --hot ",
+    "build:css": "postcss client/stylesTailwind/tailwind.css -o client/stylesTailwind/main.css ",
+    "build:watch": "postcss client/stylesTailwind/tailwind.css -o client/stylesTailwind/main.css --watch"
+  },
+  "dependencies": {
+    "axios": "^0.21.0",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mongoose": "^5.10.14",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-redux": "^7.2.2",
+    "react-router-dom": "^5.2.0",
+    "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.3",
+    "@babel/plugin-transform-runtime": "^7.12.1",
+    "@babel/preset-env": "^7.12.1",
+    "@babel/preset-react": "^7.12.5",
+    "babel-loader": "^8.2.1",
+    "css-loader": "^5.0.1",
+    "nodemon": "^2.0.6",
+    "react-hot-loader": "^4.13.0",
+    "style-loader": "^2.0.0",
+    "webpack": "^5.4.0",
+    "webpack-cli": "^4.2.0",
+    "webpack-dev-server": "^3.11.0"
+  }
+}
