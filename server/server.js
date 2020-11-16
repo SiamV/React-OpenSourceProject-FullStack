@@ -98,7 +98,6 @@ mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true }).then(
 //create collection DB
 const User = mongoose.model('site1', userSchema, 'users');
 export default User;
-// module.exports = User;
 
 //create Rest API
 
