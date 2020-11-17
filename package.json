@@ -6,6 +6,15 @@
   "repository": "https://github.com/SiamV/React-OpenSourceProject-FullStack.git",
   "author": "Vitaly Siam",
   "license": "MIT",
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react"
+    ],
+    "plugins": [
+      "@babel/plugin-transform-runtime"
+    ]
+  },
   "scripts": {
     "build": "webpack -p --mode production --config ./webpack.config.cjs",
     "dev": "concurrently \"yarn run watch:server\" \"yarn run watch:client \" ",
@@ -25,7 +34,8 @@
     "react-redux": "^7.2.2",
     "react-router-dom": "^5.2.0",
     "redux": "^4.0.5",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "universal-cookie": "^4.0.4"
   },
   "devDependencies": {
     "@babel/core": "^7.12.3",

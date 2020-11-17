@@ -1,4 +1,6 @@
-const config = require('./config.js')
+const config = (async () => {
+  config = await import('./config.js');
+})();
 
 module.exports = {
   entry: __dirname + '/client/main.js',
