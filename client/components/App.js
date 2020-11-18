@@ -37,10 +37,10 @@ const AppContainer = () => {
         <MainMenu />
       </div>
       <div className={'site-wrapper-account '}>
-        {/* <Account /> */}
+        <Account />
       </div>
       <div className={'site-wrapper-feed'}>
-        {/* {!isAuth && <Route path={'/login'} render={() => <Login />} />} */}
+        {!isAuth && <Route path={'/login'} render={() => <Login />} />}
         <Route path={'/articles'} render={() => <Articles />} />
         {/* <Route exact path={'/hiadmin'} render={() => <PrivateComponent />} /> */}
       </div>

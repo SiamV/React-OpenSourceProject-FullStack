@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 // import cookieParser from 'cookie-parser';
-// import bcrypt from 'bcrypt-nodejs';
+import bcrypt from 'bcrypt-nodejs';
 // import passport from 'passport';
 // import jwt from 'jsonwebtoken';
 
@@ -44,14 +44,14 @@ const userSchema = new mongoose.Schema(
     { versionKey: false }
 )
 
-// //function is done before create new user in DB. We hash the password before create user
-// userSchema.pre('save', async function (next) {
-//     if (!this.isModified('password')) {
-//         return next()
-//     }
-//     this.password = bcrypt.hashSync(this.password);
-//     return next();
-// })
+//function is done before create new user in DB. We hash the password before create user
+userSchema.pre('save', async function (next) {
+    if (!this.isModified('password')) {
+        return next()
+    }
+    this.password = bcrypt.hashSync(this.password);
+    return next();
+})
 
 // //two functions for auth
 // userSchema.method({
@@ -105,30 +105,30 @@ app.get('/', (req, res) => {
     res.send('Hello server')
 })
 
-// //for registration new user
-// app.post("/api/v1/auth/add/user", async (req, res) => {
-//     const user = new User({
-//         email: req.body.email,
-//         password: req.body.password
-//     })
-//     user.save()
-//     res.send(user)
-// })
+//for registration new user
+app.post("/api/v1/auth/add/user", async (req, res) => {
+    const user = new User({
+        email: req.body.email,
+        password: req.body.password
+    })
+    user.save()
+    res.send(user)
+})
 
-// //for login and create token
-// app.post("/api/v1/auth/user", async (req, res) => {
-//     try {
-//         const user = await User.findAndValidateUser(req.body)
+//for login and create token
+app.post("/api/v1/auth/user", async (req, res) => {
+    try {
+        const user = await User.findAndValidateUser(req.body)
 
-//         const payload = { uid: user._id }
-//         const token = jwt.sign(payload, config.secret, { expiresIn: '48h' })
-//         delete user.password
-//         res.cookie('token', token, { maxAge: 1000 * 60 * 60 * 48 })
-//         res.json({ status: 'ok', token, user })
-//     } catch (err) {
-//         res.json({ status: 'error authentication', err })
-//     }
-// })
+        const payload = { uid: user._id }
+        const token = jwt.sign(payload, config.secret, { expiresIn: '48h' })
+        delete user.password
+        res.cookie('token', token, { maxAge: 1000 * 60 * 60 * 48 })
+        res.json({ status: 'ok', token, user })
+    } catch (err) {
+        res.json({ status: 'error authentication', err })
+    }
+})
 
 // //for authorization
 // app.get("/api/v1/authorization",

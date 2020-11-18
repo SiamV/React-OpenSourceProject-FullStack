@@ -1,12 +1,12 @@
-// import passportJWT from 'passport-jwt';
+import passportJWT from 'passport-jwt';
 
-// import config from '../../config.js';
-// import User from '../server.js';
+import config from '../../config.js';
+import User from '../server.js';
 
-const passportJWT = require('passport-jwt');
+// const passportJWT = require('passport-jwt');
 
-const config = require('../../config');
-const User = require('../server.js');
+// const config = require('../../config');
+// const User = require('../server.js');
 
 const cookieExtractor = (req) => {
     return req && req.cookies && req.cookies.token
@@ -30,5 +30,5 @@ const jwtStrategy = new passportJWT.Strategy(jwtOption, (jwtPayload, done) => {
 })
 
 
-// export default jwtStrategy;
-exports.jwt = jwtStrategy;
+export default jwtStrategy;
+// exports.jwt = jwtStrategy;
