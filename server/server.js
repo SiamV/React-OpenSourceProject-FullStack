@@ -131,27 +131,27 @@ app.post("/api/v1/auth/user", async (req, res) => {
     }
 })
 
-// //for authorization
-// app.get("/api/v1/authorization",
-//     async (req, res) => {
-//         if (req.method === 'OPTIONS') {
-//             return next()
-//         }
-//         try {
-//             //decoded token in cookie
-//             const decoded = jwt.verify(req.cookies.token, config.secret)
-//             const user = await User.findById(decoded.uid)
+//for authorization
+app.get("/api/v1/authorization",
+    async (req, res) => {
+        if (req.method === 'OPTIONS') {
+            return next()
+        }
+        try {
+            //decoded token in cookie
+            const decoded = jwt.verify(req.cookies.token, config.secret)
+            const user = await User.findById(decoded.uid)
 
-//             //if have a cookie then
-//             const payload = { uid: user._id }
-//             const token = jwt.sign(payload, config.secret, { expiresIn: '48h' })
-//             delete user.password
-//             res.cookie('token', token, { maxAge: 1000 * 60 * 60 * 48 })
-//             res.json({ status: 'ok', token, user })
-//         } catch (err) {
-//             res.json({ status: 'error authorization', err })
-//         }
-//     })
+            //if have a cookie then
+            const payload = { uid: user._id }
+            const token = jwt.sign(payload, config.secret, { expiresIn: '48h' })
+            delete user.password
+            res.cookie('token', token, { maxAge: 1000 * 60 * 60 * 48 })
+            res.json({ status: 'ok', token, user })
+        } catch (err) {
+            res.json({ status: 'error authorization', err })
+        }
+    })
 
 // //for secret route
 // app.get("/api/v1/admin", auth([]),

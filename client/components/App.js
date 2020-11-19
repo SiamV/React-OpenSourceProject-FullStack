@@ -20,13 +20,13 @@ const AppContainer = () => {
   const token = useSelector(s => s.login.token)
   const dispatch = useDispatch()
 
-  //start app
-  // useEffect(() => {
-  //   if (token) {
-  //     dispatch(AuthorizationThunkCreator())
-  //     dispatch(SecretRoute())
-  //   }
-  // }, [])
+  // start app
+  useEffect(() => {
+    if (token) {
+      dispatch(AuthorizationThunkCreator())
+      // dispatch(SecretRoute())
+    }
+  }, [])
 
   return (
     <div className={'site-wrapper'}>
