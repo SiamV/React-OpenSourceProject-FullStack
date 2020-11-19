@@ -90,7 +90,7 @@ export const AuthorizationThunkCreator = () => async (dispatch) => {
     }
 }
 
-export const logOutAC = () => ({ type: LOGOUT }) //need clean cookie
+export const logOutAC = () => ({ type: LOGOUT }) 
 
 export const SecretRoute = () => async (dispatch) => {
     try {
