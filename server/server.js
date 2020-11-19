@@ -2,27 +2,28 @@ import express from 'express';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-// import cookieParser from 'cookie-parser';
+import cookieParser from 'cookie-parser';
 import bcrypt from 'bcrypt-nodejs';
-// import passport from 'passport';
-// import jwt from 'jsonwebtoken';
+import passport from 'passport';
+import jwt from 'jsonwebtoken';
 
 import config from "../config.js";
-// import passportJWT from './manager/passport.js';
+import passportJWT from './manager/passport.js';
+import jwtStrategy from './manager/passport.js';
 // import auth from './manager/rolesMiddleware.mjs';
 
 const app = express();
 
 const middleware = [
     cors(),
-    // passport.initialize(),
+    passport.initialize(),
     bodyParser.urlencoded({ limit: '50mb', extended: true, parameterLimit: 50000 }),
     bodyParser.json({ limit: '50mb', extended: true }),
-    // cookieParser()
+    cookieParser()
 ]
 middleware.forEach((it) => app.use(it))
 
-// passport.use('jwt', passportJWT.jwt) //JsonWebToken logic
+passport.use('jwt', jwtStrategy) //JsonWebToken logic
 
 const userSchema = new mongoose.Schema(
     {
@@ -53,34 +54,34 @@ userSchema.pre('save', async function (next) {
     return next();
 })
 
-// //two functions for auth
-// userSchema.method({
-//     passwordMatches(password) {
-//         return bcrypt.compareSync(password, this.password) //compare 2 password. hash and from user
-//     }
-// })
-// userSchema.statics = {
-//     async findAndValidateUser({ email, password }) {
-//         if (!email) {
-//             throw new Error('no email')
-//         }
-//         if (!password) {
-//             throw new Error('no password')
-//         }
+//two functions for authentication (check passwords, hash and user's)
+userSchema.method({
+    passwordMatches(password) {
+        return bcrypt.compareSync(password, this.password) //compare 2 password. hash and from user
+    }
+})
+userSchema.statics = {
+    async findAndValidateUser({ email, password }) {
+        if (!email) {
+            throw new Error('no email')
+        }
+        if (!password) {
+            throw new Error('no password')
+        }
 
-//         const user = await this.findOne({ email }).exec()
-//         if (!user) {
-//             throw new Error('no user')
-//         }
+        const user = await this.findOne({ email }).exec()
+        if (!user) {
+            throw new Error('no user')
+        }
 
-//         const isPasswordOk = await user.passwordMatches(password)
-//         if (!isPasswordOk) {
-//             throw new Error('password incorrect')
-//         }
+        const isPasswordOk = await user.passwordMatches(password)
+        if (!isPasswordOk) {
+            throw new Error('password incorrect')
+        }
 
-//         return user
-//     }
-// }
+        return user
+    }
+}
 
 //connect to MongoDB
 const url = config.url;
