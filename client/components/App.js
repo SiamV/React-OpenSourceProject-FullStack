@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter, Route } from "react-router-dom";
 import { Provider } from "react-redux";
 import { useSelector, useDispatch } from 'react-redux';
@@ -11,8 +11,8 @@ import Articles from './Articles/Articles';
 import Header from './Header/Header';
 import Account from './Account/Account';
 import Footer from './Footer/Footer';
-import PrivateComponent from './Private/PriviteComponent'
-import {AuthorizationThunkCreator, SecretRoute} from '../redux/reducers/loginReducer'
+import PrivateComponent from './Private/PriviteComponent';
+import { AuthorizationThunkCreator, SecretRoute } from '../redux/reducers/loginReducer';
 
 //main structure project. Grid css
 const AppContainer = () => {
@@ -32,7 +32,7 @@ const AppContainer = () => {
     <div className={'site-wrapper'}>
       <div className={'site-wrapper-header'}>
         <Header />
-      </div>S
+      </div>
       <div className={'site-wrapper-nav '}>
         <MainMenu />
       </div>
@@ -43,10 +43,6 @@ const AppContainer = () => {
         {!isAuth && <Route path={'/login'} render={() => <Login />} />}
         <Route path={'/articles'} render={() => <Articles />} />
         <Route exact path={'/admin'} render={() => <PrivateComponent />} />
-      </div>
-      <div className={'site-wrapper-secondMenu '}>
-        Here will be second Menu
-        {/* create component */}
       </div>
       <div className={'site-wrapper-footer'}>
         <Footer />

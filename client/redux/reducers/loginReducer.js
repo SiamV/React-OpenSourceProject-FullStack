@@ -95,7 +95,6 @@ export const logOutAC = () => ({ type: LOGOUT })
 export const SecretRoute = () => async (dispatch) => {
     try {
         let response = await axios.get('/api/v1/admin')
-        console.log(response)
     } catch (e) {
 
     }

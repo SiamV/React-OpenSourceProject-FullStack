@@ -153,8 +153,8 @@ app.get("/api/v1/authorization",
         }
     })
 
-//for secret route
-app.get("/api/v1/admin", auth([]),
+//secret route. Only for admin
+app.get("/api/v1/admin", auth(['admin']),
     async (req, res) => {
         res.json({ status: 'ok' })
     })
