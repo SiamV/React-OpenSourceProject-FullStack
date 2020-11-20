@@ -10,7 +10,7 @@ import jwt from 'jsonwebtoken';
 import config from "../config.js";
 import passportJWT from './manager/passport.js';
 import jwtStrategy from './manager/passport.js';
-// import auth from './manager/rolesMiddleware.mjs';
+import auth from './manager/rolesMiddleware.js';
 
 const app = express();
 
@@ -153,11 +153,11 @@ app.get("/api/v1/authorization",
         }
     })
 
-// //for secret route
-// app.get("/api/v1/admin", auth([]),
-//     async (req, res) => {
-//         res.json({ status: 'ok' })
-//     })
+//for secret route
+app.get("/api/v1/admin", auth([]),
+    async (req, res) => {
+        res.json({ status: 'ok' })
+    })
 
     // app.get("/api/v1/auth/users", async (req, res) => {
     //     const users = await User.find({})

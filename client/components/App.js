@@ -24,7 +24,7 @@ const AppContainer = () => {
   useEffect(() => {
     if (token) {
       dispatch(AuthorizationThunkCreator())
-      // dispatch(SecretRoute())
+      dispatch(SecretRoute())
     }
   }, [])
 
@@ -42,7 +42,7 @@ const AppContainer = () => {
       <div className={'site-wrapper-feed'}>
         {!isAuth && <Route path={'/login'} render={() => <Login />} />}
         <Route path={'/articles'} render={() => <Articles />} />
-        {/* <Route exact path={'/hiadmin'} render={() => <PrivateComponent />} /> */}
+        <Route exact path={'/admin'} render={() => <PrivateComponent />} />
       </div>
       <div className={'site-wrapper-secondMenu '}>
         Here will be second Menu

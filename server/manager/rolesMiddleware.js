@@ -1,7 +1,6 @@
-const passport = require('passport');
-// import passport from 'passport';
+import passport from 'passport';
 
-const handleJWT = (req, res, roles, next) => {
+const handleJWT = (req, res, next, roles) => {
     return async (err, user, info) => {
         const error = err || info
 
@@ -25,5 +24,4 @@ const auth = (roles = []) => (req, res, next) => {
     )(req, res, next)
 }
 
-module.exports = auth;
-// export default auth;
+export default auth;
