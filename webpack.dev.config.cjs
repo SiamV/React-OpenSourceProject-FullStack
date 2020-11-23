@@ -1,5 +1,7 @@
 const config = (async () => {
-  config = await import('./config.js');
+  try {
+    config = await import('./config.js')
+  }catch (e) {}
 })();
 
 module.exports = {

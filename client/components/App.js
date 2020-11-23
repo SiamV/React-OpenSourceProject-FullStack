@@ -7,6 +7,7 @@ import store from "../redux/store";
 import './App.css'
 import MainMenu from './MainMenu/MainMenu';
 import Login from './Login/Login';
+import MainPage from './MainPage/MainPage';
 import Articles from './Articles/Articles';
 import Header from './Header/Header';
 import Account from './Account/Account';
@@ -42,6 +43,7 @@ const AppContainer = () => {
       <div className={'site-wrapper-feed'}>
         {!isAuth && <Route path={'/login'} render={() => <Login />} />}
         <Route path={'/articles'} render={() => <Articles />} />
+        <Route exact path={'/'} render={() => <MainPage />} />
         <Route exact path={'/admin'} render={() => <PrivateComponent />} />
       </div>
       <div className={'site-wrapper-footer'}>
