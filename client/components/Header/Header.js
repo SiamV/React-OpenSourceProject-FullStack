@@ -3,7 +3,7 @@ import React from 'react';
 const Header = () => {
     return (
         <div>
-            Here will be Header.
+            It is Header.
         </div>
     )
 }
