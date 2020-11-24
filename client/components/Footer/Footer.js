@@ -1,9 +1,10 @@
 import React from 'react';
+import WhatsApp from '../SocialBlocks/WhatsApp'
 
 const Footer = () => {
     return (
         <div>
-            Here will be Footer
+            <WhatsApp />
         </div>
     )
 }
