@@ -1,0 +1,17 @@
+.wrapperImgSocial {
+}
+.wrapperImgSocial .imgSocial {
+    width: 50px;
+    height: 50px;
+    box-shadow: 0 0 10px #000000; 
+    border-radius: 50%;
+}
+
+@media screen and (max-width:480px) {
+    .wrapperImgSocial .imgSocial {
+        width: 40px;
+        height: 40px;
+        box-shadow: 0 0 10px #000000; 
+        border-radius: 50%;
+    }
+}
