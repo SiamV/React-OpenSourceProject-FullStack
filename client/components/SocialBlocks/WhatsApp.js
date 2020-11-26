@@ -1,5 +1,5 @@
 import React from 'react';
-import WhatsAppImg from '../../images/whatsapp.png';
+import WhatsAppImg from '../../images/whatsapp-v2.png';
 import classes from './SocialBlocks.module.css'
 
 const WhatsApp = (props) => {

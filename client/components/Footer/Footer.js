@@ -1,14 +1,17 @@
 import React from 'react';
-import WhatsApp from '../SocialBlocks/WhatsApp'
-import classes from './Footer.module.css'
+import classes from './Footer.module.css';
+import WhatsApp from '../SocialBlocks/WhatsApp';
+import Viber from '../SocialBlocks/Viber';
+import Instagram from '../SocialBlocks/Instagram';
+import Vkontakte from '../SocialBlocks/Vkontakte';
 
 const Footer = () => {
     return (
         <div className={classes.wrapperFooter}>
             <WhatsApp />
-            <WhatsApp />
-            <WhatsApp />
-            <WhatsApp />
+            <Viber />
+            <Instagram />
+            <Vkontakte />
         </div>
     )
 }
