@@ -1,0 +1,26 @@
+.wrapperNav {
+    display: flex; 
+    justify-content: space-around; 
+    align-items: center;
+    height: 100%;
+}
+
+.wrapperNav .MenuButton {
+    padding: 5px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 10%;
+    box-shadow: 0 0 10px #000000; 
+}
+.wrapperNav .MenuButton:hover {
+    background-color: #3e8e41}
+.wrapperNav .MenuButton:active {
+    background-color: #3e8e41;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+  }

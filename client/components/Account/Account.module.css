@@ -1,0 +1,10 @@
+.accountWrapper {
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+    height: 100%;
+    width: fit-content;
+    position: absolute;
+    right: 0;
+    margin-right: 5px;
+}

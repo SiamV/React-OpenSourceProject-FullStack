@@ -1,0 +1,12 @@
+.headerWrapper {
+    display: flex; 
+    align-items: center;
+    height: 100%;
+    width: fit-content;
+    position: absolute;
+    left: 0;
+}
+.headerImg {
+    height: 10vh;
+    padding: 10%;
+}

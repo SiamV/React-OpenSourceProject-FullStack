@@ -19,7 +19,6 @@
     grid-area: nav;
     position: sticky;
     top: 0;
-    text-align: center;
     background-color:  #8bff79;
 }
 
@@ -27,7 +26,6 @@
     grid-area: account;
     position: sticky;
     top: 0;
-    text-align: center;
     background-color: #8bff79;
     margin: 0px 5px 0px 0px;
 }

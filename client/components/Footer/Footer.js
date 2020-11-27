@@ -1,4 +1,5 @@
 import React from 'react';
+
 import classes from './Footer.module.css';
 import WhatsApp from '../SocialBlocks/WhatsApp';
 import Viber from '../SocialBlocks/Viber';
