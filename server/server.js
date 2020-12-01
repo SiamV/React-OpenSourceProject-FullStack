@@ -17,33 +17,45 @@ const app = express();
 const middleware = [
     cors(),
     passport.initialize(),
-    bodyParser.urlencoded({ limit: '50mb', extended: true, parameterLimit: 50000 }),
-    bodyParser.json({ limit: '50mb', extended: true }),
+    bodyParser.urlencoded({
+        limit: '50mb',
+        extended: true,
+        parameterLimit: 50000
+    }),
+    bodyParser.json({
+        limit: '50mb',
+        extended: true
+    }),
     cookieParser()
 ]
 middleware.forEach((it) => app.use(it))
 
 passport.use('jwt', jwtStrategy) //JsonWebToken logic
 
-const userSchema = new mongoose.Schema(
-    {
-        "id": Number,
-        "email": {
-            type: String,
-            require: true,
-            unique: true
-        },
-        "password": {
-            type: String,
-            require: true
-        },
-        "role": {
-            type: [String],
-            default: ["user"]
-        }
+const userSchema = new mongoose.Schema({
+    "id": Number,
+    "email": {
+        type: String,
+        require: true,
+        unique: true
     },
-    { versionKey: false }
-)
+    "password": {
+        type: String,
+        require: true
+    },
+    "role": {
+        type: [String],
+        default: ["user"]
+    }
+}, {
+    versionKey: false
+})
+
+const userSchemaTours = new mongoose.Schema({
+    "tour": String
+}, {
+    versionKey: false
+})
 
 //function is done before create new user in DB. We hash the password before create user
 userSchema.pre('save', async function (next) {
@@ -61,7 +73,10 @@ userSchema.method({
     }
 })
 userSchema.statics = {
-    async findAndValidateUser({ email, password }) {
+    async findAndValidateUser({
+        email,
+        password
+    }) {
         if (!email) {
             throw new Error('no email')
         }
@@ -69,7 +84,9 @@ userSchema.statics = {
             throw new Error('no password')
         }
 
-        const user = await this.findOne({ email }).exec()
+        const user = await this.findOne({
+            email
+        }).exec()
         if (!user) {
             throw new Error('no user')
         }
@@ -85,12 +102,17 @@ userSchema.statics = {
 
 //connect to MongoDB
 const url = config.url;
-mongoose.connection.on('connected', () => { console.log('DB is connected') });
+mongoose.connection.on('connected', () => {
+    console.log('DB is connected')
+});
 mongoose.connection.on('error', (err) => {
     console.log(`cannot connect to db ${err}`)
     process.exit(1)
 });
-mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true }).then(() => {
+mongoose.connect(url, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+}).then(() => {
     app.listen(config.port, () => {
         console.log(`server is working http://localhost:${config.port}, project will be start http://localhost:8080`)
     });
@@ -100,7 +122,22 @@ mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true }).then(
 const User = mongoose.model('site1', userSchema, 'users');
 export default User;
 
+export const Tour = mongoose.model('tours', userSchemaTours);
+
 //create Rest API
+
+app.get("/api/v1/tours", async (req, res) => {
+    const tours = await Tour.find({})
+    res.send(tours)
+})
+
+app.post("/api/v1/add/tours", async (req, res) => {
+	const tour = new Tour({
+		tour: req.body.tour
+	})
+	tour.save()
+	res.send(tour)
+})
 
 app.get('/', (req, res) => {
     res.send('Hello server')
@@ -121,13 +158,26 @@ app.post("/api/v1/auth/user", async (req, res) => {
     try {
         const user = await User.findAndValidateUser(req.body)
 
-        const payload = { uid: user._id }
-        const token = jwt.sign(payload, config.secret, { expiresIn: '48h' })
+        const payload = {
+            uid: user._id
+        }
+        const token = jwt.sign(payload, config.secret, {
+            expiresIn: '48h'
+        })
         delete user.password
-        res.cookie('token', token, { maxAge: 1000 * 60 * 60 * 48 })
-        res.json({ status: 'ok', token, user })
+        res.cookie('token', token, {
+            maxAge: 1000 * 60 * 60 * 48
+        })
+        res.json({
+            status: 'ok',
+            token,
+            user
+        })
     } catch (err) {
-        res.json({ status: 'error authentication', err })
+        res.json({
+            status: 'error authentication',
+            err
+        })
     }
 })
 
@@ -143,39 +193,53 @@ app.get("/api/v1/authorization",
             const user = await User.findById(decoded.uid)
 
             //if have a cookie then
-            const payload = { uid: user._id }
-            const token = jwt.sign(payload, config.secret, { expiresIn: '48h' })
+            const payload = {
+                uid: user._id
+            }
+            const token = jwt.sign(payload, config.secret, {
+                expiresIn: '48h'
+            })
             delete user.password
-            res.cookie('token', token, { maxAge: 1000 * 60 * 60 * 48 })
-            res.json({ status: 'ok', token, user })
+            res.cookie('token', token, {
+                maxAge: 1000 * 60 * 60 * 48
+            })
+            res.json({
+                status: 'ok',
+                token,
+                user
+            })
         } catch (err) {
-            res.json({ status: 'error authorization', err })
+            res.json({
+                status: 'error authorization',
+                err
+            })
         }
     })
 
 //secret route. Only for admin
 app.get("/api/v1/admin", auth(['admin']),
     async (req, res) => {
-        res.json({ status: 'ok' })
+        res.json({
+            status: 'ok'
+        })
     })
 
-    // app.get("/api/v1/auth/users", async (req, res) => {
-    //     const users = await User.find({})
-    //     res.send(users)
-    // })
+// app.get("/api/v1/auth/users", async (req, res) => {
+//     const users = await User.find({})
+//     res.send(users)
+// })
 
-    // app.get("/api/v1/auth/users/:id", async (req, res) => {
-    //     const user = await User.findOne({ _id: req.params.id })
-    //     res.send(user)
-    // })
+// app.get("/api/v1/auth/users/:id", async (req, res) => {
+//     const user = await User.findOne({ _id: req.params.id })
+//     res.send(user)
+// })
 
-    // app.delete("/api/v1/auth/users/delete/:id", async (req, res) => {
-    //     try {
-    //         await User.deleteOne({ _id: req.params.id })
-    //         res.status(204).send()
-    //     } catch {
-    //         res.status(404)
-    //         res.send({ error: "User doesn't exist!" })
-    //     }
-    // })
-
+// app.delete("/api/v1/auth/users/delete/:id", async (req, res) => {
+//     try {
+//         await User.deleteOne({ _id: req.params.id })
+//         res.status(204).send()
+//     } catch {
+//         res.status(404)
+//         res.send({ error: "User doesn't exist!" })
+//     }
+// })
