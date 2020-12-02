@@ -7,66 +7,6 @@ const Articles = () => {
             Here will be Articles component
             Here will be Articles component
             Here will be Articles component
-            Here will be Articles component
-            Here will be Articles component
-            Here will be Articles component
-            Here will be Articles component
-            Here will be Articles component
-            Here will be Articles component
-            Here will be Articles component
-            Here will be Articles component
-            Here will be Articles component
-            Here will be Articles component
-            Here will be Articles component
-            Here will be Articles component
-            Here will be Articles component
-            Here will be Articles component
-            Here will be Articles component
-            Here will be Articles component
-            Here will be Articles component
-            Here will be Articles component
-            Here will be Articles component
-            Here will be Articles component
-            Here will be Articles component
-            Here will be Articles component
-            Here will be Articles component
-            Here will be Articles component
-            Here will be Articles component
-            Here will be Articles component
-            Here will be Articles component
-            Here will be Articles component
-            Here will be Articles component
-            Here will be Articles component
-            Here will be Articles component
-            Here will be Articles component
-            Here will be Articles component
-            Here will be Articles component
-            Here will be Articles component
-            Here will be Articles component
-            Here will be Articles component
-            Here will be Articles component
-            Here will be Articles component
-            Here will be Articles component
-            Here will be Articles component
-            Here will be Articles component
-            Here will be Articles component
-            Here will be Articles component
-            Here will be Articles component
-            Here will be Articles component
-            Here will be Articles component
-            Here will be Articles component
-            Here will be Articles component
-            Here will be Articles component
-            Here will be Articles component
-            Here will be Articles component
-            Here will be Articles component
-            Here will be Articles component
-            Here will be Articles component
-            Here will be Articles component
-            Here will be Articles component
-            Here will be Articles component
-            Here will be Articles component
-            Here will be Articles component
         </div>
     )
 }

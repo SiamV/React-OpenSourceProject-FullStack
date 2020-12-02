@@ -1,10 +1,12 @@
 import {applyMiddleware, combineReducers, createStore, compose} from "redux";
 import thunkMiddleware from "redux-thunk";
 import loginReducer from "./reducers/loginReducer";
+import toursReducer from "./reducers/toursReducer";
 
 
 let reducersStack = combineReducers({
     login: loginReducer,
+    tours: toursReducer
 })
 
 //connect redux chrome extension. delete after develop

@@ -9,6 +9,7 @@ import MainMenu from './MainMenu/MainMenu';
 import Login from './Login/Login';
 import MainPage from './MainPage/MainPage';
 import Articles from './Articles/Articles';
+import Tours from './Tours/Tours';
 import Header from './Header/Header';
 import Account from './Account/Account';
 import Footer from './Footer/Footer';
@@ -43,6 +44,7 @@ const AppContainer = () => {
       <div className={'site-wrapper-feed'}>
         {!isAuth && <Route path={'/login'} render={() => <Login />} />}
         <Route path={'/articles'} render={() => <Articles />} />
+        <Route path={'/tours'} render={() => <Tours />} />
         <Route exact path={'/'} render={() => <MainPage />} />
         <Route exact path={'/admin'} render={() => <PrivateComponent />} />
       </div>
