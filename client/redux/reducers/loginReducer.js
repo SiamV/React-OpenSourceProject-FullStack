@@ -70,7 +70,6 @@ export const signInThunkCreator = (email, password) => async (dispatch) => {
         let response = await axios.post('/api/v1/auth/user', { email, password }, {
             headers: { 'Content-Type': 'application/json' },
         })
-        console.log(response)
         if (response.data.token) {
             dispatch({ type: CREATE_TOKEN, token: response.data.token, user: response.data.user })
         }

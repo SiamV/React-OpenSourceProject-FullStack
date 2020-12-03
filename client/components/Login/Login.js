@@ -1,12 +1,15 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
 import '../../stylesTailwind/main.css';
 import { setLoginFieldAC, setPasswordFieldAC, signInThunkCreator } from '../../redux/reducers/loginReducer'
+
 
 const Login = () => {
     const dispatch = useDispatch();
     const email = useSelector(state => state.login.email);
     const password = useSelector(state => state.login.password);
+
     return (
         <div className="flex justify-center items-center ">
             <div className="w-full max-w-xs ">
