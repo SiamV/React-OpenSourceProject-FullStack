@@ -1,9 +1,11 @@
 import React from "react";
 
+import classes from './tours.module.css';
+
 const Tour = (props) => {
     return (
-        <div>
-            {/*<textarea value={props.tour}/>*/}
+        <div className={classes.tourWrapper}>
+            {props.tour}
         </div>
     )
 }
