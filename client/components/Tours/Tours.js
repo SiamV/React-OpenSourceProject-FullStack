@@ -12,7 +12,7 @@ const Tours = () => {
 
     return (
         <div>
-            {tours.map(t => <Tour tour={t.tour} key={t._id} />)}
+            {tours.map(t => <Tour key={t._id} tour={t.tour} id={t._id}/>)}
         </div>
     )
 }

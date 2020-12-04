@@ -1,10 +1,12 @@
 import * as axios from "axios";
 
 let defaultState = {
-    tours: []
+    tours: [],
+    tourText: ''
 }
 
 const SET_TOURS = 'toursReducer/SET_TOURS'
+const WRITE_TOUR = 'toursReducer/WRITE_TOUR'
 
 const toursReducer = (state = defaultState, action) => {
     switch (action.type) {
@@ -12,6 +14,12 @@ const toursReducer = (state = defaultState, action) => {
             return {
                 ...state,
                 tours: action.tours
+            }
+        }
+        case WRITE_TOUR: {
+            return {
+                ...state,
+                tourText: action.text
             }
         }
         default:
@@ -22,10 +30,21 @@ const toursReducer = (state = defaultState, action) => {
 export const setToursThunkCreator = () => async (dispatch) => {
     try {
         let response = await axios.get('/api/v1/tours')
-        console.log(response)
         dispatch({type: SET_TOURS, tours: response.data})
     } catch (e) {
 
+    }
+}
+
+export const writeTextTourAC = (text) => ({
+    type: WRITE_TOUR,
+    text
+})
+
+export const sendTextTourThunkCreator = (text) => async (dispatch) => {
+    try {
+        let response = await axios.post(`/api/v1/add/tours`, {tour: text})
+    } catch (e) {
     }
 }
 

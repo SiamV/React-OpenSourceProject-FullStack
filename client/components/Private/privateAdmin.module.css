@@ -1,0 +1,26 @@
+.adminWrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.adminWrapper .MenuButton {
+    width: fit-content;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 10%;
+    box-shadow: 0 0 10px #000000;
+    margin-top: 10px;
+    padding: 5px
+}
+.adminWrapper .MenuButton:hover {
+    background-color: #3e8e41}
+.adminWrapper .MenuButton:active {
+    background-color: #3e8e41;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+}

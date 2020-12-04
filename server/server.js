@@ -139,6 +139,16 @@ app.post("/api/v1/add/tours", async (req, res) => {
 	res.send(tour)
 })
 
+app.delete("/api/v1/delete/tours/:id", async (req, res) => {
+    try {
+        await Tour.deleteOne({ _id: req.params.id })
+        res.status(204).send()
+    } catch {
+        res.status(404)
+        res.send({ error: "Tour doesn't exist!" })
+    }
+})
+
 app.get('/', (req, res) => {
     res.send('Hello server')
 })
