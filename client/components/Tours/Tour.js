@@ -6,7 +6,7 @@ import classes from './tours.module.css';
 const Tour = (props) => {
     return (
         <div className={classes.tourWrapper}>
-            <NavLink to={'/tour/' + props.id}>{props.tour}</NavLink>
+            <NavLink to={`/tour/${props.id}`}>{props.tour}</NavLink>
         </div>
     )
 }
