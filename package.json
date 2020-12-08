@@ -19,9 +19,7 @@
     "build": "webpack -p --mode production --config ./webpack.config.cjs",
     "dev": "concurrently \"yarn run watch:server\" \"yarn run watch:client \" ",
     "watch:server": "nodemon ./server/server.js",
-    "watch:client": "webpack-dev-server --mode development --config ./webpack.dev.config.cjs --hot ",
-    "build:css": "postcss client/stylesTailwind/tailwind.css -o client/stylesTailwind/main.css ",
-    "build:watch": "postcss client/stylesTailwind/tailwind.css -o client/stylesTailwind/main.css --watch"
+    "watch:client": "webpack-dev-server --mode development --config ./webpack.dev.config.cjs --hot "
   },
   "dependencies": {
     "axios": "^0.21.0",
@@ -59,4 +57,3 @@
     "webpack-dev-server": "^3.11.0"
   }
 }
-

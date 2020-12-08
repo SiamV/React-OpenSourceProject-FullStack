@@ -7,13 +7,15 @@ let defaultState = {
     password: '',
     token: cookie.get('token'), //if have cookie use token from them
     user: {},
-    isAuth: false
+    isAuth: false,
+    isErr: ''
 }
 
 const UPDATE_EMAIL = 'loginReducer/UPDATE_EMAIL';
 const UPDATE_PASSWORD = 'loginReducer/UPDATE_PASSWORD';
 const CREATE_TOKEN = 'loginReducer/CREATE_TOKEN';
 const LOGOUT = 'loginReducer/LOGOUT';
+const IS_ERR = 'loginReducer/IS_ERR';
 
 const loginReducer = (state = defaultState, action) => {
     switch (action.type) {
@@ -47,6 +49,13 @@ const loginReducer = (state = defaultState, action) => {
                 token: '',
                 user: {},
                 isAuth: false,
+                isErr: ''
+            }
+        }
+        case IS_ERR: {
+            return {
+                ...state,
+                isErr: action.status,
             }
         }
 
@@ -65,6 +74,11 @@ export const setPasswordFieldAC = (password) => ({
     password
 })
 
+export const isErrAC = (status) => ({
+    type: IS_ERR,
+    status
+})
+
 export const signInThunkCreator = (email, password) => async (dispatch) => {
     try {
         let response = await axios.post('/api/v1/auth/user', { email, password }, {
@@ -72,7 +86,7 @@ export const signInThunkCreator = (email, password) => async (dispatch) => {
         })
         if (response.data.token) {
             dispatch({ type: CREATE_TOKEN, token: response.data.token, user: response.data.user })
-        }
+        } else {dispatch(isErrAC(response.data.status))}
     } catch (e) {
 
     }
@@ -89,7 +103,7 @@ export const AuthorizationThunkCreator = () => async (dispatch) => {
     }
 }
 
-export const logOutAC = () => ({ type: LOGOUT }) 
+export const logOutAC = () => ({ type: LOGOUT })
 
 export const SecretRoute = () => async (dispatch) => {
     try {

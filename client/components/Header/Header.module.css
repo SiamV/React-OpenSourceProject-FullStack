@@ -8,5 +8,6 @@
 }
 .headerImg {
     height: 10vh;
-    padding: 10%;
+    margin-top: 5px;
+    border-radius: 50%;
 }

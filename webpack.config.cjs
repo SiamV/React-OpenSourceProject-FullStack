@@ -25,7 +25,7 @@ module.exports = {
         exclude: /node_modules/
       },
       {
-        test: /\.(png|jpg|gif)$/i,
+        test: /\.(png|jpg|gif|jpeg)$/i,
         use: [
           {
             loader: 'url-loader',
@@ -38,6 +38,3 @@ module.exports = {
     ]
   }
 }
-
-// module.exports = config
-// // export default config;

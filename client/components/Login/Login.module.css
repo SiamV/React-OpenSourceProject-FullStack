@@ -1,0 +1,75 @@
+.loginWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loginWrapper2 {
+    max-width: 20rem;
+    width: 100%;
+}
+
+.loginFormWrapper {
+    background-color: white;
+    box-shadow: 0 0 10px grey;
+    border-radius: 0.25rem;
+    padding: 1.5rem 2rem 2rem 2rem;
+    margin-bottom: 1rem;
+}
+
+.loginFormWrapper .loginFieldWrapper {
+    margin-bottom: 1rem;
+}
+.loginFormWrapper label {
+    display: block;
+    color: #1a202c;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.loginFormWrapper .loginFieldInput {
+    box-shadow: -2px 2px 5px grey;
+    border-radius: 0.25rem;
+    width: 90%;
+    padding: 0.5rem 0.75rem 0.5rem 0.75rem;
+    color: #1a202c;
+    line-height: 1.25;
+}
+.loginFormWrapper .passwordFieldWrapper {
+    margin-bottom: 1.5rem;
+}
+
+.loginFormWrapper .passwordFieldInput {
+    box-shadow: -2px 2px 5px grey;
+    border-radius: 0.25rem;
+    border: 1px solid red;
+    width: 90%;
+    padding: 0.5rem 0.75rem 0.5rem 0.75rem;
+    color: #1a202c;
+    line-height: 1.25;
+}
+
+.loginFormWrapper p {
+    color: red;
+    font-style: italic;
+    font-size: 0.75rem;
+    line-height: 1rem;
+}
+
+.loginFormWrapper .buttonFieldWrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.loginFormWrapper button {
+    background-color: #4a4ae8;
+    color: #ffffff;
+    font-weight: 700;
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    border-radius: 0.25rem;
+}
+.loginFormWrapper button:hover {
+    background-color: #6767ee;
+}
