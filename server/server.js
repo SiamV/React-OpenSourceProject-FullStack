@@ -52,6 +52,7 @@ const userSchema = new mongoose.Schema({
 })
 
 const userSchemaTours = new mongoose.Schema({
+    "tourTitle": String,
     "tour": String
 }, {
     versionKey: false
@@ -132,7 +133,8 @@ app.get("/api/v1/tours", async (req, res) => {
 })
 
 app.post("/api/v1/add/tours", async (req, res) => {
-	const tour = new Tour({
+	const tour = await new Tour({
+        tourTitle: req.body.tourTitle,
 		tour: req.body.tour
 	})
 	tour.save()
