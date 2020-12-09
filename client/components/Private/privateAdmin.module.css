@@ -24,3 +24,26 @@
     box-shadow: 0 5px #666;
     transform: translateY(4px);
 }
+
+.popup{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.popup .popupContent{
+    width: 40%;
+    height: 40px;
+    padding:10px;
+    background-color: #c9eabf;
+    border-radius:5px;
+    box-shadow: -5px 5px 10px #8e8d8d;
+}
+.popup .buttonInfo{
+    width:20%;
+    height: 30px;
+    padding:5px;
+    margin-top: 10px;
+    background-color: #c9eabf;
+    border-radius:5px;
+    box-shadow: -5px 5px 10px #8e8d8d;
+}

@@ -11,16 +11,19 @@
     text-align: center;
     text-decoration: none;
     outline: none;
-    color: #fff;
-    background-color: #4CAF50;
+    color: #A6EBFF;
+    background-color: #368DA6;
     border: none;
     border-radius: 10%;
     box-shadow: 0 0 10px #000000; 
 }
 .wrapperNav .MenuButton:hover {
-    background-color: #3e8e41}
+    background-color: #A6EBFF;
+    color: #368DA6;
+}
 .wrapperNav .MenuButton:active {
-    background-color: #3e8e41;
+    background-color: #A6EBFF;
+    color: #368DA6;
     box-shadow: 0 5px #666;
     transform: translateY(4px);
   }

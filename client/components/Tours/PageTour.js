@@ -13,7 +13,10 @@ const PageTour = () => {
     }, [])
     return (
         <div>{tours.filter(t => t._id === idTour).map((t,index) => (
-            <div key={t._id}>{t.tour}</div>
+            <div key={t._id}>
+                <div>{t.tourTitle}</div>
+                <div>{t.tour}</div>
+            </div>
         ))}</div>
     )
 }

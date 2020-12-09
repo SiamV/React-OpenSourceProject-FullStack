@@ -1,13 +1,19 @@
 import React from 'react';
 import {useDispatch, useSelector} from "react-redux";
 
-import {sendTextTourThunkCreator, writeTextTourAC, writeTourTitleAC} from "../../redux/reducers/toursReducer";
+import {
+    deleteInfoAC,
+    sendTextTourThunkCreator,
+    writeTextTourAC,
+    writeTourTitleAC
+} from "../../redux/reducers/toursReducer";
 import classes from './privateAdmin.module.css'
 
 const PrivateAdmin = (props) => {
     const dispatch = useDispatch();
     const tourText = useSelector(state => state.tours.tourText);
     const tourTitle = useSelector(state => state.tours.tourTitle);
+    const sendStatusOk = useSelector(state => state.tours.sendStatusOk);
 
     return (
         <div className={classes.adminWrapper}>
@@ -26,7 +32,18 @@ const PrivateAdmin = (props) => {
                     type="button"
                     onClick={() => {
                         dispatch(sendTextTourThunkCreator(tourTitle, tourText))
-                    }}>create tour</button>
+                    }}>create tour
+            </button>
+            {(sendStatusOk) &&
+            <div className={classes.popup}>
+                <div className={classes.popupContent}>Tour is created</div>
+                <button className={classes.buttonInfo}
+                        type="button"
+                        onClick={() => {
+                            dispatch(deleteInfoAC(false))
+                        }}>Ok
+                </button>
+            </div>}
         </div>
     )
 }

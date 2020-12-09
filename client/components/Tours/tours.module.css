@@ -1,5 +1,47 @@
-.tourWrapper {
+/*page tours*/
+.toursWrapper {
     border: 1px grey solid;
     margin-bottom: 2px;
     padding: 5px;
+    background-color: #CEF4FF;
 }
+.navLinkH2 {
+    text-decoration: none;
+}
+.h2 {
+    font-size: large;
+    color: #368DA6;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.h2:hover {
+    position: relative;
+    top: 2px;
+    left: 2px;
+}
+
+.mainButton {
+    margin-top: 10px;
+    margin-bottom: 5px;
+    padding: 5px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #A66E35;
+    background-color: #FFDDBA;
+    border: none;
+    border-radius: 10%;
+    box-shadow: -3px 3px 5px grey;
+}
+.mainButton:hover {
+    background-color: #A66E35;
+    color: #FFDDBA;
+}
+.mainButton:active {
+    background-color: #A66E35;
+    color: #FFDDBA;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+}
+/*page single tour*/

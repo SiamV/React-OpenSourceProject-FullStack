@@ -2,15 +2,18 @@ import * as axios from "axios";
 
 let defaultState = {
     tours: [],
+    isLoading: false,
     tourTitle: '',
     tourText: '',
-    isLoading: false
+    sendStatusOk: false
 }
 
 const SET_TOURS = 'toursReducer/SET_TOURS'
 const WRITE_TOUR_TITLE = 'toursReducer/WRITE_TOUR_TITLE'
 const WRITE_TOUR = 'toursReducer/WRITE_TOUR'
 const IS_LOADING = 'toursReducer/IS_LOADING'
+const SEND_STATUS_TOUR_OK = 'toursReducer/SEND_STATUS_TOUR_OK'
+const DELETE_INFO_WINDOW = 'toursReducer/DELETE_INFO_WINDOW'
 
 const toursReducer = (state = defaultState, action) => {
     switch (action.type) {
@@ -36,6 +39,20 @@ const toursReducer = (state = defaultState, action) => {
             return {
                 ...state,
                 tourText: action.text
+            }
+        }
+        case SEND_STATUS_TOUR_OK: {
+            return {
+                ...state,
+                tourTitle: '',
+                tourText: '',
+                sendStatusOk: action.statusOk
+            }
+        }
+        case DELETE_INFO_WINDOW: {
+            return {
+                ...state,
+                sendStatusOk: false
             }
         }
         default:
@@ -67,9 +84,21 @@ export const writeTextTourAC = (text) => ({
     text
 })
 
+export const SendTourStatusOkAC = (statusOk) => ({
+    type: SEND_STATUS_TOUR_OK, statusOk
+})
+
+export const deleteInfoAC = () => ({
+    type: DELETE_INFO_WINDOW
+})
+
 export const sendTextTourThunkCreator = (tourTitle, tourText) => async (dispatch) => {
     try {
         let response = await axios.post(`/api/v1/add/tours`, {tourTitle: tourTitle, tour: tourText})
+        console.log(response)
+        if(response.status === 200) {
+            dispatch(SendTourStatusOkAC(true))
+        }
     } catch (e) {
     }
 }

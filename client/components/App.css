@@ -11,7 +11,7 @@
     grid-area: header;
     position: sticky;
     top: 0;
-    background-color: #8bff79;
+    background-color: #A6EBFF;
     margin: 0 0 0 5px;
 }
 
@@ -19,20 +19,20 @@
     grid-area: nav;
     position: sticky;
     top: 0;
-    background-color:  #8bff79;
+    background-color:  #A6EBFF;
 }
 
 .site-wrapper .site-wrapper-account {
     grid-area: account;
     position: sticky;
     top: 0;
-    background-color: #8bff79;
+    background-color: #A6EBFF;
     margin: 0px 5px 0px 0px;
 }
 
 .site-wrapper .site-wrapper-feed {
     grid-area: feed;
-    background-color:  #f3f3fc69;
+    background-color:  #CEF4FF;
     margin: 5px;
     padding: 5px;
     height: auto;
@@ -43,7 +43,7 @@
     position: sticky;
     bottom: 0;
     z-index: 1;
-    background-color: #8bff79;
+    background-color: #FFDDBA;
     margin: 0px 5px 0px 5px;
     /* height: auto; */
 }
