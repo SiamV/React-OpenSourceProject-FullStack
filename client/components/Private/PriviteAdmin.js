@@ -2,7 +2,7 @@ import React from 'react';
 import {useDispatch, useSelector} from "react-redux";
 
 import {
-    deleteInfoAC,
+    deleteInfoAC, savePhotoThC,
     sendTextTourThunkCreator,
     writeTextTourAC,
     writeTourTitleAC
@@ -44,6 +44,15 @@ const PrivateAdmin = (props) => {
                         }}>Ok
                 </button>
             </div>}
+
+            <input placeholder={'MainImage'}
+                   type={'file'}
+                   onChange={(e)=>{
+                       if(e.target.files.length){
+                           dispatch(savePhotoThC(e.target.files[0]))
+                       }
+                   }}
+            />
         </div>
     )
 }

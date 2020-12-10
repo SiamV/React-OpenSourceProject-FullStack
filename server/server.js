@@ -8,7 +8,6 @@ import passport from 'passport';
 import jwt from 'jsonwebtoken';
 
 import config from "../config.js";
-import passportJWT from './manager/passport.js';
 import jwtStrategy from './manager/passport.js';
 import auth from './manager/rolesMiddleware.js';
 
@@ -139,6 +138,15 @@ app.post("/api/v1/add/tours", async (req, res) => {
 	})
 	tour.save()
 	res.send(tour)
+})
+
+app.post("/api/v1/add/photo", async (req, res) => {
+    const tour = await new Tour({
+        tourTitle: req.body.tourTitle,
+        tour: req.body.tour
+    })
+    tour.save()
+    res.send(tour)
 })
 
 app.delete("/api/v1/delete/tours/:id", async (req, res) => {

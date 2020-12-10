@@ -95,10 +95,23 @@ export const deleteInfoAC = () => ({
 export const sendTextTourThunkCreator = (tourTitle, tourText) => async (dispatch) => {
     try {
         let response = await axios.post(`/api/v1/add/tours`, {tourTitle: tourTitle, tour: tourText})
-        console.log(response)
         if(response.status === 200) {
             dispatch(SendTourStatusOkAC(true))
         }
+    } catch (e) {
+    }
+}
+
+export const savePhotoThC = (file) => async (dispatch) => {
+    const formData = new FormData();
+    formData.append('image', file)
+    try {
+        let response = await axios.post(`/api/v1/add/photo`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+
     } catch (e) {
     }
 }
