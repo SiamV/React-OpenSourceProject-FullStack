@@ -6,6 +6,9 @@ import cookieParser from 'cookie-parser';
 import bcrypt from 'bcrypt-nodejs';
 import passport from 'passport';
 import jwt from 'jsonwebtoken';
+import formidable from 'formidable';
+import fs from 'fs';
+import path from 'path'
 
 import config from "../config.js";
 import jwtStrategy from './manager/passport.js';
@@ -124,8 +127,13 @@ export default User;
 
 export const Tour = mongoose.model('tours', userSchemaTours);
 
-//create Rest API
+//create REST API
 
+app.get('/', (req, res) => {
+    res.send('Hello server')
+})
+
+    //work with tours
 app.get("/api/v1/tours", async (req, res) => {
     const tours = await Tour.find({})
     res.send(tours)
@@ -140,16 +148,7 @@ app.post("/api/v1/add/tours", async (req, res) => {
 	res.send(tour)
 })
 
-app.post("/api/v1/add/photo", async (req, res) => {
-    const tour = await new Tour({
-        tourTitle: req.body.tourTitle,
-        tour: req.body.tour
-    })
-    tour.save()
-    res.send(tour)
-})
-
-app.delete("/api/v1/delete/tours/:id", async (req, res) => {
+app.delete("/api/v1/delete/tours/:id", async (req, res) => { //not use, need check
     try {
         await Tour.deleteOne({ _id: req.params.id })
         res.status(204).send()
@@ -159,11 +158,31 @@ app.delete("/api/v1/delete/tours/:id", async (req, res) => {
     }
 })
 
-app.get('/', (req, res) => {
-    res.send('Hello server')
-})
+    //API work with photos (formidable)
+app.get('/api/v1/get/photo/:name', function (req, res){
+    const __dirname = path.resolve();
+    res.sendFile(__dirname + '/client/uploaded/' + req.params.name);
+});
 
-//for registration new user
+app.post('/api/v1/add/photo', (req, res, next) => {
+    const __dirname = path.resolve();
+    const form = formidable({ multiples: true});
+
+    form.parse(req, (err, fields, files) => {
+        const oldPath = files.image.path;
+        const newPath = path.join(__dirname, '/client/uploaded/') + files.image.name
+        const rawData = fs.readFileSync(oldPath)
+
+        fs.writeFile(newPath, rawData, function(err){
+            if(err) console.log(err)
+            return res.send("Successfully uploaded")
+        })
+        // console.log('fields:', fields);
+        // console.log('files:', files);
+    });
+});
+
+    //for registration new user
 app.post("/api/v1/auth/add/user", async (req, res) => {
     const user = new User({
         email: req.body.email,
@@ -173,7 +192,7 @@ app.post("/api/v1/auth/add/user", async (req, res) => {
     res.send(user)
 })
 
-//for login and create token
+    //for login and create token
 app.post("/api/v1/auth/user", async (req, res) => {
     try {
         const user = await User.findAndValidateUser(req.body)
@@ -201,7 +220,7 @@ app.post("/api/v1/auth/user", async (req, res) => {
     }
 })
 
-//for authorization
+    //for authorization
 app.get("/api/v1/authorization",
     async (req, res) => {
         if (req.method === 'OPTIONS') {
@@ -236,30 +255,10 @@ app.get("/api/v1/authorization",
         }
     })
 
-//secret route. Only for admin
+    //secret route. Only for admin
 app.get("/api/v1/admin", auth(['admin']),
     async (req, res) => {
         res.json({
             status: 'ok'
         })
     })
-
-// app.get("/api/v1/auth/users", async (req, res) => {
-//     const users = await User.find({})
-//     res.send(users)
-// })
-
-// app.get("/api/v1/auth/users/:id", async (req, res) => {
-//     const user = await User.findOne({ _id: req.params.id })
-//     res.send(user)
-// })
-
-// app.delete("/api/v1/auth/users/delete/:id", async (req, res) => {
-//     try {
-//         await User.deleteOne({ _id: req.params.id })
-//         res.status(204).send()
-//     } catch {
-//         res.status(404)
-//         res.send({ error: "User doesn't exist!" })
-//     }
-// })
