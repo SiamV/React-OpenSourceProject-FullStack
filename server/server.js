@@ -175,7 +175,7 @@ app.post('/api/v1/add/photo', (req, res, next) => {
 
         fs.writeFile(newPath, rawData, function(err){
             if(err) console.log(err)
-            return res.send("Successfully uploaded")
+            return res.send("Photo is uploaded")
         })
         // console.log('fields:', fields);
         // console.log('files:', files);

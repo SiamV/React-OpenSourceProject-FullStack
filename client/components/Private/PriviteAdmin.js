@@ -17,6 +17,16 @@ const PrivateAdmin = (props) => {
 
     return (
         <div className={classes.adminWrapper}>
+            {/*add images to server*/}
+            <input placeholder={'Add images'}
+                   type={'file'}
+                   onChange={(e)=>{
+                       if(e.target.files.length){
+                           dispatch(savePhotoThC(e.target.files[0]))
+                       }
+                   }}
+            />
+            {/*Write to tour*/}
             <input placeholder={'tour title'}
                    value={tourTitle}
                    onChange={(e) => {
@@ -44,15 +54,6 @@ const PrivateAdmin = (props) => {
                         }}>Ok
                 </button>
             </div>}
-
-            <input placeholder={'MainImage'}
-                   type={'file'}
-                   onChange={(e)=>{
-                       if(e.target.files.length){
-                           dispatch(savePhotoThC(e.target.files[0]))
-                       }
-                   }}
-            />
         </div>
     )
 }
