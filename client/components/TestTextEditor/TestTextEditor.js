@@ -1,73 +1,63 @@
-import React from "react";
-import { EditorState, Editor } from "draft-js";
-import "draft-js/dist/Draft.css";
+import React, {useState} from "react";
+import {EditorState} from "draft-js";
+import {Editor} from "react-draft-wysiwyg";
+import classes from './TestTextEditor.module.css';
+import '../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import {useDispatch} from "react-redux";
+import {savePhotoThC, sendTextTourThunkCreator} from "../../redux/reducers/toursReducer";
 
 const TestTextEditor = () => {
-    const [editorState, setEditorState] = React.useState(() =>
+    const dispatch = useDispatch();
+
+    const [editorState, setEditorState] = useState(() =>
         EditorState.createEmpty()
     );
+    const onEditorStateChange = (editorState) => {
+        setEditorState(editorState)
+    }
 
-    const editor = React.useRef(null);
-    function focusEditor() {
-        editor.current.focus();
-        console.log(editor)
+    function uploadImageCallBack(file) {
+        return new Promise(
+            (resolve, reject) => {
+                dispatch(savePhotoThC(file))
+                resolve('image is upload');
+            })
     }
 
     return (
-        <div
-            style={{ border: "1px solid black", minHeight: "6em", cursor: "text" }}
-            onClick={focusEditor}
-        >
+        <div className={classes.TestTextEditorWrapper}>
             <Editor
-                ref={editor}
                 editorState={editorState}
-                onChange={setEditorState}
+                onEditorStateChange={onEditorStateChange}
                 placeholder="Write something!"
                 toolbar={{
                     inline: {inDropdown: true},
                     list: {inDropdown: true},
                     textAlign: {inDropdown: true},
                     link: {inDropdown: true},
-                    history: {inDropdown: true}
+                    history: {inDropdown: true},
+                    image: {
+                        alignmentEnabled: true,
+                        previewImage: true,
+                        inputAccept: 'image/gif,image/jpeg,image/jpg,image/png,image/svg',
+                        alt: {present: true, mandatory: true},
+                        defaultSize: {
+                            height: 'auto',
+                            width: '90%',
+                        }
+                    },
                 }}
+                // onBlur={(event, editorState) => {
+                //     dispatch(sendTextTourThunkCreator("name", event.target.innerHTML))
+                //     console.log(event, editorState)}}
             />
+            <button className={classes.MenuButton}
+                    onClick={() => {
+                        console.log(editorState)
+                    }}>create tour
+            </button>
         </div>
     );
 }
 
 export default TestTextEditor;
-
-// class TestTextEditor extends Component{
-//     constructor(props){
-//         super(props);
-//         this.state = {
-//             editorState: EditorState.createEmpty(),
-//         };
-//     }
-//
-//     onEditorStateChange: Function = (editorState) => {
-//         // console.log(editorState)
-//         this.setState({
-//             editorState,
-//         });
-//     };
-//
-//     render(){
-//         const { editorState } = this.state;
-//         return <div className='editor'>
-//             <Editor
-//                 editorState={editorState}
-//                 onEditorStateChange={this.onEditorStateChange}
-//                 toolbar={{
-//                     inline: { inDropdown: true },
-//                     list: { inDropdown: true },
-//                     textAlign: { inDropdown: true },
-//                     link: { inDropdown: true },
-//                     history: { inDropdown: true },
-//                     image: { uploadCallback: uploadImageCallBack, alt: { present: true, mandatory: true } },
-//                 }}
-//             />
-//         </div>
-//     }
-// }
-
