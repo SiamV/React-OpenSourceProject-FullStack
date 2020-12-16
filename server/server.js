@@ -15,6 +15,7 @@ import jwtStrategy from './manager/passport.js';
 import auth from './manager/rolesMiddleware.js';
 
 const app = express();
+const __dirname = path.resolve(); //for ES6
 
 const middleware = [
     cors(),
@@ -28,7 +29,8 @@ const middleware = [
         limit: '50mb',
         extended: true
     }),
-    cookieParser()
+    cookieParser(),
+    express.static(__dirname + '/client/uploaded')
 ]
 middleware.forEach((it) => app.use(it))
 
@@ -160,12 +162,10 @@ app.delete("/api/v1/delete/tours/:id", async (req, res) => { //not use, need che
 
     //API work with photos (formidable)
 app.get('/api/v1/get/photo/:name', function (req, res){
-    const __dirname = path.resolve();
     res.sendFile(__dirname + '/client/uploaded/' + req.params.name);
 });
 
 app.post('/api/v1/add/photo', (req, res, next) => {
-    const __dirname = path.resolve();
     const form = formidable({ multiples: true});
 
     form.parse(req, (err, fields, files) => {

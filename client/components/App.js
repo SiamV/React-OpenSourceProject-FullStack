@@ -17,6 +17,7 @@ import {AuthorizationThunkCreator, SecretRoute} from '../redux/reducers/loginRed
 import PrivateAdmin from "./Private/PriviteAdmin";
 import PageTour from "./Tours/PageTour";
 import TestTextEditor from "./TestTextEditor/TestTextEditor";
+import TextEditor2 from "./TestTextEditor/TextEditor2";
 
 //main structure project. Grid css
 const AppContainer = () => {
@@ -53,7 +54,7 @@ const AppContainer = () => {
             </div>
             <div className={'site-wrapper-feed'}>
                 {!isAuth && <Route path={'/login'} render={() => <Login />} />}
-                <Route path={'/articles'} render={() => <TestTextEditor />} />
+                <Route path={'/articles'} render={() => <TextEditor2 />} />
                 <Route path={'/tours'} render={() => <Tours />} />
                 <Route exact path={'/tour'} render={() => <PageTour />} />
                 <Route path={'/tour/:idTour'} render={() => <PageTour />} />
