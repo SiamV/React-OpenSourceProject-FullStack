@@ -1,5 +1,5 @@
 import React from 'react';
-import {Editor, EditorState, RichUtils, getDefaultKeyBinding} from 'draft-js';
+import {Editor, EditorState, RichUtils, getDefaultKeyBinding, convertToRaw, convertFromRaw} from 'draft-js';
 import './TextEditor2.css'
 
 class TextEditor2 extends React.Component {
@@ -8,13 +8,32 @@ class TextEditor2 extends React.Component {
         this.state = {editorState: EditorState.createEmpty()};
 
         this.focus = () => this.refs.editor.focus();
-        this.onChange = (editorState) => this.setState({editorState});
+        this.onChange = (editorState) => {
+            this.setState({editorState})
+           };
 
         this.handleKeyCommand = this._handleKeyCommand.bind(this);
         this.mapKeyToEditorCommand = this._mapKeyToEditorCommand.bind(this);
         this.toggleBlockType = this._toggleBlockType.bind(this);
         this.toggleInlineStyle = this._toggleInlineStyle.bind(this);
     }
+
+    //content to save
+    _onClickButton (editorState) {
+        const contentState = editorState.getCurrentContent();
+        const contentToSave = convertToRaw(contentState);
+        // const contentToSave = JSON.stringify(convertToRaw(content));
+        console.log('content state', contentToSave);
+    }
+
+    //get data from DB and convert to state. Example.
+    // componentDidMount() {
+    //     const dataDB = {}//get data from DB;
+    //     if (dataDB !== null) {
+    //         const contentState = convertFromRaw(dataDB);
+    //         this.state({editorState: EditorState.createWithContent(contentState)})
+    //     }
+    // }
 
     _handleKeyCommand(command, editorState) {
         const newState = RichUtils.handleKeyCommand(editorState, command);
@@ -64,7 +83,7 @@ class TextEditor2 extends React.Component {
         // If the user changes block type before entering any text, we can
         // either style the placeholder or hide it. Let's just hide it now.
         let className = 'RichEditor-editor';
-        var contentState = editorState.getCurrentContent();
+        let contentState = editorState.getCurrentContent();
         if (!contentState.hasText()) {
             if (contentState.getBlockMap().first().getType() !== 'unstyled') {
                 className += ' RichEditor-hidePlaceholder';
@@ -94,6 +113,10 @@ class TextEditor2 extends React.Component {
                         spellCheck={true}
                     />
                 </div>
+                <button type="button"
+                        onClick={() => {
+                            this._onClickButton(this.state.editorState)
+                        }}>prepare to send to DB</button>
             </div>
         );
     }
@@ -175,7 +198,7 @@ const BlockStyleControls = (props) => {
     );
 };
 
-var INLINE_STYLES = [
+let INLINE_STYLES = [
     {label: 'Bold', style: 'BOLD'},
     {label: 'Italic', style: 'ITALIC'},
     {label: 'Underline', style: 'UNDERLINE'},
