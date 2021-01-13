@@ -1,6 +1,5 @@
 import React from 'react';
 import {useDispatch, useSelector} from "react-redux";
-
 import {
     deleteInfoAC, savePhotoThC,
     sendTextTourThunkCreator,
@@ -8,6 +7,7 @@ import {
     writeTourTitleAC
 } from "../../redux/reducers/toursReducer";
 import classes from './privateAdmin.module.css'
+import TextEditor2 from "../TestTextEditor/TextEditor2";
 
 const PrivateAdmin = (props) => {
     const dispatch = useDispatch();
@@ -33,6 +33,7 @@ const PrivateAdmin = (props) => {
                        dispatch(writeTourTitleAC(e.target.value))
                    }}
             />
+            <TextEditor2 />
             <textarea placeholder={'write text tour'}
                       value={tourText}
                       onChange={(e) => {
