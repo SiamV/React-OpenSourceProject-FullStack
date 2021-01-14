@@ -23,7 +23,8 @@ class TextEditor2 extends React.Component {
         const contentState = editorState.getCurrentContent();
         const contentToSave = convertToRaw(contentState);
         // const contentToSave = JSON.stringify(convertToRaw(content));
-        console.log('content state', contentToSave);
+        this.props.onData(contentToSave);
+        // console.log('content state', contentToSave);
     }
 
     //get data from DB and convert to state. Example.

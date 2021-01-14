@@ -15,13 +15,17 @@ const PrivateAdmin = (props) => {
     const tourTitle = useSelector(state => state.tours.tourTitle);
     const sendStatusOk = useSelector(state => state.tours.sendStatusOk);
 
+    const onData = (TextEditorData) => {
+        console.log(TextEditorData.blocks)
+    }
+
     return (
         <div className={classes.adminWrapper}>
             {/*add images to server*/}
             <input placeholder={'Add images'}
                    type={'file'}
-                   onChange={(e)=>{
-                       if(e.target.files.length){
+                   onChange={(e) => {
+                       if (e.target.files.length) {
                            dispatch(savePhotoThC(e.target.files[0]))
                        }
                    }}
@@ -33,12 +37,12 @@ const PrivateAdmin = (props) => {
                        dispatch(writeTourTitleAC(e.target.value))
                    }}
             />
-            <TextEditor2 />
-            <textarea placeholder={'write text tour'}
-                      value={tourText}
-                      onChange={(e) => {
-                          dispatch(writeTextTourAC(e.target.value))
-                      }} />
+            <TextEditor2 onData={onData} />
+            {/*<textarea placeholder={'write text tour'}*/}
+            {/*          value={tourText}*/}
+            {/*          onChange={(e) => {*/}
+            {/*              dispatch(writeTextTourAC(e.target.value))*/}
+            {/*          }} />*/}
             <button className={classes.MenuButton}
                     type="button"
                     onClick={() => {
