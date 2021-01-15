@@ -15,8 +15,12 @@ const PrivateAdmin = (props) => {
     const tourTitle = useSelector(state => state.tours.tourTitle);
     const sendStatusOk = useSelector(state => state.tours.sendStatusOk);
 
+    //get convert data from draft.js editorState (Text Field)
+    let TextField = {};
     const onData = (TextEditorData) => {
-        console.log(TextEditorData.blocks)
+        TextField = {...TextEditorData}
+        console.log(TextField.blocks[0].text)
+        // console.log(JSON.stringify(TextEditorData))
     }
 
     return (
@@ -46,7 +50,7 @@ const PrivateAdmin = (props) => {
             <button className={classes.MenuButton}
                     type="button"
                     onClick={() => {
-                        dispatch(sendTextTourThunkCreator(tourTitle, tourText))
+                        dispatch(sendTextTourThunkCreator(tourTitle, TextField))
                     }}>create tour
             </button>
             {(sendStatusOk) &&

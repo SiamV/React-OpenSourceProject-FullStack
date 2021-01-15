@@ -10,6 +10,10 @@ class TextEditor2 extends React.Component {
         this.focus = () => this.refs.editor.focus();
         this.onChange = (editorState) => {
             this.setState({editorState})
+            //content to save
+            const contentState = editorState.getCurrentContent();
+            const contentToSave = convertToRaw(contentState);
+            this.props.onData(contentToSave); //give data to parent (PrivateAdmin)
            };
 
         this.handleKeyCommand = this._handleKeyCommand.bind(this);
@@ -19,13 +23,13 @@ class TextEditor2 extends React.Component {
     }
 
     //content to save
-    _onClickButton (editorState) {
-        const contentState = editorState.getCurrentContent();
-        const contentToSave = convertToRaw(contentState);
-        // const contentToSave = JSON.stringify(convertToRaw(content));
-        this.props.onData(contentToSave);
-        // console.log('content state', contentToSave);
-    }
+    // _onClickButton (editorState) {
+    //     const contentState = editorState.getCurrentContent();
+    //     const contentToSave = convertToRaw(contentState);
+    //     // const contentToSave = JSON.stringify(convertToRaw(content));
+    //     this.props.onData(contentToSave);
+    //     // console.log('content state', contentToSave);
+    // }
 
     //get data from DB and convert to state. Example.
     // componentDidMount() {
@@ -109,15 +113,15 @@ class TextEditor2 extends React.Component {
                         handleKeyCommand={this.handleKeyCommand}
                         keyBindingFn={this.mapKeyToEditorCommand}
                         onChange={this.onChange}
-                        placeholder="Tell a story..."
+                        placeholder="Write text..."
                         ref="editor"
                         spellCheck={true}
                     />
                 </div>
-                <button type="button"
-                        onClick={() => {
-                            this._onClickButton(this.state.editorState)
-                        }}>prepare to send to DB</button>
+                {/*<button type="button"*/}
+                {/*        onClick={() => {*/}
+                {/*            this._onClickButton(this.state.editorState)*/}
+                {/*        }}>prepare to send to DB</button>*/}
             </div>
         );
     }

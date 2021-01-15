@@ -57,7 +57,7 @@ const userSchema = new mongoose.Schema({
 
 const userSchemaTours = new mongoose.Schema({
     "tourTitle": String,
-    "tour": String
+    "tour": Object
 }, {
     versionKey: false
 })

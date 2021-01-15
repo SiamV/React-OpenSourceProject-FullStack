@@ -14,7 +14,7 @@ import Header from './Header/Header';
 import Account from './Account/Account';
 import Footer from './Footer/Footer';
 import {AuthorizationThunkCreator, SecretRoute} from '../redux/reducers/loginReducer';
-import PrivateAdmin from "./Private/PriviteAdmin";
+import PrivateAdmin from "./Private/PrivateAdmin";
 import PageTour from "./Tours/PageTour";
 import TestTextEditor from "./TestTextEditor/TestTextEditor";
 import TextEditor2 from "./TestTextEditor/TextEditor2";
