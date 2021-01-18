@@ -13,7 +13,7 @@ class TextEditor2 extends React.Component {
             //content to save
             const contentState = editorState.getCurrentContent();
             const contentToSave = convertToRaw(contentState);
-            this.props.onData(contentToSave); //give data to parent (PrivateAdmin)
+            this.props.onData(contentToSave); //give data to parent (PrivateAdmin) for save in DB
            };
 
         this.handleKeyCommand = this._handleKeyCommand.bind(this);
