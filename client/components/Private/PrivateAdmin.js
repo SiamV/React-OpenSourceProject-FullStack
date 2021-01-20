@@ -16,10 +16,12 @@ const PrivateAdmin = (props) => {
     const sendStatusOk = useSelector(state => state.tours.sendStatusOk);
 
     //get convert data from draft.js editorState (Text Field)
-    let TextField = {};
+    // let TextField = {};
+    let TextField;
     const onData = (TextEditorData) => {
-        TextField = {...TextEditorData}
-        console.log(TextField.blocks[0].text)
+        // TextField = {...TextEditorData}
+        TextField = TextEditorData;
+        console.log(TextField)
         // console.log(JSON.stringify(TextEditorData))
     }
 

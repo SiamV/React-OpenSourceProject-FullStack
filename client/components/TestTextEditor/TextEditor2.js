@@ -12,7 +12,7 @@ class TextEditor2 extends React.Component {
             this.setState({editorState})
             //content to save
             const contentState = editorState.getCurrentContent();
-            const contentToSave = convertToRaw(contentState);
+            const contentToSave = JSON.stringify(convertToRaw(contentState));
             this.props.onData(contentToSave); //give data to parent (PrivateAdmin) for save in DB
            };
 

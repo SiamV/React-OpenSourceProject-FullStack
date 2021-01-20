@@ -9,22 +9,26 @@ const PageTour = () => {
     const dispatch = useDispatch();
     const tours = useSelector(state => state.tours.tours)
 
-    // EditorState.createWithContent(convertFromRaw(tours[0].tour)),
-    const [editorState, setEditorState] = React.useState(() => EditorState.createEmpty());
-    console.log(editorState)
-    console.log(tours)
-
     useEffect(() => {
         dispatch(setToursThunkCreator())
-        setEditorState({new:1});
     }, [])
+
+    const DB = convertFromRaw(JSON.parse(tours.map((t, index) => (t.tour))))
+    const [editorState, setEditorState] = React.useState(() => EditorState.createWithContent(
+        DB));
+    console.log(editorState)
+
     return (
+        <div>
         <div>{tours.filter(t => t._id === idTour).map((t, index) => (
             <div key={t._id}>
                 <div>{t.tourTitle}</div>
-                {/*<div>{JSON.stringify(t.tour)}</div>*/}
+                <div>{t.tour}</div>
             </div>
-        ))}</div>
+        ))}
+        </div>
+            {/*<div>{editorState}</div>*/}
+        </div>
     )
 }
 
