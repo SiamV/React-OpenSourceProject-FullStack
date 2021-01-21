@@ -13,27 +13,32 @@ const PageTour = () => {
         dispatch(setToursThunkCreator())
     }, [])
 
-    // const DB = convertFromRaw(JSON.parse(tours.map((t, index) => (t.tour))))
-    const [editorState, setEditorState] = React.useState(tours);
-    console.log(editorState)
-    console.log(tours)
-    useEffect(() => {
-        setEditorState(editorState.map((t, index) =>
-            ({...t, tour: EditorState.createWithContent(convertFromRaw(JSON.parse(t.tour)))})
-        ))}, [])
 
-    //content: EditorState.createWithContent(convertFromRaw(JSON.parse(t.tour)))
+    // const [editorState2, setEditorState2] = React.useState(
+    //     EditorState.createEmpty()
+    // );
+    // console.log(editorState2)
+    // // const DB = convertFromRaw(JSON.parse(tours.map((t, index) => (t.tour))))
+    // const [editorState1, setEditorState1] = React.useState(tours);
+    // console.log(tours)
+    // console.log(editorState1)
+    // useEffect(() => {
+    //     setEditorState1(editorState1.map((t, index) =>
+    //         ({...t, tour: EditorState.createWithContent(convertFromRaw(JSON.parse(t.tour)))})
+    //     ))}, [])
+    // console.log(editorState1.tour)
+    //
+    // //content: EditorState.createWithContent(convertFromRaw(JSON.parse(t.tour)))
 
     return (
-        <div>
-        <div>{editorState.filter(t => t._id === idTour).map((t, index) => (
+        <div>{tours.filter(t => t._id === idTour).map((t, index) => (
             <div key={t._id}>
                 <div>{t.tourTitle}</div>
-                {/*<Editor readOnly={true} editorState={t.tour.getCurrentContent()} />*/}
+                <Editor readOnly={true}
+                        editorState={EditorState.createWithContent(convertFromRaw(JSON.parse(t.tour)))}
+                />
             </div>
         ))}
-        </div>
-            {/*<div>{editorState}</div>*/}
         </div>
     )
 }
