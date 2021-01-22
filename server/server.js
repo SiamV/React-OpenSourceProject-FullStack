@@ -30,9 +30,10 @@ const middleware = [
         extended: true
     }),
     cookieParser(),
-    express.static(__dirname + '/client/uploaded')
+    // express.static(`${__dirname}/client/uploaded`)
 ]
 middleware.forEach((it) => app.use(it))
+app.use('/img', express.static(__dirname + '/client/uploaded'));
 
 passport.use('jwt', jwtStrategy) //JsonWebToken logic
 
