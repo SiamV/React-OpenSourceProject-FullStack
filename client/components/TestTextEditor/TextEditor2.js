@@ -208,30 +208,3 @@ const InlineStyleControls = (props) => {
 };
 
 export default TextEditor2;
-
-
-// class TextEditor2 extends React.Component {
-//     constructor(props) {
-//         super(props);
-//         this.state = {editorState: EditorState.createEmpty()};
-//         this.onChange = editorState => this.setState({editorState});
-//     }
-//
-//     _onBoldClick() {
-//         this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'BOLD'));
-//     }
-//
-//     render() {
-//         return (
-//             <div className={classes.editorWrapper}>
-//                 <button onClick={this._onBoldClick.bind(this)}>Bold</button>
-//
-//                 <Editor editorState={this.state.editorState}
-//                         onChange={this.onChange}
-//                         placeholder={'write something...'}
-//                 />
-//             </div>);
-//     }
-// }
-//
-// export default TextEditor2;

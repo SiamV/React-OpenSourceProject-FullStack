@@ -33,7 +33,7 @@ const middleware = [
     // express.static(`${__dirname}/client/uploaded`)
 ]
 middleware.forEach((it) => app.use(it))
-app.use('/img', express.static(__dirname + '/client/uploaded'));
+app.use('/img', express.static(__dirname + '/client/uploaded')); //why doesn't work?
 
 passport.use('jwt', jwtStrategy) //JsonWebToken logic
 
