@@ -6,7 +6,7 @@ import {
     writeTourTitleAC
 } from "../../redux/reducers/toursReducer";
 import classes from './privateAdmin.module.css'
-import TextEditor2 from "../TestTextEditor/TextEditor2";
+import TextEditor from "../TestTextEditor/TextEditor";
 
 const PrivateAdmin = (props) => {
     const dispatch = useDispatch();
@@ -37,7 +37,7 @@ const PrivateAdmin = (props) => {
                        dispatch(writeTourTitleAC(e.target.value))
                    }}
             />
-            <TextEditor2 onData={onData} />
+            <TextEditor onData={onData} />
             <button className={classes.MenuButton}
                     type="button"
                     onClick={() => {
