@@ -1,10 +1,10 @@
 import React, {useEffect, useRef} from 'react';
 import {Editor, EditorState, AtomicBlockUtils, RichUtils, getDefaultKeyBinding, convertToRaw} from 'draft-js';
-import './TextEditor2.css'
+import './TextEditor.css'
 import classes from './TextEditor.module.css'
 import {savePhotoThC} from "../../redux/reducers/toursReducer";
 
-const TestTextEditorImage = () => {
+const TestTextEditorHooks = () => {
     const [editorState, setEditorState] = React.useState(() =>
         EditorState.createEmpty(),
     );
@@ -182,4 +182,4 @@ const TestTextEditorImage = () => {
     )
 }
 
-export default TestTextEditorImage;
+export default TestTextEditorHooks;

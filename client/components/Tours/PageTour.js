@@ -2,7 +2,11 @@ import React, {useEffect} from 'react';
 import {useParams} from 'react-router-dom'
 import {useDispatch, useSelector} from "react-redux";
 import {setToursThunkCreator} from "../../redux/reducers/toursReducer";
-import {Editor, EditorState, convertFromRaw, ContentState} from 'draft-js';
+import {EditorState, convertFromRaw} from 'draft-js';
+import Editor from '@draft-js-plugins/editor';
+import createImagePlugin from "@draft-js-plugins/image";
+
+const imagePlugin = createImagePlugin();
 
 const PageTour = () => {
     const {idTour} = useParams();
@@ -13,26 +17,21 @@ const PageTour = () => {
         dispatch(setToursThunkCreator())
     }, [])
 
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            console.log(convertFromRaw(JSON.parse(tours[5].tour)))
-        }, 3000);
-        return () => clearTimeout(timer);
-    }, []);
+    // useEffect(() => {
+    //     const timer = setTimeout(() => {
+    //         console.log(convertFromRaw(JSON.parse(tours[5].tour)))
+    //     }, 3000);
+    //     return () => clearTimeout(timer);
+    // }, []);
 
     return (
         <div>{tours.filter(t => t._id === idTour).map((t, index) => (
             <div key={t._id}>
                 <div>{t.tourTitle}</div>
                 <Editor readOnly={true}
-                        // editorState={EditorState.createWithContent(
-                        //     ContentState.createFromBlockArray(
-                        //         convertFromRaw(JSON.parse(t.tour)).blockMap,
-                        //         convertFromRaw(JSON.parse(t.tour)).entityMap
-                        //         // convertFromRaw(JSON.parse(t.tour))
-                        //     )
-                        // )}
                         editorState={EditorState.createWithContent(convertFromRaw(JSON.parse(t.tour)))}
+                        plugins={[imagePlugin]}
+                        onChange={()=>{}}
                 />
             </div>
         ))}

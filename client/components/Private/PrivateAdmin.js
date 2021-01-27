@@ -6,7 +6,7 @@ import {
     writeTourTitleAC
 } from "../../redux/reducers/toursReducer";
 import classes from './privateAdmin.module.css'
-import TextEditor from "../TestTextEditor/TextEditor";
+import TextEditor from "../TextEditorDraft/TextEditor";
 
 const PrivateAdmin = (props) => {
     const dispatch = useDispatch();

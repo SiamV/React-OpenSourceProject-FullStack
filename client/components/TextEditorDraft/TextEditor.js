@@ -1,6 +1,6 @@
 import React from 'react';
 import {AtomicBlockUtils, Editor, EditorState, RichUtils, convertToRaw, getDefaultKeyBinding} from 'draft-js';
-import './TextEditor2.css'
+import './TextEditor.css'
 
 class TextEditor extends React.Component {
     constructor(props) {
@@ -17,7 +17,7 @@ class TextEditor extends React.Component {
             const contentToSave = JSON.stringify(convertToRaw(contentState));
             //callback onData to give data to parent (PrivateAdmin) for save in DB
             this.props.onData(contentToSave);
-            console.log(contentState)
+            // console.log(contentState)
         }
         // this.logState = () => {
         //     const content = this.state.editorState.getCurrentContent();
