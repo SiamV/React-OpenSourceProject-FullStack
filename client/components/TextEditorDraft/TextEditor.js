@@ -1,6 +1,7 @@
 import React from 'react';
 import {AtomicBlockUtils, Editor, EditorState, RichUtils, convertToRaw, getDefaultKeyBinding} from 'draft-js';
 import './TextEditor.css'
+import classes from './TextEditor.module.css'
 
 class TextEditor extends React.Component {
     constructor(props) {
@@ -135,7 +136,7 @@ class TextEditor extends React.Component {
                     >image</i>
                 </button>
 
-                <div>
+                <div className={classes.EditorBlockStyle}>
                     <Editor
                         blockStyleFn={getBlockStyle}
                         customStyleMap={styleMap}

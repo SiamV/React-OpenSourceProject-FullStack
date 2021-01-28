@@ -5,6 +5,7 @@ import {setToursThunkCreator} from "../../redux/reducers/toursReducer";
 import {EditorState, convertFromRaw} from 'draft-js';
 import Editor from '@draft-js-plugins/editor';
 import createImagePlugin from "@draft-js-plugins/image";
+import classes from "./pageTour.module.css";
 
 const imagePlugin = createImagePlugin();
 
@@ -27,12 +28,15 @@ const PageTour = () => {
     return (
         <div>{tours.filter(t => t._id === idTour).map((t, index) => (
             <div key={t._id}>
-                <div>{t.tourTitle}</div>
-                <Editor readOnly={true}
-                        editorState={EditorState.createWithContent(convertFromRaw(JSON.parse(t.tour)))}
-                        plugins={[imagePlugin]}
-                        onChange={()=>{}}
-                />
+                <h2>{t.tourTitle}</h2>
+                <div className={classes.EditorBlockStyle1}>
+                    <Editor readOnly={true}
+                            editorState={EditorState.createWithContent(convertFromRaw(JSON.parse(t.tour)))}
+                            plugins={[imagePlugin]}
+                            onChange={() => {
+                            }}
+                    />
+                </div>
             </div>
         ))}
         </div>

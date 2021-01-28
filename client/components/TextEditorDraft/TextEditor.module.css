@@ -1,3 +1,31 @@
 .EditorBlockStyle {
     background-color: white;
 }
+.EditorBlockStyle img {
+    width: 600px;
+    float: left;
+    margin: 5px;
+}
+
+@media screen and (max-width: 992px){
+    .EditorBlockStyle img {
+        width: 100%;
+        float: none;
+        margin: 5px;
+    }
+}
+
+/*@media screen and (max-width: 768px){*/
+/*    .EditorBlockStyle img {*/
+/*        float: none;*/
+/*        margin: 5px;*/
+/*    }*/
+/*}*/
+
+/*@media screen and (max-width: 480px){*/
+/*    .EditorBlockStyle img {*/
+/*        width: 100%;*/
+/*        float: none;*/
+/*        margin: 5px;*/
+/*    }*/
+/*}*/
