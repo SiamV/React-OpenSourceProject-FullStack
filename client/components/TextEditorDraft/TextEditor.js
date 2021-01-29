@@ -138,12 +138,12 @@ class TextEditor extends React.Component {
 
                 <div className={classes.EditorBlockStyle}>
                     <Editor
+                        editorState={editorState}
+                        onChange={this.onChange}
+                        handleKeyCommand={this.handleKeyCommand}
                         blockStyleFn={getBlockStyle}
                         customStyleMap={styleMap}
                         blockRendererFn={mediaBlockRenderer}
-                        editorState={editorState}
-                        handleKeyCommand={this.handleKeyCommand}
-                        onChange={this.onChange}
                         placeholder="Write text..."
                         ref="editor"
                         spellCheck={true}

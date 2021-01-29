@@ -4,7 +4,8 @@ let defaultState = {
     tours: [],
     isLoading: false,
     tourTitle: '',
-    sendStatusOk: false
+    sendStatusOk: false,
+    src: 'https://cemillatours.com/wp-content/uploads/2013/08/luksor_4-150x150-1.jpg'
 }
 
 const SET_TOURS = 'toursReducer/SET_TOURS'
@@ -12,6 +13,7 @@ const WRITE_TOUR_TITLE = 'toursReducer/WRITE_TOUR_TITLE'
 const IS_LOADING = 'toursReducer/IS_LOADING'
 const SEND_STATUS_TOUR_OK = 'toursReducer/SEND_STATUS_TOUR_OK'
 const DELETE_INFO_WINDOW = 'toursReducer/DELETE_INFO_WINDOW'
+const GET_SRC_SERVER = 'toursReducer/GET_SRC_SERVER'
 
 const toursReducer = (state = defaultState, action) => {
     switch (action.type) {
@@ -45,6 +47,12 @@ const toursReducer = (state = defaultState, action) => {
             return {
                 ...state,
                 sendStatusOk: false
+            }
+        }
+        case GET_SRC_SERVER: {
+            return {
+                ...state,
+                src: action.src
             }
         }
         default:
@@ -101,6 +109,14 @@ export const savePhotoThC = (file) => async (dispatch) => {
 
     } catch (e) {
     }
+}
+
+export const getSrcImageFromServer = () => async (dispatch) => {
+    try {
+        let response = await axios.get('/api/v1/get/src/image') //написать
+        console.log(response)
+        dispatch({type: GET_SRC_SERVER, src: response.data})
+    } catch (e) {}
 }
 
 export default toursReducer;

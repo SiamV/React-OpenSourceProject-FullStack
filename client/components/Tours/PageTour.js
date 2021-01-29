@@ -28,7 +28,7 @@ const PageTour = () => {
     return (
         <div>{tours.filter(t => t._id === idTour).map((t, index) => (
             <div key={t._id}>
-                <h2>{t.tourTitle}</h2>
+                <h2 className={classes.h2}>{t.tourTitle}</h2>
                 <div className={classes.EditorBlockStyle1}>
                     <Editor readOnly={true}
                             editorState={EditorState.createWithContent(convertFromRaw(JSON.parse(t.tour)))}

@@ -162,8 +162,13 @@ app.delete("/api/v1/delete/tours/:id", async (req, res) => { //not use, need che
 })
 
     //API work with photos (formidable)
-app.get('/api/v1/get/photo/:name', function (req, res){
+app.get('/api/v1/get/photo/:name', async (req, res) => {
     res.sendFile(__dirname + '/client/uploaded/' + req.params.name);
+});
+
+app.get('/api/v1/get/src/image', async (req, res) => { //дописать
+    res.sendFile(__dirname + '/client/uploaded/');
+    // res.send(tours)
 });
 
 app.post('/api/v1/add/photo', (req, res, next) => {

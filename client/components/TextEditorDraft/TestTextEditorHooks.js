@@ -1,14 +1,16 @@
 import React, {useEffect, useRef} from 'react';
+import {useDispatch, useSelector} from "react-redux";
 import {Editor, EditorState, AtomicBlockUtils, RichUtils, getDefaultKeyBinding, convertToRaw} from 'draft-js';
 import './TextEditor.css'
 import classes from './TextEditor.module.css'
-import {savePhotoThC} from "../../redux/reducers/toursReducer";
+import {getSrcImageFromServer} from "../../redux/reducers/toursReducer";
 
 const TestTextEditorHooks = () => {
+    const dispatch = useDispatch();
+    const url = useSelector(state => state.tours.src);
     const [editorState, setEditorState] = React.useState(() =>
         EditorState.createEmpty(),
     );
-
     const editor = useRef(null);
     const focusEditor = () => {
         editor.current.focus()
@@ -18,164 +20,94 @@ const TestTextEditorHooks = () => {
     const contentToSave = JSON.stringify(convertToRaw(contentState));
     //callback onData to give data to parent (PrivateAdmin) for save in DB
     // this.props.onData(contentToSave);
-    console.log(contentState)
+    // console.log(contentState)
     console.log(contentToSave)
 
-    // uploadCallback2 = (file) => {
-    //     return new Promise((resolve, reject) => {
-    //         const data = new FormData();
-    //         data.append("storyImage", file)
-    //         axios.post(Upload file API call, data).then(responseImage => {
-    //             resolve({ data: { link: PATH TO IMAGE ON SERVER } });
-    //         })
-    //     });
-    // }
 
-    // функция принимает параметр file = e.target.files[0], т.е. фото
-    // const uploadCallback1 = (file) => {
-    //     console.log(file)
-    //     //функция uploadCallback1 на выходе вернет вот эту какашку:
-    //     return new Promise(
-    //         (resolve, reject) => {
-    //             if (file) {
-    //                 let reader = new FileReader();
-    //                 reader.readAsDataURL(file);
-    //                 reader.onload = function () {
-    //                     console.log(reader.result);
-    //                 };
-    //                 reader.onerror = function (error) {
-    //                     console.log('Error: ', error);
-    //                 };
-    //             }
-    //         }
-    //     );
-    // }
-    // callbacks:
-    // const uploadCallback = (file) => {
-    //     return new Promise(
-    //         (resolve, reject) => {
-    //             if (file) {
-    //                 let reader = new FileReader();
-    //                 reader.onload = (e) => {
-    //                     resolve({ data: { link: e.target.result } })
-    //                 };
-    //                 reader.readAsDataURL(file);
-    //             }
-    //         }
-    //     );
-    // }
-    //uploadCallback = (file) => {
-    //     return new Promise((resolve, reject) => {
-    //        const data = new FormData();
-    //        data.append("storyImage", file)
-    //        axios.post(Upload file API call, data).then(responseImage => {
-    //             resolve({ data: { link: PATH TO IMAGE ON SERVER } });
-    //        })
-    //     });
-    // }
-
-    // function previewFile() {
-    //     let preview = document.querySelector('img');
-    //     let file    = document.querySelector('input[type=file]').files[0];
-    //     let reader  = new FileReader();
-    //
-    //     reader.onloadend = function () {
-    //         preview.src = reader.result;
-    //     }
-    //
-    //     if (file) {
-    //         reader.readAsDataURL(file);
-    //     } else {
-    //         preview.src = "";
-    //     }
-    // }
-
-
-    // function readFichier(e) {
-    //     if(window.FileReader) {
-    //         let file  = e.target.files[0];
-    //         let reader = new FileReader();
-    //         if (file && file.type.match('image.*')) {
-    //             reader.readAsDataURL(file);
-    //         } else {
-    //             img.css('display', 'none');
-    //             img.attr('src', '');
-    //         }
-    //         reader.onloadend = function (e) {
-    //             img.attr('src', reader.result);
-    //             img.css('display', 'block');
-    //         }
-    //     }
-    // }
-
-
-    // const handlePastedFiles = ( files) => {
-    //     const formData = new FormData();
-    //     formData.append('file',files[0])
-    //     fetch('/api/uploads',
-    //         {method: 'POST', body: formData})
-    //         .then(res => res.json())
-    //         .then(data => {
-    //             if (data.file) {
-    //                 setEditorState(insertImage(data.file)) //created below
-    //             }
-    //         }).catch(err => {
-    //         console.log(err)
-    //     })
-    // }
-
-    const uploadCallback1 = (file) => {
-        console.log(file)
-        if (file) {
-            setEditorState(insertImage('https://cemillatours.com/wp-content/uploads/2013/08/026caf5516f4974a8494661eee6184f7.jpg'))
+    const handleKeyCommand = (command, editorState) => {
+        const newState = RichUtils.handleKeyCommand(editorState, command);
+        if (newState) {
+            setEditorState(newState);
+            return true;
         }
+        return false;
+    };
 
-    }
-
-    const insertImage = (url) => {
+    const onAddImage = (src) => {
+        console.log(src)
         const contentState = editorState.getCurrentContent();
         const contentStateWithEntity = contentState.createEntity(
             "image",
             "IMMUTABLE",
-            {src: url},)
+            {src: url} //url если брать из стейта, src если указать путь с компа
+        );
         const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
         const newEditorState = EditorState.set(
             editorState,
             {currentContent: contentStateWithEntity});
-        return AtomicBlockUtils.insertAtomicBlock(newEditorState, entityKey, '');
+        setEditorState(AtomicBlockUtils.insertAtomicBlock(newEditorState, entityKey, " "));
     };
+
+    const mediaBlockRenderer = (block) => {
+        if (block.getType() === 'atomic') {
+            return {
+                component: Media,
+                editable: false
+            };
+        }
+        return null;
+    }
+
+    const Image = (props) => {
+        if (!!props.src) {
+            return <img src={props.src} />;
+        }
+        return null;
+    };
+
+    const Media = (props) => {
+
+        const entity = props.contentState.getEntity(props.block.getEntityAt(0));
+
+        const {src} = entity.getData();
+        const type = entity.getType();
+
+        let media;
+        if (type === 'image') {
+            media = <Image src={src} />;
+        }
+
+        return media;
+    };
+
 
     return (
         <div>
             <div>Hello Editor!</div>
-            <input placeholder={'Attach images'}
-                   type={'file'}
+            <input type={'file'}
                    onChange={(e) => {
                        if (e.target.files.length) {
-                           uploadCallback1(e.target.files[0])
+                           onAddImage(URL.createObjectURL(e.target.files[0]))
                        }
                    }}
+                   style={{
+                       fontSize: "16px",
+                       textAlign: "center",
+                       padding: "2px",
+                       margin: "2px"
+                   }}
+                   placeholder={'Attach images'}
             />
+            <button onClick={()=>{dispatch(getSrcImageFromServer())}}>set img</button>
+
+
             <div className={classes.EditorBlockStyle}
                  onClick={() => focusEditor()}>
                 <Editor editorState={editorState}
                         onChange={setEditorState}
-                        handlePastedFiles={uploadCallback1}
+                        handleKeyCommand={handleKeyCommand}
                         ref={editor}
-                    // toolbar={{
-                    //     options: ['image',],
-                    //     image: {
-                    //         uploadEnabled: true,
-                    //         uploadCallback: uploadCallback1,
-                    //         previewImage: true,
-                    //         inputAccept: 'image/gif,image/jpeg,image/jpg,image/png,image/svg',
-                    //         alt: {present: false, mandatory: false},
-                    //         defaultSize: {
-                    //             height: 'auto',
-                    //             width: 'auto',
-                    //         },
-                    //     },
-                    // }}
+                        blockRendererFn={mediaBlockRenderer}
                 />
             </div>
         </div>
@@ -183,3 +115,35 @@ const TestTextEditorHooks = () => {
 }
 
 export default TestTextEditorHooks;
+
+
+
+
+// const src = window.prompt("Paste Image Link");
+// <button className="" onClick={onAddImage}>
+//     <i className=""
+//        style={{
+//            fontSize: "16px",
+//            textAlign: "center",
+//            padding: "0px",
+//            margin: "0px"
+//        }}
+//     >image</i>
+// </button>
+
+// function imgchange(f) {
+//     var filePath = $('#file').val();
+//     var reader = new FileReader();
+//     reader.onload = function (e) {
+//         $('#imgs').attr('src',e.target.result);
+//     };
+//     reader.readAsDataURL(f.files[0]);
+// }
+
+// <input type={'file'}
+//        onChange={(e) => {
+//            if (e.target.files.length) {
+//                onAddImage(URL.createObjectURL(e.target.files[0]))
+//            }
+//        }}
+// />

@@ -1,8 +1,21 @@
-h2 {
+.h2 {
+    text-align: center;
     font-size: large;
     color: #368da6;
     margin-top: 5px;
     margin-bottom: 5px;
+}
+
+figure {
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 5px;
+    margin-inline-end: 5px;
+}
+
+.EditorBlockStyle1 {
+    padding: 5px;
 }
 
 .EditorBlockStyle1 img {
@@ -12,6 +25,14 @@ h2 {
 }
 
 @media screen and (max-width: 992px){
+    .EditorBlockStyle1 img {
+        width: 500px;
+        float: left;
+        margin: 5px 5px 5px 0;
+    }
+}
+
+@media screen and (max-width: 768px){
     .EditorBlockStyle1 img {
         width: 100%;
         float: none;

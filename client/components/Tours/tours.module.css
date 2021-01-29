@@ -1,10 +1,56 @@
-/*page tours*/
-.toursWrapper {
+/*page Tours.js*/
+.toursPageWrapper{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+/*page Tour.js*/
+.tourWrapper {
+    width: 30%;
     border: 1px grey solid;
-    margin-bottom: 2px;
+    margin-bottom: 5px;
     padding: 5px;
     background-color: #CEF4FF;
 }
+@media screen and (max-width: 768px){
+    .tourWrapper {
+        width: 45%;
+        border: 1px grey solid;
+        margin-bottom: 5px;
+        padding: 5px;
+        background-color: #CEF4FF;
+    }
+}
+@media screen and (max-width: 480px){
+    .tourWrapper {
+        width: 100%;
+        border: 1px grey solid;
+        margin-bottom: 5px;
+        padding: 5px;
+        background-color: #CEF4FF;
+    }
+}
+
+
+.tourWrapper .previewBlockWrapper{
+    display: flex;
+    flex-direction: column;
+}
+.tourWrapper .previewBlock img {
+    width: 150px;
+    float: left;
+    margin: 0 5px 5px 0;
+}
+@media screen and (max-width: 768px){
+    .tourWrapper .previewBlock img {
+        width: 30%;
+        float: left;
+        margin: 0 5px 5px 0;
+    }
+}
+
 .navLinkH2 {
     text-decoration: none;
 }
@@ -13,6 +59,7 @@
     color: #368DA6;
     margin-top: 5px;
     margin-bottom: 5px;
+    margin-left: 5px;
 }
 .h2:hover {
     position: relative;
@@ -44,4 +91,3 @@
     box-shadow: 0 5px #666;
     transform: translateY(4px);
 }
-/*page single tour*/
