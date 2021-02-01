@@ -5,7 +5,7 @@ let defaultState = {
     isLoading: false,
     tourTitle: '',
     sendStatusOk: false,
-    src: 'https://cemillatours.com/wp-content/uploads/2013/08/luksor_4-150x150-1.jpg'
+    src: ''
 }
 
 const SET_TOURS = 'toursReducer/SET_TOURS'
@@ -113,7 +113,7 @@ export const savePhotoThC = (file) => async (dispatch) => {
 
 export const getSrcImageFromServer = () => async (dispatch) => {
     try {
-        let response = await axios.get('/api/v1/get/src/image') //написать
+        let response = await axios.get('/api/v1/get/photo/car.jpg') //написать
         console.log(response)
         dispatch({type: GET_SRC_SERVER, src: response.data})
     } catch (e) {}

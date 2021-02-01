@@ -23,7 +23,6 @@ const TestTextEditorHooks = () => {
     // console.log(contentState)
     console.log(contentToSave)
 
-
     const handleKeyCommand = (command, editorState) => {
         const newState = RichUtils.handleKeyCommand(editorState, command);
         if (newState) {
