@@ -166,12 +166,15 @@ app.get('/api/v1/get/photo/:name', async (req, res) => {
     res.sendFile(__dirname + '/client/uploaded/' + req.params.name);
 });
 
-app.get('/api/v1/get/src/image', async (req, res) => { //дописать
-    res.sendFile(__dirname + '/client/uploaded/');
-    // res.send(tours)
+app.get('/api/v1/get/src/image', async (req, res) => { //to get all files from folder
+    let dir = (__dirname + '/client/uploaded/')
+    let files = fs.readdirSync(dir).forEach(file => dir + file);
+    res.send(files)
+    console.log(files)
+
 });
 
-app.post('/api/v1/add/photo', (req, res, next) => {
+app.post('/api/v1/add/photo', (req, res, next) =>  { //send file to folder in server
     const form = formidable({ multiples: true});
 
     form.parse(req, (err, fields, files) => {

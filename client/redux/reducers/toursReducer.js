@@ -113,7 +113,7 @@ export const savePhotoThC = (file) => async (dispatch) => {
 
 export const getSrcImageFromServer = () => async (dispatch) => {
     try {
-        let response = await axios.get('/api/v1/get/photo/car.jpg') //написать
+        let response = await axios.get('/api/v1/get/src/image')
         console.log(response)
         dispatch({type: GET_SRC_SERVER, src: response.data})
     } catch (e) {}
