@@ -5,7 +5,9 @@ let defaultState = {
     isLoading: false,
     tourTitle: '',
     sendStatusOk: false,
-    src: ''
+    imagesUrls: ['https://bronntravel.com.ua/wp-content/uploads/2017/11/hram-el-hazne-375x300.jpg',
+                'https://bronntravel.com.ua/wp-content/uploads/2017/11/0005582_culturehistoryotherrecreation-and-leisure-img_0833-tower-of-david_493-400x267.jpeg',
+                'https://bronntravel.com.ua/wp-content/uploads/2017/11/sudm4dx-cairo-egypt-400x255.jpg']
 }
 
 const SET_TOURS = 'toursReducer/SET_TOURS'
@@ -52,7 +54,7 @@ const toursReducer = (state = defaultState, action) => {
         case GET_SRC_SERVER: {
             return {
                 ...state,
-                src: action.src
+                imagesUrls: action.imagesUrls
             }
         }
         default:
@@ -90,7 +92,7 @@ export const deleteInfoAC = () => ({
 export const sendTextTourThunkCreator = (tourTitle, tourText) => async (dispatch) => {
     try {
         let response = await axios.post(`/api/v1/add/tours`, {tourTitle: tourTitle, tour: tourText})
-        if(response.status === 200) {
+        if (response.status === 200) {
             dispatch(SendTourStatusOkAC(true))
         }
     } catch (e) {
@@ -114,9 +116,9 @@ export const savePhotoThC = (file) => async (dispatch) => {
 export const getSrcImageFromServer = () => async (dispatch) => {
     try {
         let response = await axios.get('/api/v1/get/src/image')
-        console.log(response)
-        dispatch({type: GET_SRC_SERVER, src: response.data})
-    } catch (e) {}
+        dispatch({type: GET_SRC_SERVER, imagesUrls: response.data})
+    } catch (e) {
+    }
 }
 
 export default toursReducer;

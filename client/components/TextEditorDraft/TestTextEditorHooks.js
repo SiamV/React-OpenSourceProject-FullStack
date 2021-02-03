@@ -7,7 +7,7 @@ import {getSrcImageFromServer} from "../../redux/reducers/toursReducer";
 
 const TestTextEditorHooks = () => {
     const dispatch = useDispatch();
-    const url = useSelector(state => state.tours.src);
+    const urls = useSelector(state => state.tours.imagesUrls);
     const [editorState, setEditorState] = React.useState(() =>
         EditorState.createEmpty(),
     );
@@ -33,12 +33,11 @@ const TestTextEditorHooks = () => {
     };
 
     const onAddImage = (src) => {
-        console.log(src)
         const contentState = editorState.getCurrentContent();
         const contentStateWithEntity = contentState.createEntity(
             "image",
             "IMMUTABLE",
-            {src: url} //url если брать из стейта, src если указать путь с компа
+            {src: urls[0]} //url если брать из стейта, src если указать путь с компа
         );
         const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
         const newEditorState = EditorState.set(

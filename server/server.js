@@ -80,9 +80,9 @@ userSchema.method({
 })
 userSchema.statics = {
     async findAndValidateUser({
-        email,
-        password
-    }) {
+                                  email,
+                                  password
+                              }) {
         if (!email) {
             throw new Error('no email')
         }
@@ -136,54 +136,52 @@ app.get('/', (req, res) => {
     res.send('Hello server')
 })
 
-    //work with tours
+//work with tours
 app.get("/api/v1/tours", async (req, res) => {
     const tours = await Tour.find({})
     res.send(tours)
 })
 
 app.post("/api/v1/add/tours", async (req, res) => {
-	const tour = await new Tour({
+    const tour = await new Tour({
         tourTitle: req.body.tourTitle,
-		tour: req.body.tour
-	})
-	tour.save()
-	res.send(tour)
+        tour: req.body.tour
+    })
+    tour.save()
+    res.send(tour)
 })
 
 app.delete("/api/v1/delete/tours/:id", async (req, res) => { //not use, need check
     try {
-        await Tour.deleteOne({ _id: req.params.id })
+        await Tour.deleteOne({_id: req.params.id})
         res.status(204).send()
     } catch {
         res.status(404)
-        res.send({ error: "Tour doesn't exist!" })
+        res.send({error: "Tour doesn't exist!"})
     }
 })
 
-    //API work with photos (formidable)
+//API work with photos (formidable)
 app.get('/api/v1/get/photo/:name', async (req, res) => {
     res.sendFile(__dirname + '/client/uploaded/' + req.params.name);
 });
 
 app.get('/api/v1/get/src/image', async (req, res) => { //to get all files from folder
     let dir = (__dirname + '/client/uploaded/')
-    let files = fs.readdirSync(dir).forEach(file => dir + file);
-    res.send(files)
-    console.log(files)
-
+    let filesURL = await fs.readdirSync(dir).map((file) => dir + file);
+    res.send(filesURL)
 });
 
-app.post('/api/v1/add/photo', (req, res, next) =>  { //send file to folder in server
-    const form = formidable({ multiples: true});
+app.post('/api/v1/add/photo', (req, res, next) => { //send file to folder in server
+    const form = formidable({multiples: true});
 
     form.parse(req, (err, fields, files) => {
         const oldPath = files.image.path;
         const newPath = path.join(__dirname, '/client/uploaded/') + files.image.name
         const rawData = fs.readFileSync(oldPath)
 
-        fs.writeFile(newPath, rawData, function(err){
-            if(err) console.log(err)
+        fs.writeFile(newPath, rawData, function (err) {
+            if (err) console.log(err)
             return res.send("Photo is uploaded")
         })
         // console.log('fields:', fields);
@@ -191,7 +189,7 @@ app.post('/api/v1/add/photo', (req, res, next) =>  { //send file to folder in se
     });
 });
 
-    //for registration new user
+//for registration new user
 app.post("/api/v1/auth/add/user", async (req, res) => {
     const user = new User({
         email: req.body.email,
@@ -201,7 +199,7 @@ app.post("/api/v1/auth/add/user", async (req, res) => {
     res.send(user)
 })
 
-    //for login and create token
+//for login and create token
 app.post("/api/v1/auth/user", async (req, res) => {
     try {
         const user = await User.findAndValidateUser(req.body)
@@ -229,7 +227,7 @@ app.post("/api/v1/auth/user", async (req, res) => {
     }
 })
 
-    //for authorization
+//for authorization
 app.get("/api/v1/authorization",
     async (req, res) => {
         if (req.method === 'OPTIONS') {
@@ -264,7 +262,7 @@ app.get("/api/v1/authorization",
         }
     })
 
-    //secret route. Only for admin
+//secret route. Only for admin
 app.get("/api/v1/admin", auth(['admin']),
     async (req, res) => {
         res.json({
