@@ -37,7 +37,7 @@ const TestTextEditorHooks = () => {
         const contentStateWithEntity = contentState.createEntity(
             "image",
             "IMMUTABLE",
-            {src: urls[0]} //url если брать из стейта, src если указать путь с компа
+            {src: src} //url если брать из стейта, src если указать путь с компа
         );
         const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
         const newEditorState = EditorState.set(
@@ -82,19 +82,32 @@ const TestTextEditorHooks = () => {
     return (
         <div>
             <div>Hello Editor!</div>
+            {/*<input type={'file'}*/}
+            {/*       onChange={(e) => {*/}
+            {/*           if (e.target.files.length) {*/}
+            {/*               onAddImage(URL.createObjectURL(e.target.files[0]))*/}
+            {/*           }*/}
+            {/*       }}*/}
+            {/*       style={{*/}
+            {/*           fontSize: "16px",*/}
+            {/*           textAlign: "center",*/}
+            {/*           padding: "2px",*/}
+            {/*           margin: "2px"*/}
+            {/*       }}*/}
+            {/*       placeholder={'Attach images'}*/}
+            {/*/>*/}
             <input type={'file'}
-                   onChange={(e) => {
-                       if (e.target.files.length) {
-                           onAddImage(URL.createObjectURL(e.target.files[0]))
-                       }
-                   }}
-                   style={{
-                       fontSize: "16px",
-                       textAlign: "center",
-                       padding: "2px",
-                       margin: "2px"
-                   }}
-                   placeholder={'Attach images'}
+                   multiple={true}
+                   accept={".png, .jpg, .jpeg"}
+                   onChange={(e)=> {
+                console.log(e.target.files)
+                // let objectURL = URL.createObjectURL(urls)
+                // onAddImage(objectURL)
+            }} />
+            <img id="target"
+                 src={urls[1]}
+                 alt={'files'}
+                 style={{width:'300px'}}
             />
             <button onClick={()=>{dispatch(getSrcImageFromServer())}}>set img</button>
 
