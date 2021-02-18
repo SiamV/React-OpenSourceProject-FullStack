@@ -33,7 +33,9 @@ const middleware = [
     // express.static(`${__dirname}/client/uploaded`)
 ]
 middleware.forEach((it) => app.use(it))
-app.use('/img', express.static(__dirname + '/client/uploaded')); //why doesn't work?
+// app.use('/img', express.static(__dirname + '/client/uploaded')); //why doesn't work?
+app.use(express.static(path.join(__dirname)));
+console.log("path.join() : ", path.join(__dirname));
 
 passport.use('jwt', jwtStrategy) //JsonWebToken logic
 
@@ -132,9 +134,9 @@ export const Tour = mongoose.model('tours', userSchemaTours);
 
 //create REST API
 
-app.get('/', (req, res) => {
-    res.send('Hello server')
-})
+app.get('/', function(req, res) {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
 
 //work with tours
 app.get("/api/v1/tours", async (req, res) => {
@@ -172,8 +174,8 @@ app.get('/api/v1/get/src/image', async (req, res) => { //to get all files from f
     res.send(filesURL)
 });
 
-app.post('/api/v1/add/photo', (req, res, next) => { //send file to folder in server
-    const form = formidable({multiples: true});
+app.post('/api/v1/add/photo', async (req, res, next) => { //send file to folder in server
+    const form = await formidable({multiples: true});
 
     form.parse(req, (err, fields, files) => {
         const oldPath = files.image.path;
@@ -188,6 +190,23 @@ app.post('/api/v1/add/photo', (req, res, next) => { //send file to folder in ser
         // console.log('files:', files);
     });
 });
+
+// app.post('/api/v1/add/photo', async (req, res, next) => { //send file to folder in server
+//     const form = await formidable({multiples: true});
+//
+//     form.parse(req, (err, fields, files) => {
+//         const oldPath = files.image.path;
+//         const newPath = path.join(__dirname, '/client/uploaded/') + files.image.name
+//         const rawData = fs.readFileSync(oldPath)
+//
+//         fs.writeFile(newPath, rawData, function (err) {
+//             if (err) console.log(err)
+//             return res.send("Photo is uploaded")
+//         })
+//         // console.log('fields:', fields);
+//         // console.log('files:', files);
+//     });
+// });
 
 //for registration new user
 app.post("/api/v1/auth/add/user", async (req, res) => {

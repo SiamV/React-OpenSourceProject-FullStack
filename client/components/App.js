@@ -17,6 +17,7 @@ import {AuthorizationThunkCreator, SecretRoute} from '../redux/reducers/loginRed
 import PrivateAdmin from "./Private/PrivateAdmin";
 import PageTour from "./Tours/PageTour";
 import TestTextEditorHooks from "./TextEditorDraft/TestTextEditorHooks";
+import TextEditor from "./TextEditorDraft/TextEditor";
 
 //main structure project. Grid css
 const AppContainer = () => {

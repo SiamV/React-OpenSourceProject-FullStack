@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {Editor, EditorState, AtomicBlockUtils, RichUtils, getDefaultKeyBinding, convertToRaw} from 'draft-js';
 import './TextEditor.css'
 import classes from './TextEditor.module.css'
-import {getSrcImageFromServer} from "../../redux/reducers/toursReducer";
+import {getSrcImageFromServer, savePhotoThC} from "../../redux/reducers/toursReducer";
 
 const TestTextEditorHooks = () => {
     const dispatch = useDispatch();
@@ -21,7 +21,7 @@ const TestTextEditorHooks = () => {
     //callback onData to give data to parent (PrivateAdmin) for save in DB
     // this.props.onData(contentToSave);
     // console.log(contentState)
-    console.log(contentToSave)
+    // console.log(contentToSave)
 
     const handleKeyCommand = (command, editorState) => {
         const newState = RichUtils.handleKeyCommand(editorState, command);
@@ -82,33 +82,34 @@ const TestTextEditorHooks = () => {
     return (
         <div>
             <div>Hello Editor!</div>
-            {/*<input type={'file'}*/}
-            {/*       onChange={(e) => {*/}
-            {/*           if (e.target.files.length) {*/}
-            {/*               onAddImage(URL.createObjectURL(e.target.files[0]))*/}
-            {/*           }*/}
-            {/*       }}*/}
-            {/*       style={{*/}
-            {/*           fontSize: "16px",*/}
-            {/*           textAlign: "center",*/}
-            {/*           padding: "2px",*/}
-            {/*           margin: "2px"*/}
-            {/*       }}*/}
-            {/*       placeholder={'Attach images'}*/}
-            {/*/>*/}
             <input type={'file'}
-                   multiple={true}
-                   accept={".png, .jpg, .jpeg"}
-                   onChange={(e)=> {
-                console.log(e.target.files)
-                // let objectURL = URL.createObjectURL(urls)
-                // onAddImage(objectURL)
-            }} />
-            <img id="target"
-                 src={urls[1]}
-                 alt={'files'}
-                 style={{width:'300px'}}
+                   onChange={(e) => {
+                       if (e.target.files.length) {
+                           onAddImage(URL.createObjectURL(e.target.files[0]) &&
+                               dispatch(savePhotoThC(e.target.files[0])))
+                       }
+                   }}
+                   style={{
+                       fontSize: "16px",
+                       textAlign: "center",
+                       padding: "2px",
+                       margin: "2px"
+                   }}
+                   placeholder={'Attach images'}
             />
+            {/*<input type={'file'}*/}
+            {/*       multiple={true}*/}
+            {/*       accept={".png, .jpg, .jpeg"}*/}
+            {/*       onChange={(e)=> {*/}
+            {/*    console.log(e.target.files)*/}
+            {/*    // let objectURL = URL.createObjectURL(urls)*/}
+            {/*    // onAddImage(objectURL)*/}
+            {/*}} />*/}
+            {/*<img id="target"*/}
+            {/*     src={urls[1]}*/}
+            {/*     alt={'files'}*/}
+            {/*     style={{width:'300px'}}*/}
+            {/*/>*/}
             <button onClick={()=>{dispatch(getSrcImageFromServer())}}>set img</button>
 
 
