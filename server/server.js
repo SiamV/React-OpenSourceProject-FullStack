@@ -10,7 +10,7 @@ import formidable from 'formidable';
 import fs from 'fs';
 import path from 'path'
 
-import config from "../config.js";
+import config from "./config.js";
 import jwtStrategy from './manager/passport.js';
 import auth from './manager/rolesMiddleware.js';
 
