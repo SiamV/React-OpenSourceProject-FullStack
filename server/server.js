@@ -35,7 +35,7 @@ const middleware = [
 middleware.forEach((it) => app.use(it))
 // app.use('/img', express.static(__dirname + '/client/uploaded')); //why doesn't work?
 app.use(express.static(path.join(__dirname)));
-console.log("path.join() : ", path.join(__dirname));
+// console.log("path.join() : ", path.join(__dirname));
 
 passport.use('jwt', jwtStrategy) //JsonWebToken logic
 
@@ -134,7 +134,7 @@ export const Tour = mongoose.model('tours', userSchemaTours);
 
 //create REST API
 
-app.get('/', function(req, res) {
+app.get('/', function (req, res) {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
@@ -183,12 +183,21 @@ app.post('/api/v1/add/photo', async (req, res, next) => { //send file to folder 
         const rawData = fs.readFileSync(oldPath)
 
         fs.writeFile(newPath, rawData, function (err) {
-            if (err) console.log(err)
+            if (err) res.send(err)
             return res.send("Photo is uploaded")
         })
         // console.log('fields:', fields);
         // console.log('files:', files);
     });
+});
+
+app.post('/api/test/upload', async (req, res, next) => {
+    try {
+        let fileText = fs.readFileSync(path.join(__dirname, '/client/uploaded/text.txt'), "utf8")
+        res.send(fileText)
+    } catch (err) {
+        res.send(err)
+    }
 });
 
 // app.post('/api/v1/add/photo', async (req, res, next) => { //send file to folder in server

@@ -2,6 +2,7 @@ import React from 'react';
 import {AtomicBlockUtils, Editor, EditorState, RichUtils, convertToRaw, getDefaultKeyBinding} from 'draft-js';
 import './TextEditor.css'
 import classes from './TextEditor.module.css'
+import {savePhotoThC} from "../../redux/reducers/toursReducer";
 
 class TextEditor extends React.Component {
     constructor(props) {
@@ -125,6 +126,21 @@ class TextEditor extends React.Component {
                     onToggle={this.toggleInlineStyle}
                 />
 
+                {/*<input type={'file'}*/}
+                {/*       onChange={(e) => {*/}
+                {/*           if (e.target.files.length) {*/}
+                {/*               // dispatch(savePhotoThC(e.target.files[0])) &&*/}
+                {/*               this.onAddImage(URL.createObjectURL(e.target.files[0]))*/}
+                {/*           }*/}
+                {/*       }}*/}
+                {/*       style={{*/}
+                {/*           fontSize: "16px",*/}
+                {/*           textAlign: "center",*/}
+                {/*           padding: "2px",*/}
+                {/*           margin: "2px"*/}
+                {/*       }}*/}
+                {/*       placeholder={'Attach images'}*/}
+                {/*/>*/}
                 <button className="" onClick={this.onAddImage}>
                     <i className=""
                        style={{

@@ -4,6 +4,9 @@ import {Editor, EditorState, AtomicBlockUtils, RichUtils, getDefaultKeyBinding, 
 import './TextEditor.css'
 import classes from './TextEditor.module.css'
 import {getSrcImageFromServer, savePhotoThC} from "../../redux/reducers/toursReducer";
+import path from 'path'
+
+const __dirname = path.resolve(); //for ES6
 
 const TestTextEditorHooks = () => {
     const dispatch = useDispatch();
@@ -33,6 +36,7 @@ const TestTextEditorHooks = () => {
     };
 
     const onAddImage = (src) => {
+        console.log('src:', src)
         const contentState = editorState.getCurrentContent();
         const contentStateWithEntity = contentState.createEntity(
             "image",
@@ -85,77 +89,85 @@ const TestTextEditorHooks = () => {
             <input type={'file'}
                    onChange={(e) => {
                        if (e.target.files.length) {
-                           onAddImage(URL.createObjectURL(e.target.files[0]) &&
-                               dispatch(savePhotoThC(e.target.files[0])))
+                           // new Promise(()=> {
+                           //     dispatch(savePhotoThC(e.target.files[0]))
+                           // }).then(() => {
+                           //     onAddImage(path.join(__dirname, '/client/uploaded/' + e.target.files[0].name))
+                           // })
+                           dispatch(savePhotoThC(e.target.files[0])) &&
+                           onAddImage(path.join(__dirname, '/client/uploaded/' + e.target.files[0].name))
+                           // URL.createObjectURL(e.target.files[0])
                        }
                    }}
-                   style={{
+                       style={{
                        fontSize: "16px",
                        textAlign: "center",
                        padding: "2px",
                        margin: "2px"
                    }}
-                   placeholder={'Attach images'}
-            />
-            {/*<input type={'file'}*/}
-            {/*       multiple={true}*/}
-            {/*       accept={".png, .jpg, .jpeg"}*/}
-            {/*       onChange={(e)=> {*/}
-            {/*    console.log(e.target.files)*/}
-            {/*    // let objectURL = URL.createObjectURL(urls)*/}
-            {/*    // onAddImage(objectURL)*/}
-            {/*}} />*/}
-            {/*<img id="target"*/}
-            {/*     src={urls[1]}*/}
-            {/*     alt={'files'}*/}
-            {/*     style={{width:'300px'}}*/}
-            {/*/>*/}
-            <button onClick={()=>{dispatch(getSrcImageFromServer())}}>set img</button>
+                       placeholder={'Attach images'}
+                       />
+                   {/*<input type={'file'}*/}
+                   {/*       multiple={true}*/}
+                   {/*       accept={".png, .jpg, .jpeg"}*/}
+                   {/*       onChange={(e)=> {*/}
+                   {/*    console.log(e.target.files)*/}
+                   {/*    // let objectURL = URL.createObjectURL(urls)*/}
+                   {/*    // onAddImage(objectURL)*/}
+                   {/*}} />*/}
+                   {/*<img id="target"*/}
+                   {/*     src={urls[1]}*/}
+                   {/*     alt={'files'}*/}
+                   {/*     style={{width:'300px'}}*/}
+                   {/*/>*/}
 
 
-            <div className={classes.EditorBlockStyle}
-                 onClick={() => focusEditor()}>
-                <Editor editorState={editorState}
-                        onChange={setEditorState}
-                        handleKeyCommand={handleKeyCommand}
-                        ref={editor}
-                        blockRendererFn={mediaBlockRenderer}
-                />
-            </div>
-        </div>
-    )
-}
-
-export default TestTextEditorHooks;
+                   {/*<button onClick={()=>{dispatch(getSrcImageFromServer())}}>set img</button>*/}
 
 
+                       <div className={classes.EditorBlockStyle}
+                       onClick={() => focusEditor()}>
+                       <Editor editorState={editorState}
+                       onChange={setEditorState}
+                       handleKeyCommand={handleKeyCommand}
+                       ref={editor}
+                       blockRendererFn={mediaBlockRenderer}
+                       />
+                       </div>
+                       </div>
+                       )
+                       }
+
+                       export default TestTextEditorHooks;
 
 
-// const src = window.prompt("Paste Image Link");
-// <button className="" onClick={onAddImage}>
-//     <i className=""
-//        style={{
-//            fontSize: "16px",
-//            textAlign: "center",
-//            padding: "0px",
-//            margin: "0px"
-//        }}
-//     >image</i>
-// </button>
 
-// function imgchange(f) {
-//     var filePath = $('#file').val();
-//     var reader = new FileReader();
-//     reader.onload = function (e) {
-//         $('#imgs').attr('src',e.target.result);
-//     };
-//     reader.readAsDataURL(f.files[0]);
-// }
 
-// <input type={'file'}
-//        onChange={(e) => {
-//            if (e.target.files.length) {
-//                onAddImage(URL.createObjectURL(e.target.files[0]))
-//            }
-//        }}
-// />
+                       // const src = window.prompt("Paste Image Link");
+                       // <button className="" onClick={onAddImage}>
+                       //     <i className=""
+                       //        style={{
+                       //            fontSize: "16px",
+                       //            textAlign: "center",
+                       //            padding: "0px",
+                       //            margin: "0px"
+                       //        }}
+                       //     >image</i>
+                       // </button>
+
+                       // function imgchange(f) {
+                       //     var filePath = $('#file').val();
+                       //     var reader = new FileReader();
+                       //     reader.onload = function (e) {
+                       //         $('#imgs').attr('src',e.target.result);
+                       //     };
+                       //     reader.readAsDataURL(f.files[0]);
+                       // }
+
+                       // <input type={'file'}
+                       //        onChange={(e) => {
+                       //            if (e.target.files.length) {
+                       //                onAddImage(URL.createObjectURL(e.target.files[0]))
+                       //            }
+                       //        }}
+                       // />
