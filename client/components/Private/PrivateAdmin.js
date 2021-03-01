@@ -1,10 +1,7 @@
 import React from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {
-    deleteInfoAC, savePhotoThC,
-    sendTextTourThunkCreator,
-    writeTourTitleAC
-} from "../../redux/reducers/toursReducer";
+import {deleteInfoAC, sendTextTourThunkCreator, writeTourTitleAC} from "../../redux/reducers/toursReducer";
+import {savePhotoThC} from "../../redux/reducers/textEditorReducer";
 import classes from './privateAdmin.module.css'
 import TextEditor from "../TextEditorDraft/TextEditor";
 

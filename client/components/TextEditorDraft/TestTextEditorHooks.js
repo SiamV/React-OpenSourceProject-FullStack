@@ -3,15 +3,14 @@ import {useDispatch, useSelector} from "react-redux";
 import {Editor, EditorState, AtomicBlockUtils, RichUtils, getDefaultKeyBinding, convertToRaw} from 'draft-js';
 import './TextEditor.css'
 import classes from './TextEditor.module.css'
-import {getSrcImageFromServer, savePhotoThC, SendTourStatusOkAC} from "../../redux/reducers/toursReducer";
 import path from 'path'
-import * as axios from "axios";
+import {savePhotoThC, SendPhotoStatusChangeToFalse} from "../../redux/reducers/textEditorReducer";
 
 const __dirname = path.resolve(); //for ES6
 
 const TestTextEditorHooks = () => {
     const dispatch = useDispatch();
-    const urls = useSelector(state => state.tours.imagesUrls);
+    const statusUpload = useSelector(state => state.editor.statusUpload);
     const [editorState, setEditorState] = React.useState(() =>
         EditorState.createEmpty(),
     );
@@ -82,36 +81,21 @@ const TestTextEditorHooks = () => {
         return media;
     };
 
-
     return (
         <div>
             <div>Hello Editor!</div>
             <input type={'file'}
                    onChange={(e) => {
                        if (e.target.files.length) {
-                           let promise = new Promise((resolve, reject) => {
-
-                               const formData = new FormData();
-                               formData.append('image', e.target.files[0])
-                               try {
-                                   let response = axios.post(`/api/v1/add/photo`, formData, {
-                                       headers: {
-                                           'Content-Type': 'multipart/form-data'
-                                       }
-                                   })
-                                       resolve(response)
-
-                               } catch (e) {
-                               }
-
-                           }).then((response) => {
-                               if (response.request.status === 200){
-                                   onAddImage(path.join(__dirname, '/client/uploaded/' + e.target.files[0].name))
+                           new Promise((resolve, reject) => {
+                               dispatch(savePhotoThC(e.target.files[0]))
+                               resolve(statusUpload)
+                           }).then((statusUpload) => {
+                               if (statusUpload === true) {
+                                   onAddImage(path.join(__dirname, '/client/uploaded/' + e.target.files[0].name)) &&
+                                   SendPhotoStatusChangeToFalse()
                                }
                            })
-                           // dispatch(savePhotoThC(e.target.files[0])) &&
-                           // onAddImage(path.join(__dirname, '/client/uploaded/' + e.target.files[0].name))
-
                            // URL.createObjectURL(e.target.files[0])
                        }
                    }}
@@ -123,23 +107,6 @@ const TestTextEditorHooks = () => {
                    }}
                    placeholder={'Attach images'}
             />
-            {/*<input type={'file'}*/}
-            {/*       multiple={true}*/}
-            {/*       accept={".png, .jpg, .jpeg"}*/}
-            {/*       onChange={(e)=> {*/}
-            {/*    console.log(e.target.files)*/}
-            {/*    // let objectURL = URL.createObjectURL(urls)*/}
-            {/*    // onAddImage(objectURL)*/}
-            {/*}} />*/}
-            {/*<img id="target"*/}
-            {/*     src={urls[1]}*/}
-            {/*     alt={'files'}*/}
-            {/*     style={{width:'300px'}}*/}
-            {/*/>*/}
-
-
-            {/*<button onClick={()=>{dispatch(getSrcImageFromServer())}}>set img</button>*/}
-
 
             <div className={classes.EditorBlockStyle}
                  onClick={() => focusEditor()}>
@@ -148,6 +115,11 @@ const TestTextEditorHooks = () => {
                         handleKeyCommand={handleKeyCommand}
                         ref={editor}
                         blockRendererFn={mediaBlockRenderer}
+                        
+                        autoCapitalize={'none'}
+                        autoComplete={'off'}
+                        autoCorrect={'off'}
+                        spellCheck={false}
                 />
             </div>
         </div>

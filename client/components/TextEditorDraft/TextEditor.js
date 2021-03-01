@@ -2,7 +2,6 @@ import React from 'react';
 import {AtomicBlockUtils, Editor, EditorState, RichUtils, convertToRaw, getDefaultKeyBinding} from 'draft-js';
 import './TextEditor.css'
 import classes from './TextEditor.module.css'
-import {savePhotoThC} from "../../redux/reducers/toursReducer";
 
 class TextEditor extends React.Component {
     constructor(props) {
