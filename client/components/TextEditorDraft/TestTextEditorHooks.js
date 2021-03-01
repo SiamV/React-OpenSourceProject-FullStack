@@ -8,6 +8,7 @@ import {savePhotoThC, SendPhotoStatusChangeToFalse} from "../../redux/reducers/t
 
 const __dirname = path.resolve(); //for ES6
 
+
 const TestTextEditorHooks = () => {
     const dispatch = useDispatch();
     const statusUpload = useSelector(state => state.editor.statusUpload);
