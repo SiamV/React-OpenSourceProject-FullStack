@@ -6,19 +6,20 @@ import cookieParser from 'cookie-parser';
 import bcrypt from 'bcrypt-nodejs';
 import passport from 'passport';
 import jwt from 'jsonwebtoken';
-import formidable from 'formidable';
-import fs from 'fs';
 import path from 'path'
 
 import config from "./config.js";
 import jwtStrategy from './manager/passport.js';
-import auth from './manager/rolesMiddleware.js';
+import routerTour from "./endPoints/routerTour.js";
+import routerUsers from "./endPoints/routerUsers.js";
+import routerPhotos from "./endPoints/routerPhotos.js";
 
 const app = express();
 const __dirname = path.resolve(); //for ES6
 
 const middleware = [
     cors(),
+    express.json(),
     passport.initialize(),
     bodyParser.urlencoded({
         limit: '50mb',
@@ -30,12 +31,9 @@ const middleware = [
         extended: true
     }),
     cookieParser(),
-    // express.static(`${__dirname}/client/uploaded`)
+    express.static(path.join(__dirname))
 ]
 middleware.forEach((it) => app.use(it))
-// app.use('/img', express.static(__dirname + '/client/uploaded')); //why doesn't work?
-app.use(express.static(path.join(__dirname)));
-// console.log("path.join() : ", path.join(__dirname));
 
 passport.use('jwt', jwtStrategy) //JsonWebToken logic
 
@@ -133,167 +131,7 @@ export default User;
 export const Tour = mongoose.model('tours', userSchemaTours);
 
 //create REST API
-
-app.get('/', function (req, res) {
-    res.sendFile(path.join(__dirname, 'index.html'));
-});
-
-//work with tours
-app.get("/api/v1/tours", async (req, res) => {
-    const tours = await Tour.find({})
-    res.send(tours)
-})
-
-app.post("/api/v1/add/tours", async (req, res) => {
-    const tour = await new Tour({
-        tourTitle: req.body.tourTitle,
-        tour: req.body.tour
-    })
-    tour.save()
-    res.send(tour)
-})
-
-app.delete("/api/v1/delete/tours/:id", async (req, res) => { //not use, need check
-    try {
-        await Tour.deleteOne({_id: req.params.id})
-        res.status(204).send()
-    } catch {
-        res.status(404)
-        res.send({error: "Tour doesn't exist!"})
-    }
-})
-
-//API work with photos (formidable)
-app.get('/api/v1/get/photo/:name', async (req, res) => {
-    res.sendFile(__dirname + '/client/uploaded/' + req.params.name);
-});
-
-app.get('/api/v1/get/src/image', async (req, res) => { //to get all files from folder
-    let dir = (__dirname + '/client/uploaded/')
-    let filesURL = await fs.readdirSync(dir).map((file) => dir + file);
-    res.send(filesURL)
-});
-
-app.post('/api/v1/add/photo', async (req, res, next) => { //send file to folder in server
-    const form = await formidable({multiples: true});
-
-    form.parse(req, (err, fields, files) => {
-        const oldPath = files.image.path;
-        const newPath = path.join(__dirname, '/client/uploaded/') + files.image.name
-        const rawData = fs.readFileSync(oldPath)
-
-        fs.writeFile(newPath, rawData, function (err) {
-            if (err) res.send(err)
-            return res.send("Photo is uploaded")
-        })
-        // console.log('fields:', fields);
-        // console.log('files:', files);
-    });
-});
-
-app.post('/api/test/upload', async (req, res, next) => {
-    try {
-        let fileText = fs.readFileSync(path.join(__dirname, '/client/uploaded/text.txt'), "utf8")
-        res.send(fileText)
-    } catch (err) {
-        res.send(err)
-    }
-});
-
-// app.post('/api/v1/add/photo', async (req, res, next) => { //send file to folder in server
-//     const form = await formidable({multiples: true});
-//
-//     form.parse(req, (err, fields, files) => {
-//         const oldPath = files.image.path;
-//         const newPath = path.join(__dirname, '/client/uploaded/') + files.image.name
-//         const rawData = fs.readFileSync(oldPath)
-//
-//         fs.writeFile(newPath, rawData, function (err) {
-//             if (err) console.log(err)
-//             return res.send("Photo is uploaded")
-//         })
-//         // console.log('fields:', fields);
-//         // console.log('files:', files);
-//     });
-// });
-
-//for registration new user
-app.post("/api/v1/auth/add/user", async (req, res) => {
-    const user = new User({
-        email: req.body.email,
-        password: req.body.password
-    })
-    user.save()
-    res.send(user)
-})
-
-//for login and create token
-app.post("/api/v1/auth/user", async (req, res) => {
-    try {
-        const user = await User.findAndValidateUser(req.body)
-
-        const payload = {
-            uid: user._id
-        }
-        const token = jwt.sign(payload, config.secret, {
-            expiresIn: '48h'
-        })
-        delete user.password
-        res.cookie('token', token, {
-            maxAge: 1000 * 60 * 60 * 48
-        })
-        res.json({
-            status: 'ok',
-            token,
-            user
-        })
-    } catch (err) {
-        res.json({
-            status: 'error authentication',
-            err
-        })
-    }
-})
-
-//for authorization
-app.get("/api/v1/authorization",
-    async (req, res) => {
-        if (req.method === 'OPTIONS') {
-            return next()
-        }
-        try {
-            //decoded token in cookie
-            const decoded = jwt.verify(req.cookies.token, config.secret)
-            const user = await User.findById(decoded.uid)
-
-            //if have a cookie then
-            const payload = {
-                uid: user._id
-            }
-            const token = jwt.sign(payload, config.secret, {
-                expiresIn: '48h'
-            })
-            delete user.password
-            res.cookie('token', token, {
-                maxAge: 1000 * 60 * 60 * 48
-            })
-            res.json({
-                status: 'ok',
-                token,
-                user
-            })
-        } catch (err) {
-            res.json({
-                status: 'error authorization',
-                err
-            })
-        }
-    })
-
-//secret route. Only for admin
-app.get("/api/v1/admin", auth(['admin']),
-    async (req, res) => {
-        res.json({
-            status: 'ok'
-        })
-    })
+//endPoints
+app.use('', routerTour);
+app.use('', routerPhotos);
+app.use('', routerUsers);

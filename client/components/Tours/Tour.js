@@ -1,5 +1,6 @@
 import React from "react";
 import {NavLink} from "react-router-dom";
+import imgDefault from '../../images/imgDefault.jpg'
 
 import classes from './tours.module.css';
 
@@ -12,7 +13,10 @@ const Tour = (props) => {
             </NavLink>
             <div className={classes.previewBlockWrapper}>
                 <div className={classes.previewBlock}>
-                    <img alt={'Preview'} src={tourObject.entityMap[0].data.src} />
+                    {(Object.keys(tourObject.entityMap).length !== 0)
+                        ?<img alt={'Preview'} src={tourObject.entityMap[0].data.src}  />
+                        : <img alt={'Preview'} src={imgDefault} />
+                    }
                     <div>{`${JSON.stringify(tourObject.blocks[0].text.slice(0, 150))}   ...`}</div>
                 </div>
             </div>
