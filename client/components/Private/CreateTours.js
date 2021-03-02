@@ -1,19 +1,26 @@
 import React from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {deleteInfoAC, sendTextTourThunkCreator, writeTourTitleAC} from "../../redux/reducers/toursReducer";
+import {
+    deleteInfoAC,
+    sendTourToDBThunkCreator,
+    writeTourCategoryAC, writeTourContentAC,
+    writeTourTitleAC
+} from "../../redux/reducers/toursReducer";
 import {savePhotoThC} from "../../redux/reducers/textEditorReducer";
-import classes from './privateAdmin.module.css'
+import classes from './createTours.module.css'
 import TextEditor from "../TextEditorDraft/TextEditor";
 
-const PrivateAdmin = (props) => {
+
+const CreateTours = () => {
     const dispatch = useDispatch();
     const tourTitle = useSelector(state => state.tours.tourTitle);
+    const tourCategory = useSelector(state => state.tours.category);
+    const tourContent = useSelector(state => state.tours.tourContent);
     const sendStatusOk = useSelector(state => state.tours.sendStatusOk);
 
-    //get convert data from draft.js editorState (Text Field)
-    let TextField;
+    //get convert data from draft.js editorState (tour's content)
     const onData = (TextEditorData) => {
-        TextField = TextEditorData;
+        dispatch(writeTourContentAC(TextEditorData))
     }
 
     return (
@@ -35,10 +42,17 @@ const PrivateAdmin = (props) => {
                    }}
             />
             <TextEditor onData={onData} />
+            <select value={tourCategory} onChange={(e) => {
+                dispatch(writeTourCategoryAC(e.target.value))
+            }}>
+                <option value="news">Новости</option>
+                <option value="tour">Тур</option>
+                <option value="main">На главную</option>
+            </select>
             <button className={classes.MenuButton}
                     type="button"
                     onClick={() => {
-                        dispatch(sendTextTourThunkCreator(tourTitle, TextField))
+                        dispatch(sendTourToDBThunkCreator(tourTitle, tourContent, tourCategory))
                     }}>create tour
             </button>
             {(sendStatusOk) &&
@@ -55,4 +69,4 @@ const PrivateAdmin = (props) => {
     )
 }
 
-export default PrivateAdmin;
+export default CreateTours;

@@ -33,13 +33,4 @@ routerPhotos.post('/api/v1/add/photo', async (req, res, next) => { //send file t
     });
 });
 
-routerPhotos.post('/api/test/upload', async (req, res, next) => {
-    try {
-        let fileText = fs.readFileSync(path.join(__dirname, '/client/uploaded/text.txt'), "utf8")
-        res.send(fileText)
-    } catch (err) {
-        res.send(err)
-    }
-});
-
 export default routerPhotos;

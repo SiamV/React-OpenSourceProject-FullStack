@@ -31,7 +31,8 @@ routerTour.post("/api/v1/add/tours", async (req, res) => {
     try {
         const tour = await new Tour({
             tourTitle: req.body.tourTitle,
-            tour: req.body.tour
+            tour: req.body.tour,
+            category: req.body.category
         })
         tour.save()
         res.send(tour)

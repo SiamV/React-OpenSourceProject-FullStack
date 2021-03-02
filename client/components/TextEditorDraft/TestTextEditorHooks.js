@@ -22,7 +22,7 @@ const TestTextEditorHooks = () => {
 
     const contentState = editorState.getCurrentContent();
     const contentToSave = JSON.stringify(convertToRaw(contentState));
-    //callback onData to give data to parent (PrivateAdmin) for save in DB
+    //callback onData to give data to parent (CreateTours) for save in DB
     // this.props.onData(contentToSave);
     // console.log(contentState)
     // console.log(contentToSave)

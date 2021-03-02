@@ -14,7 +14,7 @@ import Header from './Header/Header';
 import Account from './Account/Account';
 import Footer from './Footer/Footer';
 import {AuthorizationThunkCreator, SecretRoute} from '../redux/reducers/loginReducer';
-import PrivateAdmin from "./Private/PrivateAdmin";
+import CreateTours from "./Private/CreateTours";
 import PageTour from "./Tours/PageTour";
 import TestTextEditorHooks from "./TextEditorDraft/TestTextEditorHooks";
 import TextEditor from "./TextEditorDraft/TextEditor";
@@ -59,7 +59,7 @@ const AppContainer = () => {
                 <Route exact path={'/tour'} render={() => <PageTour />} />
                 <Route path={'/tour/:idTour'} render={() => <PageTour />} />
                 <Route exact path={'/'} render={() => <MainPage />} />
-                {isAuth && <Route exact path={'/admin'} render={() => <PrivateAdmin />} />}
+                {isAuth && <Route exact path={'/admin'} render={() => <CreateTours />} />}
             </div>
             <div className={'site-wrapper-footer'}>
                 <Footer />

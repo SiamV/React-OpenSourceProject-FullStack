@@ -4,11 +4,15 @@ let defaultState = {
     tours: [],
     isLoading: false,
     tourTitle: '',
+    tourContent: '',
+    category: 'news',
     sendStatusOk: false
 }
 
 const SET_TOURS = 'toursReducer/SET_TOURS'
 const WRITE_TOUR_TITLE = 'toursReducer/WRITE_TOUR_TITLE'
+const WRITE_TOUR_CONTENT = 'toursReducer/WRITE_TOUR_CONTENT'
+const WRITE_TOUR_CATEGORY = 'toursReducer/WRITE_TOUR_CATEGORY'
 const IS_LOADING = 'toursReducer/IS_LOADING'
 const SEND_STATUS_TOUR_OK = 'toursReducer/SEND_STATUS_TOUR_OK'
 const DELETE_INFO_WINDOW = 'toursReducer/DELETE_INFO_WINDOW'
@@ -34,11 +38,23 @@ const toursReducer = (state = defaultState, action) => {
                 tourTitle: action.textTitle
             }
         }
+        case WRITE_TOUR_CONTENT: {
+            return {
+                ...state,
+                tourContent: action.textContent
+            }
+        }
+        case WRITE_TOUR_CATEGORY: {
+            return {
+                ...state,
+                category: action.textCategory
+            }
+        }
         case SEND_STATUS_TOUR_OK: {
             return {
                 ...state,
                 tourTitle: '',
-                tourText: '',
+                tourContent: '',
                 sendStatusOk: action.statusOk
             }
         }
@@ -72,6 +88,16 @@ export const writeTourTitleAC = (textTitle) => ({
     textTitle
 })
 
+export const writeTourContentAC = (textContent) => ({
+    type: WRITE_TOUR_CONTENT,
+    textContent
+})
+
+export const writeTourCategoryAC = (textCategory) => ({
+    type: WRITE_TOUR_CATEGORY,
+    textCategory
+})
+
 export const SendTourStatusOkAC = (statusOk) => ({
     type: SEND_STATUS_TOUR_OK, statusOk
 })
@@ -80,9 +106,13 @@ export const deleteInfoAC = () => ({
     type: DELETE_INFO_WINDOW
 })
 
-export const sendTextTourThunkCreator = (tourTitle, tourText) => async (dispatch) => {
+export const sendTourToDBThunkCreator = (tourTitle, tourContent, category) => async (dispatch) => {
     try {
-        let response = await axios.post(`/api/v1/add/tours`, {tourTitle: tourTitle, tour: tourText})
+        let response = await axios.post(`/api/v1/add/tours`, {
+            tourTitle: tourTitle,
+            tour: tourContent,
+            category: category
+        })
         if (response.status === 200) {
             dispatch(SendTourStatusOkAC(true))
         }
