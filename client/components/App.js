@@ -7,7 +7,7 @@ import store from "../redux/store";
 import './App.css'
 import MainMenu from './MainMenu/MainMenu';
 import Login from './Login/Login';
-import MainPage from './MainPage/MainPage';
+import Posts from './Posts/Posts';
 import Articles from './Articles/Articles';
 import Tours from './Tours/Tours';
 import Header from './Header/Header';
@@ -54,11 +54,10 @@ const AppContainer = () => {
             </div>
             <div className={'site-wrapper-feed'}>
                 {!isAuth && <Route path={'/login'} render={() => <Login />} />}
-                <Route path={'/articles'} render={() => <TestTextEditorHooks />} />
-                <Route path={'/tours'} render={() => <Tours />} />
-                <Route exact path={'/tour'} render={() => <PageTour />} />
+                <Route path={'/news-egypt'} render={() => <Posts categoryPost={'news'}/>} />
+                <Route path={'/tours'} render={() => <Tours tourCategory={'tour'}/>} />
                 <Route path={'/tour/:idTour'} render={() => <PageTour />} />
-                <Route exact path={'/'} render={() => <MainPage />} />
+                <Route exact path={'/'} render={() => <Posts categoryPost={'main'}/>} />
                 {isAuth && <Route exact path={'/admin'} render={() => <CreateTours />} />}
             </div>
             <div className={'site-wrapper-footer'}>

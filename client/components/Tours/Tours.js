@@ -5,7 +5,7 @@ import Tour from "./Tour";
 import Preloader from "../common/Preloader/Preloader";
 import classes from './tours.module.css'
 
-const Tours = () => {
+const Tours = (props) => {
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(setToursThunkCreator())
@@ -19,10 +19,10 @@ const Tours = () => {
 
     return (
         <div className={classes.toursPageWrapper}>
-                {tours.map(t => <Tour key={t._id}
-                                      tourTitle={t.tourTitle}
+                {tours.filter(t => t.category === props.tourCategory).map(t => <Tour key={t._id}
                                       id={t._id}
-                                      tourText={t.tour}
+                                      tourTitle={t.tourTitle}
+                                      tourContent={t.tour}
                 />)}
         </div>
     )

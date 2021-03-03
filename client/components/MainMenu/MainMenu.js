@@ -6,7 +6,7 @@ import classes from './MainMenu.module.css';
 const MainMenu = () => {
     return (
             <nav className={classes.wrapperNav}>
-                <NavLink to={'/articles'} className={classes.MenuButton}>Articles</NavLink>
+                <NavLink to={'/news-egypt'} className={classes.MenuButton}>News</NavLink>
                 <NavLink to={'/tours'} className={classes.MenuButton}>Tours</NavLink>
             </nav>
     )

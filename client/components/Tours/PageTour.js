@@ -18,13 +18,6 @@ const PageTour = () => {
         dispatch(setToursThunkCreator())
     }, [])
 
-    // useEffect(() => {
-    //     const timer = setTimeout(() => {
-    //         console.log(convertFromRaw(JSON.parse(tours[5].tour)))
-    //     }, 3000);
-    //     return () => clearTimeout(timer);
-    // }, []);
-
     return (
         <div>{tours.filter(t => t._id === idTour).map((t, index) => (
             <div key={t._id}>

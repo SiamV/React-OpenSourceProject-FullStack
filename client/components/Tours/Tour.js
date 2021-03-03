@@ -5,7 +5,7 @@ import imgDefault from '../../images/imgDefault.jpg'
 import classes from './tours.module.css';
 
 const Tour = (props) => {
-    let tourObject = JSON.parse(props.tourText)
+    let tourObject = JSON.parse(props.tourContent)
     return (
         <div className={classes.tourWrapper}>
             <NavLink className={classes.navLinkH2} to={`/tour/${props.id}`}>
