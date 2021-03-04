@@ -5,6 +5,8 @@ import path from "path";
 
 const routerPhotos = new Router();
 
+const __dirname = path.resolve(); //for ES6
+
 //API work with photos (formidable)
 routerPhotos.get('/api/v1/get/photo/:name', async (req, res) => {
     res.sendFile(__dirname + '/client/uploaded/' + req.params.name);

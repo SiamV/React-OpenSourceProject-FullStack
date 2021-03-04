@@ -9,6 +9,7 @@ import {
 import {savePhotoThC} from "../../redux/reducers/textEditorReducer";
 import classes from './createTours.module.css'
 import TextEditor from "../TextEditorDraft/TextEditor";
+import TestTextEditorHooks from "../TextEditorDraft/TestTextEditorHooks";
 
 
 const CreateTours = () => {
@@ -41,7 +42,9 @@ const CreateTours = () => {
                        dispatch(writeTourTitleAC(e.target.value))
                    }}
             />
-            <TextEditor onData={onData} />
+            {/*Editor cover div for development. Need delete for production*/}
+            <div className={classes.devTestWrapper} ><TestTextEditorHooks onData={onData} /></div>
+
             <select value={tourCategory} onChange={(e) => {
                 dispatch(writeTourCategoryAC(e.target.value))
             }}>

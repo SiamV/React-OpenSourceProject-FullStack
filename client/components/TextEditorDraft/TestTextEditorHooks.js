@@ -9,7 +9,7 @@ import {savePhotoThC, SendPhotoStatusChangeToFalse} from "../../redux/reducers/t
 const __dirname = path.resolve(); //for ES6
 
 
-const TestTextEditorHooks = () => {
+const TestTextEditorHooks = (props) => {
     const dispatch = useDispatch();
     const statusUpload = useSelector(state => state.editor.statusUpload);
     const [editorState, setEditorState] = React.useState(() =>
@@ -20,10 +20,12 @@ const TestTextEditorHooks = () => {
         editor.current.focus()
     }
 
-    const contentState = editorState.getCurrentContent();
-    const contentToSave = JSON.stringify(convertToRaw(contentState));
-    //callback onData to give data to parent (CreateTours) for save in DB
-    // this.props.onData(contentToSave);
+    const contentStateToExport = editorState.getCurrentContent();
+    const contentToSave = JSON.stringify(convertToRaw(contentStateToExport));
+    //callback onData to give data to parent (CreateTours) for save in DB. useEffect for to fix warning
+    useEffect(() => {
+        props.onData(contentToSave);
+    });
     // console.log(contentState)
     // console.log(contentToSave)
 
@@ -82,9 +84,46 @@ const TestTextEditorHooks = () => {
         return media;
     };
 
+
+     const toggleBlockType = (blockType) => {
+         setEditorState(
+            RichUtils.toggleBlockType(
+                editorState,
+                blockType
+            )
+        );
+    }
+
+    const toggleInlineStyle = (inlineStyle) => {
+        setEditorState(
+            RichUtils.toggleInlineStyle(
+                editorState,
+                inlineStyle
+            )
+        );
+    }
+
+    let className = 'RichEditor-editor';
+    let contentState = editorState.getCurrentContent();
+    if (!contentState.hasText()) {
+        if (contentState.getBlockMap().first().getType() !== 'unstyled') {
+            className += ' RichEditor-hidePlaceholder';
+        }
+    }
+
     return (
-        <div>
-            <div>Hello Editor!</div>
+        <div className={classes.devTestWrapper} >
+
+            <BlockStyleControls
+                editorState={editorState}
+                onToggle={toggleBlockType}
+            />
+            <InlineStyleControls
+                editorState={editorState}
+                onToggle={toggleInlineStyle}
+            />
+
+
             <input type={'file'}
                    onChange={(e) => {
                        if (e.target.files.length) {
@@ -92,10 +131,10 @@ const TestTextEditorHooks = () => {
                                dispatch(savePhotoThC(e.target.files[0]))
                                resolve(statusUpload)
                            }).then((statusUpload) => {
-                               if (statusUpload === true) {
+                               // if (statusUpload) {
                                    onAddImage(path.join(__dirname, '/client/uploaded/' + e.target.files[0].name)) &&
                                    SendPhotoStatusChangeToFalse()
-                               }
+                               // }
                            })
                            // URL.createObjectURL(e.target.files[0])
                        }
@@ -116,7 +155,13 @@ const TestTextEditorHooks = () => {
                         handleKeyCommand={handleKeyCommand}
                         ref={editor}
                         blockRendererFn={mediaBlockRenderer}
-                        
+
+                        //add from old Text Editor
+                        blockStyleFn={getBlockStyle}
+                        customStyleMap={styleMap}
+                        placeholder="Write text..."
+
+                        // for fix bug some keyboard android
                         autoCapitalize={'none'}
                         autoComplete={'off'}
                         autoCorrect={'off'}
@@ -128,3 +173,106 @@ const TestTextEditorHooks = () => {
 }
 
 export default TestTextEditorHooks;
+
+
+
+// Custom overrides for "code" style.
+const styleMap = {
+    CODE: {
+        backgroundColor: 'rgba(0, 0, 0, 0.05)',
+        fontFamily: '"Inconsolata", "Menlo", "Consolas", monospace',
+        fontSize: 16,
+        padding: 2,
+    },
+};
+
+function getBlockStyle(block) {
+    switch (block.getType()) {
+        case 'blockquote': return 'RichEditor-blockquote';
+        default: return null;
+    }
+}
+
+class StyleButton extends React.Component {
+    constructor() {
+        super();
+        this.onToggle = (e) => {
+            e.preventDefault();
+            this.props.onToggle(this.props.style);
+        };
+    }
+
+    render() {
+        let className = 'RichEditor-styleButton';
+        if (this.props.active) {
+            className += ' RichEditor-activeButton';
+        }
+
+        return (
+            <span className={className} onMouseDown={this.onToggle}>
+              {this.props.label}
+            </span>
+        );
+    }
+}
+
+const BLOCK_TYPES = [
+    {label: 'H1', style: 'header-one'},
+    {label: 'H2', style: 'header-two'},
+    {label: 'H3', style: 'header-three'},
+    {label: 'H4', style: 'header-four'},
+    {label: 'H5', style: 'header-five'},
+    {label: 'H6', style: 'header-six'},
+    {label: 'Blockquote', style: 'blockquote'},
+    {label: 'UL', style: 'unordered-list-item'},
+    {label: 'OL', style: 'ordered-list-item'},
+    {label: 'Code Block', style: 'code-block'},
+];
+
+const BlockStyleControls = (props) => {
+    const {editorState} = props;
+    const selection = editorState.getSelection();
+    const blockType = editorState
+        .getCurrentContent()
+        .getBlockForKey(selection.getStartKey())
+        .getType();
+
+    return (
+        <div className="RichEditor-controls">
+            {BLOCK_TYPES.map((type) =>
+                <StyleButton
+                    key={type.label}
+                    active={type.style === blockType}
+                    label={type.label}
+                    onToggle={props.onToggle}
+                    style={type.style}
+                />
+            )}
+        </div>
+    );
+};
+
+let INLINE_STYLES = [
+    {label: 'Bold', style: 'BOLD'},
+    {label: 'Italic', style: 'ITALIC'},
+    {label: 'Underline', style: 'UNDERLINE'},
+    {label: 'Monospace', style: 'CODE'},
+];
+
+const InlineStyleControls = (props) => {
+    const currentStyle = props.editorState.getCurrentInlineStyle();
+
+    return (
+        <div className="RichEditor-controls">
+            {INLINE_STYLES.map((type) =>
+                <StyleButton
+                    key={type.label}
+                    active={currentStyle.has(type.style)}
+                    label={type.label}
+                    onToggle={props.onToggle}
+                    style={type.style}
+                />
+            )}
+        </div>
+    );
+};

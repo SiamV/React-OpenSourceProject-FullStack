@@ -65,3 +65,12 @@
 .RichEditor-activeButton {
     color: #5890ff;
 }
+
+
+/*from documetation*/
+.superFancyBlockquote {
+    color: #999;
+    font-family: 'Hoefler Text', Georgia, serif;
+    font-style: italic;
+    text-align: center;
+}

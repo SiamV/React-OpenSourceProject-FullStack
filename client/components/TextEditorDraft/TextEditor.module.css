@@ -29,3 +29,11 @@
 /*        margin: 5px;*/
 /*    }*/
 /*}*/
+
+
+/*for development*/
+.devTestWrapper {
+    border: 1px blue solid;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}

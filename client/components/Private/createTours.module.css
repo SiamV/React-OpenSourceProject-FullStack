@@ -3,6 +3,12 @@
     flex-direction: column;
 }
 
+.devTestWrapper {
+    border: 1px blue solid;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
 .adminWrapper .MenuButton {
     width: fit-content;
     cursor: pointer;
