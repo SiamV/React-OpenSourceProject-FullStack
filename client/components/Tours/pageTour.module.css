@@ -14,20 +14,25 @@ figure {
     margin-inline-end: 5px;
 }
 
+.PostWrapper {
+    border: 1px grey solid;
+    margin-bottom: 5px;
+}
+
 .EditorBlockStyle1 {
     padding: 5px;
 }
 
 .EditorBlockStyle1 img {
     width: 600px;
-    float: left;
+    float: none;
     margin: 5px 5px 5px 0;
 }
 
 @media screen and (max-width: 992px){
     .EditorBlockStyle1 img {
         width: 500px;
-        float: left;
+        float: none;
         margin: 5px 5px 5px 0;
     }
 }
