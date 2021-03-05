@@ -26,8 +26,6 @@ const TestTextEditorHooks = (props) => {
     useEffect(() => {
         props.onData(contentToSave);
     });
-    // console.log(contentState)
-    // console.log(contentToSave)
 
     const handleKeyCommand = (command, editorState) => {
         const newState = RichUtils.handleKeyCommand(editorState, command);
@@ -112,7 +110,7 @@ const TestTextEditorHooks = (props) => {
     }
 
     return (
-        <div className={classes.devTestWrapper} >
+        <div>
 
             <BlockStyleControls
                 editorState={editorState}

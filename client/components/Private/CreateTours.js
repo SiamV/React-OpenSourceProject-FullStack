@@ -42,9 +42,7 @@ const CreateTours = () => {
                        dispatch(writeTourTitleAC(e.target.value))
                    }}
             />
-            {/*Editor cover div for development. Need delete for production*/}
-            <div className={classes.devTestWrapper} ><TestTextEditorHooks onData={onData} /></div>
-
+            <TestTextEditorHooks onData={onData} />
             <select value={tourCategory} onChange={(e) => {
                 dispatch(writeTourCategoryAC(e.target.value))
             }}>
