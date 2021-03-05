@@ -27,25 +27,33 @@ const CreateTours = () => {
     return (
         <div className={classes.adminWrapper}>
             {/*add images to server*/}
-            <input placeholder={'Add images'}
-                   type={'file'}
-                   onChange={(e) => {
-                       if (e.target.files.length) {
-                           dispatch(savePhotoThC(e.target.files[0]))
-                       }
-                   }}
-            />
+            <label htmlFor={'add_img_gallery'}>
+                Upload img to gallery:
+                <input type={'file'}
+                       id={'add_img_gallery'}
+                       onChange={(e) => {
+                           if (e.target.files.length) {
+                               dispatch(savePhotoThC(e.target.files[0]))
+                           }
+                       }}
+                />
+            </label>
             {/*Write to tour*/}
-            <input placeholder={'tour title'}
+            <input className={classes.title}
+                   placeholder={'tour title'}
                    value={tourTitle}
                    onChange={(e) => {
                        dispatch(writeTourTitleAC(e.target.value))
                    }}
             />
-            <TestTextEditorHooks onData={onData} />
-            <select value={tourCategory} onChange={(e) => {
-                dispatch(writeTourCategoryAC(e.target.value))
-            }}>
+            <div className={classes.editor}>
+                <TestTextEditorHooks onData={onData} />
+            </div>
+            <select className={classes.select}
+                    value={tourCategory}
+                    onChange={(e) => {
+                        dispatch(writeTourCategoryAC(e.target.value))
+                    }}>
                 <option value="news">Новости</option>
                 <option value="tour">Тур</option>
                 <option value="main">На главную</option>

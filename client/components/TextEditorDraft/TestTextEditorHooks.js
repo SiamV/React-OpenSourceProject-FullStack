@@ -83,8 +83,8 @@ const TestTextEditorHooks = (props) => {
     };
 
 
-     const toggleBlockType = (blockType) => {
-         setEditorState(
+    const toggleBlockType = (blockType) => {
+        setEditorState(
             RichUtils.toggleBlockType(
                 editorState,
                 blockType
@@ -110,8 +110,7 @@ const TestTextEditorHooks = (props) => {
     }
 
     return (
-        <div>
-
+        <div className={classes.wrapperEditor}>
             <BlockStyleControls
                 editorState={editorState}
                 onToggle={toggleBlockType}
@@ -120,31 +119,42 @@ const TestTextEditorHooks = (props) => {
                 editorState={editorState}
                 onToggle={toggleInlineStyle}
             />
-
-
-            <input type={'file'}
-                   onChange={(e) => {
-                       if (e.target.files.length) {
-                           new Promise((resolve, reject) => {
-                               dispatch(savePhotoThC(e.target.files[0]))
-                               resolve(statusUpload)
-                           }).then((statusUpload) => {
-                               // if (statusUpload) {
+            <label
+                className={classes.label}
+                htmlFor="Upload_img">
+                Upload and attach
+                <input className={classes.uploadImg}
+                       id={'Upload_img'}
+                       type={'file'}
+                       onChange={(e) => {
+                           if (e.target.files.length) {
+                               new Promise((resolve, reject) => {
+                                   dispatch(savePhotoThC(e.target.files[0]))
+                                   resolve(statusUpload)
+                               }).then((statusUpload) => {
+                                   // if (statusUpload) {
                                    onAddImage(path.join(__dirname, '/client/uploaded/' + e.target.files[0].name)) &&
                                    SendPhotoStatusChangeToFalse()
-                               // }
-                           })
-                           // URL.createObjectURL(e.target.files[0])
-                       }
-                   }}
-                   style={{
-                       fontSize: "16px",
-                       textAlign: "center",
-                       padding: "2px",
-                       margin: "2px"
-                   }}
-                   placeholder={'Attach images'}
-            />
+                                   // }
+                               })
+                               // URL.createObjectURL(e.target.files[0])
+                           }
+                       }}
+                />
+            </label>
+
+            <label
+                className={classes.label}
+                htmlFor="attach_img">
+                Choose from gallery
+                <input className={classes.uploadImg}
+                       id={'attach_img'}
+                       type={'file'}
+                       onChange={(e) => {
+
+                       }}
+                />
+            </label>
 
             <div className={classes.EditorBlockStyle}
                  onClick={() => focusEditor()}>
@@ -154,12 +164,12 @@ const TestTextEditorHooks = (props) => {
                         ref={editor}
                         blockRendererFn={mediaBlockRenderer}
 
-                        //add from old Text Editor
+                    //add from old Text Editor
                         blockStyleFn={getBlockStyle}
                         customStyleMap={styleMap}
                         placeholder="Write text..."
 
-                        // for fix bug some keyboard android
+                    // for fix bug some keyboard android
                         autoCapitalize={'none'}
                         autoComplete={'off'}
                         autoCorrect={'off'}
@@ -171,7 +181,6 @@ const TestTextEditorHooks = (props) => {
 }
 
 export default TestTextEditorHooks;
-
 
 
 // Custom overrides for "code" style.
@@ -186,8 +195,10 @@ const styleMap = {
 
 function getBlockStyle(block) {
     switch (block.getType()) {
-        case 'blockquote': return 'RichEditor-blockquote';
-        default: return null;
+        case 'blockquote':
+            return 'RichEditor-blockquote';
+        default:
+            return null;
     }
 }
 
