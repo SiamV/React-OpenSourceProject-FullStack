@@ -9,7 +9,7 @@ import {savePhotoThC, SendPhotoStatusChangeToFalse} from "../../redux/reducers/t
 const __dirname = path.resolve(); //for ES6
 
 
-const TestTextEditorHooks = (props) => {
+const TextEditorHooks = (props) => {
     const dispatch = useDispatch();
     const statusUpload = useSelector(state => state.editor.statusUpload);
     const [editorState, setEditorState] = React.useState(() =>
@@ -180,7 +180,7 @@ const TestTextEditorHooks = (props) => {
     )
 }
 
-export default TestTextEditorHooks;
+export default TextEditorHooks;
 
 
 // Custom overrides for "code" style.

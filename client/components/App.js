@@ -16,8 +16,8 @@ import Footer from './Footer/Footer';
 import {AuthorizationThunkCreator, SecretRoute} from '../redux/reducers/loginReducer';
 import CreateTours from "./Private/CreateTours";
 import PageTour from "./Tours/PageTour";
-import TestTextEditorHooks from "./TextEditorDraft/TestTextEditorHooks";
-import TextEditor from "./TextEditorDraft/TextEditor";
+import DownloadFileFromServer from "./TestComponentsForFuture/DownloadFileFromServer";
+import ForGEtAndAttachFiles from "./TestComponentsForFuture/ForGetAndAttachFiles";
 
 //main structure project. Grid css
 const AppContainer = () => {
@@ -55,7 +55,7 @@ const AppContainer = () => {
             <div className={'site-wrapper-feed'}>
                 {!isAuth && <Route path={'/login'} render={() => <Login />} />}
                 <Route path={'/news-egypt'} render={() => <Posts categoryPost={'news'}/>} />
-                {/*<Route path={'/news-egypt'} render={() => <TestTextEditorHooks />} />*/}
+                {/*<Route path={'/news-egypt'} render={() => <ForGEtAndAttachFiles />} />*/}
                 <Route path={'/tours'} render={() => <Tours tourCategory={'tour'}/>} />
                 <Route path={'/tour/:idTour'} render={() => <PageTour />} />
                 <Route exact path={'/'} render={() => <Posts categoryPost={'main'}/>} />

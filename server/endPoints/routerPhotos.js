@@ -12,8 +12,23 @@ routerPhotos.get('/api/v1/get/photo/:name', async (req, res) => {
     res.sendFile(__dirname + '/client/uploaded/' + req.params.name);
 });
 
+//testRoute
+routerPhotos.get('/api/v1/get/photos', async (req, res) => {
+    // let dir = path.resolve('client/uploaded/MAY_4332.JPG.jpg')
+    let dir = path.join(__dirname, '/client/uploaded/')
+    let files = await fs.readFile(dir,  (err, stats) => {
+        if (err) {
+            console.error(err)
+            return
+        }
+        console.log('stats', stats)
+    })
+    res.send(files)
+    console.log('files', files)
+})
+
 routerPhotos.get('/api/v1/get/src/image', async (req, res) => { //to get all files from folder
-    let dir = (__dirname + '/client/uploaded/')
+    let dir = path.join(__dirname, '/client/uploaded/')
     let filesURL = await fs.readdirSync(dir).map((file) => dir + file);
     res.send(filesURL)
 });
