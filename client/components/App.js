@@ -54,8 +54,8 @@ const AppContainer = () => {
             </div>
             <div className={'site-wrapper-feed'}>
                 {!isAuth && <Route path={'/login'} render={() => <Login />} />}
-                <Route path={'/news-egypt'} render={() => <Posts categoryPost={'news'}/>} />
-                {/*<Route path={'/news-egypt'} render={() => <ForGEtAndAttachFiles />} />*/}
+                {/*<Route path={'/news-egypt'} render={() => <Posts categoryPost={'news'}/>} />*/}
+                <Route path={'/news-egypt'} render={() => <ForGEtAndAttachFiles />} />
                 <Route path={'/tours'} render={() => <Tours tourCategory={'tour'}/>} />
                 <Route path={'/tour/:idTour'} render={() => <PageTour />} />
                 <Route exact path={'/'} render={() => <Posts categoryPost={'main'}/>} />
