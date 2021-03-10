@@ -3,7 +3,7 @@ import {SendTourStatusOkAC} from "./toursReducer";
 
 let defaultState = {
     statusUpload: false,
-    imagesUrls: []
+    imagesUrls: ['https://www.fodors.com/wp-content/uploads/2019/06/05_EgyptTours__Intrepid_Intrepid-Travel-Egypt-Cairo-pyramids-037-1400x933.jpg']
 }
 
 const SEND_STATUS_PHOTO_OK = 'textEditorReducer/SEND_STATUS_PHOTO_OK'

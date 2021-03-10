@@ -15,8 +15,12 @@ routerPhotos.get('/api/v1/get/photo/:name', async (req, res) => {
 //testRoute
 routerPhotos.get('/api/v1/get/photos', async (req, res) => {
     // let dir = path.resolve('client/uploaded/MAY_4332.JPG.jpg')
-    let dir = path.join(__dirname, '/client/uploaded/MAY_4332.JPG.jpg')
-    let files = await fs.readFileSync(dir)
+    let dir = path.join(__dirname, '/client/uploaded/')
+    let files = await fs.stat(dir,  (err, stats) => {
+        if (err) throw err;
+        if (stats.isDirectory()) console.log("Its a directory!");
+    })
+    // let files = await fs.readFileSync(dir)
     // (err, stats) => {
     //     if (err) {
     //         console.error('error:',err)
