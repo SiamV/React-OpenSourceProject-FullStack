@@ -3,6 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import Editor from "@draft-js-plugins/editor";
 import {convertFromRaw, EditorState} from "draft-js";
 import createImagePlugin from "@draft-js-plugins/image";
+import {Helmet} from 'react-helmet';
 
 import {setToursThunkCreator} from "../../redux/reducers/toursReducer";
 import Preloader from "../common/Preloader/Preloader";
@@ -27,6 +28,11 @@ const Posts = (props) => {
         <div>
             {[...tours].filter(t => t.category === props.categoryPost).reverse().map((t, index) => (
                 <div key={t._id} className={classes.PostWrapper}>
+                    <Helmet>
+                        <title>{t.tourTitle}</title>
+                        <meta name="keywords" content={t.seoTitle} />
+                        <meta name="description"content={t.seoDescription}/>
+                    </Helmet>
                     <h2 className={classes.h2}>{t.tourTitle}</h2>
                     <div className={classes.EditorBlockStyle1}>
                         <Editor readOnly={true}

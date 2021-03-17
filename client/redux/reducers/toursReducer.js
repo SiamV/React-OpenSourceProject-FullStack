@@ -6,6 +6,8 @@ let defaultState = {
     tourTitle: '',
     tourContent: '',
     category: 'news',
+    seoTitle: '',
+    seoDescription: '',
     sendStatusOk: false
 }
 
@@ -13,6 +15,8 @@ const SET_TOURS = 'toursReducer/SET_TOURS'
 const WRITE_TOUR_TITLE = 'toursReducer/WRITE_TOUR_TITLE'
 const WRITE_TOUR_CONTENT = 'toursReducer/WRITE_TOUR_CONTENT'
 const WRITE_TOUR_CATEGORY = 'toursReducer/WRITE_TOUR_CATEGORY'
+const WRITE_SEO_TITLE = 'toursReducer/WRITE_SEO_TITLE'
+const WRITE_SEO_DESCRIPTION = 'toursReducer/WRITE_SEO_DESCRIPTION'
 const IS_LOADING = 'toursReducer/IS_LOADING'
 const SEND_STATUS_TOUR_OK = 'toursReducer/SEND_STATUS_TOUR_OK'
 const DELETE_INFO_WINDOW = 'toursReducer/DELETE_INFO_WINDOW'
@@ -48,6 +52,18 @@ const toursReducer = (state = defaultState, action) => {
             return {
                 ...state,
                 category: action.textCategory
+            }
+        }
+        case WRITE_SEO_TITLE: {
+            return {
+                ...state,
+                seoTitle: action.seoTitle
+            }
+        }
+        case WRITE_SEO_DESCRIPTION: {
+            return {
+                ...state,
+                seoDescription: action.seoDescription
             }
         }
         case SEND_STATUS_TOUR_OK: {
@@ -98,6 +114,16 @@ export const writeTourCategoryAC = (textCategory) => ({
     textCategory
 })
 
+export const writeSeoTitle = (seoTitle) => ({
+    type: WRITE_SEO_TITLE,
+    seoTitle
+})
+
+export const writeSeoDescription = (seoDescription) => ({
+    type: WRITE_SEO_DESCRIPTION,
+    seoDescription
+})
+
 export const SendTourStatusOkAC = (statusOk) => ({
     type: SEND_STATUS_TOUR_OK, statusOk
 })
@@ -106,12 +132,18 @@ export const deleteInfoAC = () => ({
     type: DELETE_INFO_WINDOW
 })
 
-export const sendTourToDBThunkCreator = (tourTitle, tourContent, category) => async (dispatch) => {
+export const sendTourToDBThunkCreator = (tourTitle,
+                                         tourContent,
+                                         category,
+                                         seoTitle,
+                                         seoDescription) => async (dispatch) => {
     try {
         let response = await axios.post(`/api/v1/add/tours`, {
             tourTitle: tourTitle,
             tour: tourContent,
-            category: category
+            category: category,
+            seoTitle: seoTitle,
+            seoDescription: seoDescription,
         })
         if (response.status === 200) {
             dispatch(SendTourStatusOkAC(true))

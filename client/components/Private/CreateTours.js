@@ -2,7 +2,7 @@ import React from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {
     deleteInfoAC,
-    sendTourToDBThunkCreator,
+    sendTourToDBThunkCreator, writeSeoDescription, writeSeoTitle,
     writeTourCategoryAC, writeTourContentAC,
     writeTourTitleAC
 } from "../../redux/reducers/toursReducer";
@@ -15,8 +15,10 @@ import TextEditorHooks from "../TextEditorDraft/TextEditorHooks";
 const CreateTours = () => {
     const dispatch = useDispatch();
     const tourTitle = useSelector(state => state.tours.tourTitle);
-    const tourCategory = useSelector(state => state.tours.category);
     const tourContent = useSelector(state => state.tours.tourContent);
+    const tourCategory = useSelector(state => state.tours.category);
+    const seoTitle = useSelector(state => state.tours.seoTitle);
+    const seoDescription = useSelector(state => state.tours.seoDescription);
     const sendStatusOk = useSelector(state => state.tours.sendStatusOk);
 
     //get convert data from draft.js editorState (tour's content)
@@ -38,7 +40,7 @@ const CreateTours = () => {
                        }}
                 />
             </label>
-            {/*Write to tour*/}
+            {/*Write tour*/}
             <input className={classes.title}
                    placeholder={'tour title'}
                    value={tourTitle}
@@ -58,10 +60,32 @@ const CreateTours = () => {
                 <option value="tour">Тур</option>
                 <option value="main">На главную</option>
             </select>
+            {/*Write SEO for tour*/}
+            <input className={classes.title}
+                   placeholder={'SEO title'}
+                   value={seoTitle}
+                   onChange={(e) => {
+                       dispatch(writeSeoTitle(e.target.value))
+                   }}
+            />
+            <input className={classes.title}
+                   placeholder={'SEO Description'}
+                   value={seoDescription}
+                   onChange={(e) => {
+                       dispatch(writeSeoDescription(e.target.value))
+                   }}
+            />
+
+            {/*Save tour in DB and clean state*/}
             <button className={classes.MenuButton}
                     type="button"
                     onClick={() => {
-                        dispatch(sendTourToDBThunkCreator(tourTitle, tourContent, tourCategory))
+                        dispatch(sendTourToDBThunkCreator(
+                            tourTitle,
+                            tourContent,
+                            tourCategory,
+                            seoTitle,
+                            seoDescription))
                     }}>create tour
             </button>
             {(sendStatusOk) &&

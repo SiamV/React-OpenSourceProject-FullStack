@@ -59,7 +59,9 @@ const userSchema = new mongoose.Schema({
 const userSchemaTours = new mongoose.Schema({
     "tourTitle": String,
     "tour": String,
-    "category": String
+    "category": String,
+    "seoTitle": String,
+    "seoDescription": String
 }, {
     versionKey: false
 })
