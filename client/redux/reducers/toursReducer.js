@@ -8,6 +8,7 @@ let defaultState = {
     category: 'news',
     seoTitle: '',
     seoDescription: '',
+    pageLink: '',
     sendStatusOk: false
 }
 
@@ -17,6 +18,7 @@ const WRITE_TOUR_CONTENT = 'toursReducer/WRITE_TOUR_CONTENT'
 const WRITE_TOUR_CATEGORY = 'toursReducer/WRITE_TOUR_CATEGORY'
 const WRITE_SEO_TITLE = 'toursReducer/WRITE_SEO_TITLE'
 const WRITE_SEO_DESCRIPTION = 'toursReducer/WRITE_SEO_DESCRIPTION'
+const WRITE_PAGE_LINK = 'toursReducer/WRITE_PAGE_LINK'
 const IS_LOADING = 'toursReducer/IS_LOADING'
 const SEND_STATUS_TOUR_OK = 'toursReducer/SEND_STATUS_TOUR_OK'
 const DELETE_INFO_WINDOW = 'toursReducer/DELETE_INFO_WINDOW'
@@ -64,6 +66,12 @@ const toursReducer = (state = defaultState, action) => {
             return {
                 ...state,
                 seoDescription: action.seoDescription
+            }
+        }
+        case WRITE_PAGE_LINK: {
+            return {
+                ...state,
+                pageLink: action.pageLink
             }
         }
         case SEND_STATUS_TOUR_OK: {
@@ -124,6 +132,11 @@ export const writeSeoDescription = (seoDescription) => ({
     seoDescription
 })
 
+export const writePageLink = (pageLink) => ({
+    type: WRITE_PAGE_LINK,
+    pageLink
+})
+
 export const SendTourStatusOkAC = (statusOk) => ({
     type: SEND_STATUS_TOUR_OK, statusOk
 })
@@ -136,14 +149,17 @@ export const sendTourToDBThunkCreator = (tourTitle,
                                          tourContent,
                                          category,
                                          seoTitle,
-                                         seoDescription) => async (dispatch) => {
+                                         seoDescription,
+                                         pageLink
+                                         ) => async (dispatch) => {
     try {
         let response = await axios.post(`/api/v1/add/tours`, {
+            pageLink: pageLink,
             tourTitle: tourTitle,
             tour: tourContent,
             category: category,
             seoTitle: seoTitle,
-            seoDescription: seoDescription,
+            seoDescription: seoDescription
         })
         if (response.status === 200) {
             dispatch(SendTourStatusOkAC(true))

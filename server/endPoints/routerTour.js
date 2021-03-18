@@ -16,7 +16,7 @@ routerTour.get("/api/v1/tours", async (req, res) => {
 routerTour.get("/api/v1/tours/:id", async (req, res) => {
     try {
         const id = req.params.id
-        const tour = await Tour.findById({ _id: id })
+        const tour = await Tour.findOne({ pageLink: id })
         if(!id) {
             res.status(400)
             res.send({message: 'id не указан'})
@@ -30,9 +30,12 @@ routerTour.get("/api/v1/tours/:id", async (req, res) => {
 routerTour.post("/api/v1/add/tours", async (req, res) => {
     try {
         const tour = await new Tour({
+            pageLink: req.body.pageLink,
             tourTitle: req.body.tourTitle,
             tour: req.body.tour,
-            category: req.body.category
+            category: req.body.category,
+            seoTitle: req.body.seoTitle,
+            seoDescription: req.body.seoDescription
         })
         tour.save()
         res.send(tour)

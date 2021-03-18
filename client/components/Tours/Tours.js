@@ -19,11 +19,12 @@ const Tours = (props) => {
 
     return (
         <div className={classes.toursPageWrapper}>
-                {tours.filter(t => t.category === props.tourCategory).map(t => <Tour key={t._id}
-                                      id={t._id}
-                                      tourTitle={t.tourTitle}
-                                      tourContent={t.tour}
-                />)}
+            {tours.filter(t => t.category === props.tourCategory).map(t => <Tour key={t._id}
+                                                                                 id={t._id}
+                                                                                 pageLink={t.pageLink}
+                                                                                 tourTitle={t.tourTitle}
+                                                                                 tourContent={t.tour}
+            />)}
         </div>
     )
 }

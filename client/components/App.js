@@ -57,7 +57,7 @@ const AppContainer = () => {
                 <Route path={'/news-egypt'} render={() => <Posts categoryPost={'news'}/>} />
                 {/*<Route path={'/news-egypt'} render={() => <ForGEtAndAttachFiles />} />*/}
                 <Route path={'/tours'} render={() => <Tours tourCategory={'tour'}/>} />
-                <Route path={'/tour/:idTour'} render={() => <PageTour />} />
+                <Route path={'/tour/:pageLink'} render={() => <PageTour />} />
                 <Route exact path={'/'} render={() => <Posts categoryPost={'main'}/>} />
                 {isAuth && <Route exact path={'/admin'} render={() => <CreateTours />} />}
             </div>

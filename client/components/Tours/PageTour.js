@@ -6,11 +6,12 @@ import {EditorState, convertFromRaw} from 'draft-js';
 import Editor from '@draft-js-plugins/editor';
 import createImagePlugin from "@draft-js-plugins/image";
 import classes from "./pageTour.module.css";
+import {Helmet} from "react-helmet";
 
 const imagePlugin = createImagePlugin();
 
 const PageTour = () => {
-    const {idTour} = useParams();
+    const {pageLink} = useParams();
     const dispatch = useDispatch();
     const tours = useSelector(state => state.tours.tours)
 
@@ -19,8 +20,13 @@ const PageTour = () => {
     }, [])
 
     return (
-        <div>{tours.filter(t => t._id === idTour).map((t, index) => (
+        <div>{tours.filter(t => t.pageLink === pageLink).map((t, index) => (
             <div key={t._id}>
+                <Helmet>
+                    <title>{t.tourTitle}</title>
+                    <meta name="keywords" content={t.seoTitle} />
+                    <meta name="description"content={t.seoDescription}/>
+                </Helmet>
                 <h2 className={classes.h2}>{t.tourTitle}</h2>
                 <div className={classes.EditorBlockStyle1}>
                     <Editor readOnly={true}

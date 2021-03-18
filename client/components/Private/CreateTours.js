@@ -2,7 +2,7 @@ import React from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {
     deleteInfoAC,
-    sendTourToDBThunkCreator, writeSeoDescription, writeSeoTitle,
+    sendTourToDBThunkCreator, writePageLink, writeSeoDescription, writeSeoTitle,
     writeTourCategoryAC, writeTourContentAC,
     writeTourTitleAC
 } from "../../redux/reducers/toursReducer";
@@ -19,6 +19,7 @@ const CreateTours = () => {
     const tourCategory = useSelector(state => state.tours.category);
     const seoTitle = useSelector(state => state.tours.seoTitle);
     const seoDescription = useSelector(state => state.tours.seoDescription);
+    const pageLink = useSelector(state => state.tours.pageLink);
     const sendStatusOk = useSelector(state => state.tours.sendStatusOk);
 
     //get convert data from draft.js editorState (tour's content)
@@ -40,6 +41,14 @@ const CreateTours = () => {
                        }}
                 />
             </label>
+            <input className={classes.title}
+                   placeholder={'page Link'}
+                   required
+                   value={pageLink}
+                   onChange={(e) => {
+                       dispatch(writePageLink(e.target.value))
+                   }}
+            />
             {/*Write tour*/}
             <input className={classes.title}
                    placeholder={'tour title'}
@@ -85,7 +94,9 @@ const CreateTours = () => {
                             tourContent,
                             tourCategory,
                             seoTitle,
-                            seoDescription))
+                            seoDescription,
+                            pageLink
+                            ))
                     }}>create tour
             </button>
             {(sendStatusOk) &&

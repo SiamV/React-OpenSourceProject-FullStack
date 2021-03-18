@@ -8,7 +8,7 @@ const Tour = (props) => {
     let tourObject = JSON.parse(props.tourContent)
     return (
         <div className={classes.tourWrapper}>
-            <NavLink className={classes.navLinkH2} to={`/tour/${props.id}`}>
+            <NavLink className={classes.navLinkH2} to={`/tour/${props.pageLink}`}>
                 <h2 className={classes.h2}>{props.tourTitle}</h2>
             </NavLink>
             <div className={classes.previewBlockWrapper}>
@@ -20,7 +20,7 @@ const Tour = (props) => {
                     <div>{`${JSON.stringify(tourObject.blocks[0].text.slice(0, 150))}   ...`}</div>
                 </div>
             </div>
-            <NavLink className={classes.navLinkH2} to={`/tour/${props.id}`}>
+            <NavLink className={classes.navLinkH2} to={`/tour/${props.pageLink}`}>
                 <button className={classes.mainButton}>Reed more</button>
             </NavLink>
         </div>

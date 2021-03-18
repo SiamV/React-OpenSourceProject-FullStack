@@ -1,4 +1,0 @@
-User-Agent: *
-Allow:/client
-
-Host: http://vitalysiam.ru/

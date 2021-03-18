@@ -57,6 +57,7 @@ const userSchema = new mongoose.Schema({
 })
 
 const userSchemaTours = new mongoose.Schema({
+    "pageLink": String,
     "tourTitle": String,
     "tour": String,
     "category": String,
