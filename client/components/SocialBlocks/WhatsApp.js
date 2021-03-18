@@ -5,7 +5,7 @@ import classes from './SocialBlocks.module.css'
 const WhatsApp = (props) => {
     return (
         <div className={classes.wrapperImgSocial}>
-            <a href="https://api.whatsapp.com/send?phone=5219983886735"> 
+            <a href="https://api.whatsapp.com/send?phone=5219983969285">
                 <img src={WhatsAppImg} alt='WhatsApp' className={classes.imgSocial}/>
             </a>
         </div>

@@ -9,7 +9,8 @@ let defaultState = {
     seoTitle: '',
     seoDescription: '',
     pageLink: '',
-    sendStatusOk: false
+    sendStatusOk: false,
+    sendDeleteStatusOk: false
 }
 
 const SET_TOURS = 'toursReducer/SET_TOURS'
@@ -22,6 +23,7 @@ const WRITE_PAGE_LINK = 'toursReducer/WRITE_PAGE_LINK'
 const IS_LOADING = 'toursReducer/IS_LOADING'
 const SEND_STATUS_TOUR_OK = 'toursReducer/SEND_STATUS_TOUR_OK'
 const DELETE_INFO_WINDOW = 'toursReducer/DELETE_INFO_WINDOW'
+const SEND_DELETE_STATUS_TOUR_OK = 'toursReducer/SEND_DELETE_STATUS_TOUR_OK'
 const GET_SRC_SERVER = 'toursReducer/GET_SRC_SERVER'
 
 const toursReducer = (state = defaultState, action) => {
@@ -82,10 +84,17 @@ const toursReducer = (state = defaultState, action) => {
                 sendStatusOk: action.statusOk
             }
         }
+        case SEND_DELETE_STATUS_TOUR_OK: {
+            return {
+                ...state,
+                sendDeleteStatusOk: action.statusOk
+            }
+        }
         case DELETE_INFO_WINDOW: {
             return {
                 ...state,
-                sendStatusOk: false
+                sendStatusOk: false,
+                sendDeleteStatusOk: false
             }
         }
         default:
@@ -141,6 +150,10 @@ export const SendTourStatusOkAC = (statusOk) => ({
     type: SEND_STATUS_TOUR_OK, statusOk
 })
 
+export const SendDeleteStatusOkAC = (statusOk) => ({
+    type: SEND_DELETE_STATUS_TOUR_OK, statusOk
+})
+
 export const deleteInfoAC = () => ({
     type: DELETE_INFO_WINDOW
 })
@@ -165,6 +178,17 @@ export const sendTourToDBThunkCreator = (tourTitle,
             dispatch(SendTourStatusOkAC(true))
         }
     } catch (e) {
+    }
+}
+
+export const deleteTourThunkCreator = (pageLink) => async (dispatch) => {
+    try {
+        let response = await axios.delete(`/api/v1/delete/tours/${pageLink}`)
+        if (response.status === 200) {
+            dispatch(SendDeleteStatusOkAC(true))
+        }
+    }
+    catch (e) {
     }
 }
 
