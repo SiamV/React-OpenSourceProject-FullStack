@@ -3,12 +3,12 @@ import * as axios from "axios";
 let defaultState = {
     tours: [],
     isLoading: false,
+    pageLink: '',
     tourTitle: '',
     tourContent: '',
     category: 'news',
     seoTitle: '',
     seoDescription: '',
-    pageLink: '',
     sendStatusOk: false,
     sendDeleteStatusOk: false
 }
@@ -24,6 +24,7 @@ const IS_LOADING = 'toursReducer/IS_LOADING'
 const SEND_STATUS_TOUR_OK = 'toursReducer/SEND_STATUS_TOUR_OK'
 const DELETE_INFO_WINDOW = 'toursReducer/DELETE_INFO_WINDOW'
 const SEND_DELETE_STATUS_TOUR_OK = 'toursReducer/SEND_DELETE_STATUS_TOUR_OK'
+const SET_DEFAULT_DATA_FOR_UPDATE = 'toursReducer/SET_DEFAULT_DATA_FOR_UPDATE'
 const GET_SRC_SERVER = 'toursReducer/GET_SRC_SERVER'
 
 const toursReducer = (state = defaultState, action) => {
@@ -95,6 +96,17 @@ const toursReducer = (state = defaultState, action) => {
                 ...state,
                 sendStatusOk: false,
                 sendDeleteStatusOk: false
+            }
+        }
+        case SET_DEFAULT_DATA_FOR_UPDATE: {
+            return {
+                ...state,
+                pageLink: action.pageLink,
+                tourTitle: action.tourTitle,
+                tourContent: action.tourContent,
+                category: action.category,
+                seoTitle: action.seoTitle,
+                seoDescription: action.seoDescription
             }
         }
         default:
@@ -178,6 +190,26 @@ export const sendTourToDBThunkCreator = (tourTitle,
             dispatch(SendTourStatusOkAC(true))
         }
     } catch (e) {
+    }
+}
+
+export const getTourInfoThunkCreator = (pageLink) => async (dispatch) => {
+    try {
+        let response = await axios.get(`/api/v1/tours/${pageLink}`)
+        if (response.status === 200) {
+            dispatch({type: SET_DEFAULT_DATA_FOR_UPDATE,
+                pageLink: response.data.pageLink,
+                tourTitle: response.data.tourTitle,
+                tourContent: response.data.tour,
+                category: response.data.category,
+                seoTitle: response.data.seoTitle,
+                seoDescription: response.data.seoDescription
+            })
+            // writeTourContentAC(response.data.tour)
+
+        }
+    }
+    catch (e) {
     }
 }
 

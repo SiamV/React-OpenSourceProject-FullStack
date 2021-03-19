@@ -23,6 +23,7 @@ const CreateTours = () => {
     const sendStatusOk = useSelector(state => state.tours.sendStatusOk);
 
     //get convert data from draft.js editorState (tour's content)
+    //we can delete it because use dispatch in TextEditorHooks.js
     const onData = (TextEditorData) => {
         dispatch(writeTourContentAC(TextEditorData))
     }

@@ -1,7 +1,12 @@
 import React, {useEffect} from 'react';
 import {NavLink, useParams} from 'react-router-dom'
 import {useDispatch, useSelector} from "react-redux";
-import {deleteInfoAC, deleteTourThunkCreator, setToursThunkCreator} from "../../redux/reducers/toursReducer";
+import {
+    deleteInfoAC,
+    deleteTourThunkCreator,
+    getTourInfoThunkCreator,
+    setToursThunkCreator
+} from "../../redux/reducers/toursReducer";
 import {EditorState, convertFromRaw} from 'draft-js';
 import Editor from '@draft-js-plugins/editor';
 import createImagePlugin from "@draft-js-plugins/image";
@@ -28,7 +33,7 @@ const PageTour = () => {
                 <Helmet>
                     <title>{t.tourTitle}</title>
                     <meta name="keywords" content={t.seoTitle} />
-                    <meta name="description"content={t.seoDescription}/>
+                    <meta name="description" content={t.seoDescription} />
                 </Helmet>
                 <h2 className={classes.h2}>{t.tourTitle}</h2>
                 <div className={classes.EditorBlockStyle1}>
@@ -44,9 +49,16 @@ const PageTour = () => {
                     {isAuth &&
                     <div>
                         <NavLink to={'/admin'}>
-                            <button>update</button>
+                            <button onClick={() => {
+                                dispatch(getTourInfoThunkCreator(t.pageLink))
+                            }}>update
+                            </button>
                         </NavLink>
-                        <button onClick={() => {dispatch(deleteTourThunkCreator(t.pageLink))}}>delete</button>
+
+                        <button onClick={() => {
+                            dispatch(deleteTourThunkCreator(t.pageLink))
+                        }}>delete
+                        </button>
                     </div>
                     }
                 </div>
@@ -59,7 +71,8 @@ const PageTour = () => {
                                 dispatch(deleteInfoAC())
                             }}>Ok
                     </button>
-                </div>}
+                </div>
+                }
             </div>
         ))}
         </div>

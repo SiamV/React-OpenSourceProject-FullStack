@@ -1,10 +1,19 @@
 import React, {useEffect, useRef} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {Editor, EditorState, AtomicBlockUtils, RichUtils, getDefaultKeyBinding, convertToRaw} from 'draft-js';
+import {
+    Editor,
+    EditorState,
+    AtomicBlockUtils,
+    RichUtils,
+    getDefaultKeyBinding,
+    convertToRaw,
+    convertFromRaw
+} from 'draft-js';
 import './TextEditor.css'
 import classes from './TextEditor.module.css'
 import path from 'path'
 import {savePhotoThC, SendPhotoStatusChangeToFalse} from "../../redux/reducers/textEditorReducer";
+import {writeTourContentAC} from "../../redux/reducers/toursReducer";
 
 const __dirname = path.resolve(); //for ES6
 
@@ -12,9 +21,11 @@ const __dirname = path.resolve(); //for ES6
 const TextEditorHooks = (props) => {
     const dispatch = useDispatch();
     const statusUpload = useSelector(state => state.editor.statusUpload);
-    const [editorState, setEditorState] = React.useState(() =>
-        EditorState.createEmpty(),
-    );
+    const getContentForUpdate = useSelector(state => state.tours.tourContent);
+    const [editorState, setEditorState] = React.useState(() => EditorState.createEmpty());
+    console.log(getContentForUpdate)
+    // EditorState.createWithContent(convertFromRaw({...getContentForUpdate, entityMap: {}}))
+    // convertFromRaw(JSON.parse(getContentForUpdate))
     const editor = useRef(null);
     const focusEditor = () => {
         editor.current.focus()
@@ -22,10 +33,15 @@ const TextEditorHooks = (props) => {
 
     const contentStateToExport = editorState.getCurrentContent();
     const contentToSave = JSON.stringify(convertToRaw(contentStateToExport));
-    //callback onData to give data to parent (CreateTours) for save in DB. useEffect for to fix warning
+    //callback onData to give data to parent (CreateTours) for save in DB. useEffect for to fix warning without []
     useEffect(() => {
-        props.onData(contentToSave);
-    });
+        dispatch(writeTourContentAC(contentToSave))
+        // props.onData(contentToSave);
+    }, [editorState]);
+
+    useEffect(() => {
+        // setEditorState(convertFromRaw(JSON.parse(getContentForUpdate)))
+    }, []);
 
     const handleKeyCommand = (command, editorState) => {
         const newState = RichUtils.handleKeyCommand(editorState, command);
