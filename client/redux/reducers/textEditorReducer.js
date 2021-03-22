@@ -1,13 +1,14 @@
 import * as axios from "axios";
-import {SendTourStatusOkAC} from "./toursReducer";
 
 let defaultState = {
     statusUpload: false,
-    imagesUrls: ['https://www.fodors.com/wp-content/uploads/2019/06/05_EgyptTours__Intrepid_Intrepid-Travel-Egypt-Cairo-pyramids-037-1400x933.jpg']
+    imagesUrls: ['https://www.fodors.com/wp-content/uploads/2019/06/05_EgyptTours__Intrepid_Intrepid-Travel-Egypt-Cairo-pyramids-037-1400x933.jpg'],
+    updateStatus: false
 }
 
 const SEND_STATUS_PHOTO_OK = 'textEditorReducer/SEND_STATUS_PHOTO_OK'
 const GET_SRC_SERVER = 'textEditorReducer/GET_SRC_SERVER'
+const UPDATE_STATUS = 'textEditorReducer/UPDATE_STATUS'
 
 const textEditorReducer = (state = defaultState, action) => {
     switch (action.type) {
@@ -15,6 +16,12 @@ const textEditorReducer = (state = defaultState, action) => {
             return {
                 ...state,
                 statusUpload: action.statusOk
+            }
+        }
+        case UPDATE_STATUS: {
+            return {
+                ...state,
+                updateStatus: action.updateStatus
             }
         }
         case GET_SRC_SERVER: {
@@ -33,6 +40,10 @@ export const SendPhotoStatusTrueAC = (statusOk) => ({
 
 export const SendPhotoStatusChangeToFalse = () => ({
     type: SEND_STATUS_PHOTO_OK, statusOk:false
+})
+
+export const setStatusUpdate = (updateStatus) => ({
+    type: UPDATE_STATUS, updateStatus: updateStatus
 })
 
 export const savePhotoThC = (file) => async (dispatch) => {

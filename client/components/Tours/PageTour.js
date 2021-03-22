@@ -13,6 +13,7 @@ import createImagePlugin from "@draft-js-plugins/image";
 import classes from "./pageTour.module.css";
 import classes2 from '../Private/createTours.module.css'
 import {Helmet} from "react-helmet";
+import {setStatusUpdate} from "../../redux/reducers/textEditorReducer";
 
 const imagePlugin = createImagePlugin();
 

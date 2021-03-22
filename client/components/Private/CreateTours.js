@@ -21,12 +21,13 @@ const CreateTours = () => {
     const seoDescription = useSelector(state => state.tours.seoDescription);
     const pageLink = useSelector(state => state.tours.pageLink);
     const sendStatusOk = useSelector(state => state.tours.sendStatusOk);
+    const updateStatusMode = useSelector(state => state.editor.updateStatus);
 
     //get convert data from draft.js editorState (tour's content)
     //we can delete it because use dispatch in TextEditorHooks.js
-    const onData = (TextEditorData) => {
-        dispatch(writeTourContentAC(TextEditorData))
-    }
+    // const onData = (TextEditorData) => {
+    //     dispatch(writeTourContentAC(TextEditorData))
+    // }
 
     return (
         <div className={classes.adminWrapper}>
@@ -59,7 +60,8 @@ const CreateTours = () => {
                    }}
             />
             <div className={classes.editor}>
-                <TextEditorHooks onData={onData} />
+                {/*<TextEditorHooks onData={onData} />*/}
+                <TextEditorHooks />
             </div>
             <select className={classes.select}
                     value={tourCategory}
@@ -87,6 +89,7 @@ const CreateTours = () => {
             />
 
             {/*Save tour in DB and clean state*/}
+            {(!updateStatusMode) &&
             <button className={classes.MenuButton}
                     type="button"
                     onClick={() => {
@@ -97,9 +100,16 @@ const CreateTours = () => {
                             seoTitle,
                             seoDescription,
                             pageLink
-                            ))
+                        ))
                     }}>create tour
-            </button>
+            </button> ||
+            <button className={classes.MenuButton}
+                    type="button"
+                    onClick={() => {
+                        //dispatch put api
+                    }}> update</button>
+            }
+
             {(sendStatusOk) &&
             <div className={classes.popup}>
                 <div className={classes.popupContent}>Tour is created</div>

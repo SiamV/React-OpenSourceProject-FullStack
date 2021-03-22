@@ -1,11 +1,12 @@
 import * as axios from "axios";
+import {setStatusUpdate} from "./textEditorReducer";
 
 let defaultState = {
     tours: [],
     isLoading: false,
     pageLink: '',
     tourTitle: '',
-    tourContent: '',
+    tourContent: '{"blocks":[{"key":"20dqs","text":"","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}',
     category: 'news',
     seoTitle: '',
     seoDescription: '',
@@ -197,6 +198,7 @@ export const getTourInfoThunkCreator = (pageLink) => async (dispatch) => {
     try {
         let response = await axios.get(`/api/v1/tours/${pageLink}`)
         if (response.status === 200) {
+            dispatch(setStatusUpdate(false)) //убрать когда напишем логику кнопки update вместо create
             dispatch({type: SET_DEFAULT_DATA_FOR_UPDATE,
                 pageLink: response.data.pageLink,
                 tourTitle: response.data.tourTitle,
@@ -205,8 +207,7 @@ export const getTourInfoThunkCreator = (pageLink) => async (dispatch) => {
                 seoTitle: response.data.seoTitle,
                 seoDescription: response.data.seoDescription
             })
-            // writeTourContentAC(response.data.tour)
-
+            dispatch(setStatusUpdate(true))
         }
     }
     catch (e) {

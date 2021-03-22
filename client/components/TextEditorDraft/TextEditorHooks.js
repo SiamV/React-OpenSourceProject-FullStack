@@ -12,7 +12,7 @@ import {
 import './TextEditor.css'
 import classes from './TextEditor.module.css'
 import path from 'path'
-import {savePhotoThC, SendPhotoStatusChangeToFalse} from "../../redux/reducers/textEditorReducer";
+import {savePhotoThC, SendPhotoStatusChangeToFalse, setStatusUpdate} from "../../redux/reducers/textEditorReducer";
 import {writeTourContentAC} from "../../redux/reducers/toursReducer";
 
 const __dirname = path.resolve(); //for ES6
@@ -21,15 +21,15 @@ const __dirname = path.resolve(); //for ES6
 const TextEditorHooks = (props) => {
     const dispatch = useDispatch();
     const statusUpload = useSelector(state => state.editor.statusUpload);
+    const updateStatus = useSelector(state => state.editor.updateStatus);
     const getContentForUpdate = useSelector(state => state.tours.tourContent);
+
     const [editorState, setEditorState] = React.useState(() => EditorState.createEmpty());
-    console.log(getContentForUpdate)
-    // EditorState.createWithContent(convertFromRaw({...getContentForUpdate, entityMap: {}}))
-    // convertFromRaw(JSON.parse(getContentForUpdate))
+
     const editor = useRef(null);
     const focusEditor = () => {
         editor.current.focus()
-    }
+    };
 
     const contentStateToExport = editorState.getCurrentContent();
     const contentToSave = JSON.stringify(convertToRaw(contentStateToExport));
@@ -39,9 +39,15 @@ const TextEditorHooks = (props) => {
         // props.onData(contentToSave);
     }, [editorState]);
 
+    //for update Post
     useEffect(() => {
-        // setEditorState(convertFromRaw(JSON.parse(getContentForUpdate)))
-    }, []);
+        if (updateStatus) {
+            console.log('getContentForUpdate', getContentForUpdate)
+            const contentDraft = convertFromRaw(JSON.parse(getContentForUpdate));
+            console.log('hello, it is update mode')
+            setEditorState(EditorState.createWithContent(contentDraft))
+        }
+    }, [updateStatus]);
 
     const handleKeyCommand = (command, editorState) => {
         const newState = RichUtils.handleKeyCommand(editorState, command);
