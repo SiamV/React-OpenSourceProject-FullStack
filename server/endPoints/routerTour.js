@@ -16,8 +16,8 @@ routerTour.get("/api/v1/tours", async (req, res) => {
 routerTour.get("/api/v1/tours/:id", async (req, res) => {
     try {
         const id = req.params.id
-        const tour = await Tour.findOne({ pageLink: id })
-        if(!id) {
+        const tour = await Tour.findOne({pageLink: id})
+        if (!id) {
             res.status(400)
             res.send({message: 'id не указан'})
         }
@@ -48,11 +48,12 @@ routerTour.post("/api/v1/add/tours", async (req, res) => {
 routerTour.put("/api/v1/update/tours", async (req, res) => {
     try {
         const tour = req.body
-        if(!tour.pageLink) {
+        if (!tour.pageLink) {
             res.status(400)
             res.send({message: 'id не указан'})
         }
-        const updatedTour = await Tour.findOneAndUpdate(tour.pageLink, tour, {new: true})
+        const updatedTour = await Tour.findOneAndUpdate({pageLink: tour.pageLink}, tour,
+            {new: true, useFindAndModify: false})
         res.send(updatedTour)
     } catch (e) {
         res.status(500)
@@ -62,8 +63,8 @@ routerTour.put("/api/v1/update/tours", async (req, res) => {
 routerTour.delete("/api/v1/delete/tours/:id", async (req, res) => {
     try {
         const id = req.params.id
-        const tour = await Tour.findOneAndDelete({pageLink: id})
-        if(!id) {
+        const tour = await Tour.findOneAndDelete({pageLink: id}, {useFindAndModify: false})
+        if (!id) {
             res.status(400)
             res.send({message: 'id не указан'})
         }

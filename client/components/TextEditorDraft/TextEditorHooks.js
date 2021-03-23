@@ -42,9 +42,7 @@ const TextEditorHooks = (props) => {
     //for update Post
     useEffect(() => {
         if (updateStatus) {
-            console.log('getContentForUpdate', getContentForUpdate)
             const contentDraft = convertFromRaw(JSON.parse(getContentForUpdate));
-            console.log('hello, it is update mode')
             setEditorState(EditorState.createWithContent(contentDraft))
         }
     }, [updateStatus]);

@@ -2,7 +2,7 @@ import React from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {
     deleteInfoAC,
-    sendTourToDBThunkCreator, writePageLink, writeSeoDescription, writeSeoTitle,
+    sendTourToDBThunkCreator, updateTourInDBThunkCreator, writePageLink, writeSeoDescription, writeSeoTitle,
     writeTourCategoryAC, writeTourContentAC,
     writeTourTitleAC
 } from "../../redux/reducers/toursReducer";
@@ -10,6 +10,7 @@ import {savePhotoThC} from "../../redux/reducers/textEditorReducer";
 import classes from './createTours.module.css'
 import TextEditor from "../TextEditorDraft/TextEditor";
 import TextEditorHooks from "../TextEditorDraft/TextEditorHooks";
+import {NavLink} from "react-router-dom";
 
 
 const CreateTours = () => {
@@ -103,11 +104,21 @@ const CreateTours = () => {
                         ))
                     }}>create tour
             </button> ||
-            <button className={classes.MenuButton}
-                    type="button"
-                    onClick={() => {
-                        //dispatch put api
-                    }}> update</button>
+            <NavLink to={`/tour/${pageLink}`}>
+                <button className={classes.MenuButton}
+                        type="button"
+                        onClick={() => {
+                            dispatch(updateTourInDBThunkCreator(
+                                pageLink,
+                                tourTitle,
+                                tourContent,
+                                tourCategory,
+                                seoTitle,
+                                seoDescription
+                            ))
+                        }}> update
+                </button>
+            </NavLink>
             }
 
             {(sendStatusOk) &&

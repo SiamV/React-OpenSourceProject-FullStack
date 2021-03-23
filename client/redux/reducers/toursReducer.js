@@ -177,7 +177,7 @@ export const sendTourToDBThunkCreator = (tourTitle,
                                          seoTitle,
                                          seoDescription,
                                          pageLink
-                                         ) => async (dispatch) => {
+) => async (dispatch) => {
     try {
         let response = await axios.post(`/api/v1/add/tours`, {
             pageLink: pageLink,
@@ -199,7 +199,8 @@ export const getTourInfoThunkCreator = (pageLink) => async (dispatch) => {
         let response = await axios.get(`/api/v1/tours/${pageLink}`)
         if (response.status === 200) {
             dispatch(setStatusUpdate(false)) //убрать когда напишем логику кнопки update вместо create
-            dispatch({type: SET_DEFAULT_DATA_FOR_UPDATE,
+            dispatch({
+                type: SET_DEFAULT_DATA_FOR_UPDATE,
                 pageLink: response.data.pageLink,
                 tourTitle: response.data.tourTitle,
                 tourContent: response.data.tour,
@@ -209,8 +210,31 @@ export const getTourInfoThunkCreator = (pageLink) => async (dispatch) => {
             })
             dispatch(setStatusUpdate(true))
         }
+    } catch (e) {
     }
-    catch (e) {
+}
+
+export const updateTourInDBThunkCreator = (pageLink,
+                                           tourTitle,
+                                           tourContent,
+                                           category,
+                                           seoTitle,
+                                           seoDescription
+) => async (dispatch) => {
+    try {
+        let response = await axios.put(`/api/v1/update/tours`, {
+            pageLink: pageLink,
+            tourTitle: tourTitle,
+            tour: tourContent,
+            category: category,
+            seoTitle: seoTitle,
+            seoDescription: seoDescription
+        })
+        if (response.status === 200) {
+            console.log('tour was updated')
+            dispatch(setStatusUpdate(false))
+        }
+    } catch (e) {
     }
 }
 
@@ -220,8 +244,7 @@ export const deleteTourThunkCreator = (pageLink) => async (dispatch) => {
         if (response.status === 200) {
             dispatch(SendDeleteStatusOkAC(true))
         }
-    }
-    catch (e) {
+    } catch (e) {
     }
 }
 
