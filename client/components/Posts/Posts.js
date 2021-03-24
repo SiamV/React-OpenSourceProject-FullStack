@@ -5,19 +5,26 @@ import {convertFromRaw, EditorState} from "draft-js";
 import createImagePlugin from "@draft-js-plugins/image";
 import {Helmet} from 'react-helmet';
 
-import {deleteTourThunkCreator, setToursThunkCreator} from "../../redux/reducers/toursReducer";
+import {
+    deleteInfoAC,
+    deleteTourThunkCreator,
+    getTourInfoThunkCreator,
+    setToursThunkCreator
+} from "../../redux/reducers/toursReducer";
 import Preloader from "../common/Preloader/Preloader";
 import classes from "../Tours/pageTour.module.css";
 import {NavLink} from "react-router-dom";
+import classes2 from "../Private/createTours.module.css";
 
 
 const imagePlugin = createImagePlugin();
 
 const Posts = (props) => {
     const dispatch = useDispatch();
-    const tours = useSelector(state => state.tours.tours)
-    const isLoading = useSelector(state => state.tours.isLoading)
-    const isAuth = useSelector(s => s.login.isAuth)
+    const tours = useSelector(state => state.tours.tours);
+    const isLoading = useSelector(state => state.tours.isLoading);
+    const isAuth = useSelector(s => s.login.isAuth);
+    const sendDeleteStatusOk = useSelector(state => state.tours.sendDeleteStatusOk);
 
     useEffect(() => {
         dispatch(setToursThunkCreator())
@@ -44,16 +51,43 @@ const Posts = (props) => {
                                 }}
                         />
                     </div>
-                    {/*<div>*/}
-                    {/*    {isAuth &&*/}
-                    {/*    <div>*/}
-                    {/*        <NavLink to={'/admin'}>*/}
-                    {/*            <button>update</button>*/}
-                    {/*        </NavLink>*/}
-                    {/*        <button onClick={() => {deleteTourThunkCreator(t.pageLink)}}>delete</button>*/}
-                    {/*    </div>*/}
-                    {/*    }*/}
-                    {/*</div>*/}
+                    {/*block for update and delete*/}
+                    <div>
+                        {isAuth &&
+                        <div>
+                            <NavLink to={'/my-editor'}>
+                                <button className={classes2.MenuButton}
+                                        type='button'
+                                        onClick={() => {
+                                            dispatch(getTourInfoThunkCreator(t.pageLink))
+                                        }}>update
+                                </button>
+                            </NavLink>
+
+                            <button className={classes2.MenuButton}
+                                    type='button'
+                                    style={{backgroundColor: 'grey'}}
+                                    onClick={() => {
+                                        window.confirm('страница будет удалена!') ?
+                                            dispatch(deleteTourThunkCreator(t.pageLink)) :
+                                            <NavLink to={`/`}>back</NavLink>
+                                    }}>delete
+                            </button>
+                        </div>
+                        }
+                    </div>
+                    {(sendDeleteStatusOk) &&
+                    <div className={classes2.popup}>
+                        <div className={classes2.popupContent}>Tour is deleted</div>
+                        <button className={classes2.buttonInfo}
+                                type="button"
+                                onClick={() => {
+                                    dispatch(deleteInfoAC())
+                                }}>Ok
+                        </button>
+                    </div>
+                    }
+
                 </div>
             ))}
         </div>

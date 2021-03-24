@@ -116,7 +116,7 @@ const CreateTours = () => {
                                 seoTitle,
                                 seoDescription
                             ))
-                        }}> update
+                        }}> save
                 </button>
             </NavLink>
             }

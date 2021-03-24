@@ -22,7 +22,7 @@
     /*margin-right: 20px;*/
 }
 
-.adminWrapper .MenuButton {
+.MenuButton {
     width: fit-content;
     cursor: pointer;
     text-align: center;
@@ -34,11 +34,12 @@
     border-radius: 10%;
     box-shadow: 0 0 10px #000000;
     margin-top: 10px;
+    margin-right: 10px;
     padding: 5px
 }
-.adminWrapper .MenuButton:hover {
+.MenuButton:hover {
     background-color: #3e8e41}
-.adminWrapper .MenuButton:active {
+.MenuButton:active {
     background-color: #3e8e41;
     box-shadow: 0 5px #666;
     transform: translateY(4px);

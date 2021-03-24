@@ -231,7 +231,6 @@ export const updateTourInDBThunkCreator = (pageLink,
             seoDescription: seoDescription
         })
         if (response.status === 200) {
-            console.log('tour was updated')
             dispatch(setStatusUpdate(false))
         }
     } catch (e) {

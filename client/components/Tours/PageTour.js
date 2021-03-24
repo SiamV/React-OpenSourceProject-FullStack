@@ -11,9 +11,8 @@ import {EditorState, convertFromRaw} from 'draft-js';
 import Editor from '@draft-js-plugins/editor';
 import createImagePlugin from "@draft-js-plugins/image";
 import classes from "./pageTour.module.css";
-import classes2 from '../Private/createTours.module.css'
+import classes2 from '../Private/createTours.module.css';
 import {Helmet} from "react-helmet";
-import {setStatusUpdate} from "../../redux/reducers/textEditorReducer";
 
 const imagePlugin = createImagePlugin();
 
@@ -49,16 +48,23 @@ const PageTour = () => {
                 <div>
                     {isAuth &&
                     <div>
-                        <NavLink to={'/admin'}>
-                            <button onClick={() => {
-                                dispatch(getTourInfoThunkCreator(t.pageLink))
-                            }}>update
+                        <NavLink to={'/my-editor'}>
+                            <button className={classes2.MenuButton}
+                                    type='button'
+                                    onClick={() => {
+                                        dispatch(getTourInfoThunkCreator(t.pageLink))
+                                    }}>update
                             </button>
                         </NavLink>
 
-                        <button onClick={() => {
-                            dispatch(deleteTourThunkCreator(t.pageLink))
-                        }}>delete
+                        <button className={classes2.MenuButton}
+                                type='button'
+                                style={{backgroundColor: 'grey'}}
+                                onClick={() => {
+                                    window.confirm('страница будет удалена!') ?
+                                        dispatch(deleteTourThunkCreator(t.pageLink)) :
+                                        <NavLink to={`/tour/${t.pageLink}`}>back</NavLink>
+                                }}>delete
                         </button>
                     </div>
                     }
