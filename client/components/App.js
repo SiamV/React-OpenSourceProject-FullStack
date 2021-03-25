@@ -19,7 +19,8 @@ import PageTour from "./Tours/PageTour";
 import DownloadFileFromServer from "./TestComponentsForFuture/DownloadFileFromServer";
 import ForGEtAndAttachFiles from "./TestComponentsForFuture/ForGetAndAttachFiles";
 import AdminRouter from "./Private/AdminRouter";
-import TourOrder from "./Private/TourOrder";
+import TourOrders from "./Private/TourOrders";
+import ClientCard from "./Private/ClientCard";
 
 //main structure project. Grid css
 const AppContainer = () => {
@@ -62,8 +63,9 @@ const AppContainer = () => {
                 <Route path={'/tour/:pageLink'} render={() => <PageTour />} />
                 <Route exact path={'/'} render={() => <Posts categoryPost={'main'}/>} />
                 {isAuth && <Route exact path={'/admin'} render={() => <AdminRouter />} />}
-                {isAuth && <Route exact path={'/my-editor'} render={() => <CreateTours />} />}
-                {isAuth && <Route exact path={'/tour-order'} render={() => <TourOrder />} />}
+                {isAuth && <Route exact path={'/admin/my-editor'} render={() => <CreateTours />} />}
+                {isAuth && <Route exact path={'/admin/tour-order'} render={() => <TourOrders />} />}
+                {isAuth && <Route exact path={'/admin/tour-order/:idOrder'} render={() => <ClientCard />} />}
             </div>
             <div className={'site-wrapper-footer'}>
                 <Footer />

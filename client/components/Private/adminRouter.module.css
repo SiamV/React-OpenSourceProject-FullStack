@@ -1,0 +1,18 @@
+.wrapper ul {
+    list-style: none;
+}
+.wrapper a {
+    text-decoration: none;
+}
+.wrapper ul li::before {
+    content: "✅";
+    display: inline-block;
+    margin: 10px;
+}
+
+.wrapper ul ul li::before {
+    content: "📌";
+}
+.wrapper ul ul ul li::before {
+    content: "🤷‍♀️";
+}

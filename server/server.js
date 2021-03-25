@@ -13,6 +13,7 @@ import jwtStrategy from './manager/passport.js';
 import routerTour from "./endPoints/routerTour.js";
 import routerUsers from "./endPoints/routerUsers.js";
 import routerPhotos from "./endPoints/routerPhotos.js";
+import routerOrders from "./endPoints/routerOrders.js";
 
 const app = express();
 const __dirname = path.resolve(); //for ES6
@@ -63,6 +64,28 @@ const userSchemaTours = new mongoose.Schema({
     "category": String,
     "seoTitle": String,
     "seoDescription": String
+}, {
+    versionKey: false
+})
+
+const clientCardSchema = new mongoose.Schema({
+    "date": Date,
+    "tourName": String,
+    "operator": String,
+    "name": String,
+    "hotel": String,
+    "roomNumber": Number,
+    "adult": Number,
+    "child": Number,
+    "infant": Number,
+    "adultPrice": Number,
+    "childPrice": Number,
+    "infantPrice": Number,
+    "commission": Number,
+    "contact": String,
+    "pickUpTime": String,
+    "guide": String,
+    "note": String
 }, {
     versionKey: false
 })
@@ -133,9 +156,11 @@ const User = mongoose.model('site1', userSchema, 'users');
 export default User;
 
 export const Tour = mongoose.model('tours', userSchemaTours);
+export const Client = mongoose.model('orders', clientCardSchema);
 
 //create REST API
 //endPoints
 app.use('', routerTour);
 app.use('', routerPhotos);
 app.use('', routerUsers);
+app.use('', routerOrders);

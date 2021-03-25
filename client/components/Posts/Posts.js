@@ -55,7 +55,7 @@ const Posts = (props) => {
                     <div>
                         {isAuth &&
                         <div>
-                            <NavLink to={'/my-editor'}>
+                            <NavLink to={'/admin/my-editor'}>
                                 <button className={classes2.MenuButton}
                                         type='button'
                                         onClick={() => {
