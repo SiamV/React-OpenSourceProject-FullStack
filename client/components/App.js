@@ -66,6 +66,7 @@ const AppContainer = () => {
                 {isAuth && <Route exact path={'/admin/my-editor'} render={() => <CreateTours />} />}
                 {isAuth && <Route exact path={'/admin/tour-order'} render={() => <TourOrders />} />}
                 {isAuth && <Route exact path={'/admin/tour-order/:idOrder'} render={() => <ClientCard />} />}
+                {isAuth && <Route exact path={'/admin/create-tour-order'} render={() => <ClientCard />} />}
             </div>
             <div className={'site-wrapper-footer'}>
                 <Footer />
