@@ -5,7 +5,7 @@ let defaultState = {
     updateMode: false,
     date: '',
     tourName: '',
-    operator: '',
+    operator: 'icTour',
     name: '',
     hotel: '',
     roomNumber: 0,
@@ -16,7 +16,7 @@ let defaultState = {
     childPrice: 0,
     infantPrice: 0,
     commission: 0,
-    contact: '',
+    contact: 'Instagram',
     pickUpTime: '',
     guide: '',
     note: ''
@@ -114,5 +114,71 @@ export const writeFieldAC = (value, idField) => (
 export const setUpdateMode = (updateMode) => (
     {type: SET_UPDATE_MODE, updateMode}
 )
+
+export const saveOrderThunkCreator = (state) => async (dispatch) => {
+    try {
+        let response = await axios.post(`/api/v1/add/order`, {
+            date: state.date,
+            tourName: state.tourName,
+            operator: state.operator,
+            name: state.name,
+            hotel: state.hotel,
+            roomNumber: state.roomNumber,
+            adult: state.adult,
+            child: state.child,
+            infant: state.infant,
+            adultPrice: state.adultPrice,
+            childPrice: state.childPrice,
+            infantPrice: state.infantPrice,
+            commission: state.commission,
+            contact: state.contact,
+            pickUpTime: state.pickUpTime,
+            guide: state.guide,
+            note: state.note
+        })
+        if (response.status === 200) {
+            // dispatch(SendTourStatusOkAC(true))
+        }
+    } catch (e) {
+    }
+}
+export const updateOrderInDBThunkCreator = (state, idOrder) => async (dispatch) => {
+    try {
+        let response = await axios.put(`/api/v1/update/order`, {
+            _id: idOrder,
+            date: state.date,
+            tourName: state.tourName,
+            operator: state.operator,
+            name: state.name,
+            hotel: state.hotel,
+            roomNumber: state.roomNumber,
+            adult: state.adult,
+            child: state.child,
+            infant: state.infant,
+            adultPrice: state.adultPrice,
+            childPrice: state.childPrice,
+            infantPrice: state.infantPrice,
+            commission: state.commission,
+            contact: state.contact,
+            pickUpTime: state.pickUpTime,
+            guide: state.guide,
+            note: state.note
+        })
+        if (response.status === 200) {
+            // dispatch(setStatusUpdate(false))
+        }
+    } catch (e) {
+    }
+}
+
+export const deleteOrderThunkCreator = (id) => async (dispatch) => {
+    try {
+        let response = await axios.delete(`/api/v1/delete/order/${id}`)
+        if (response.status === 200) {
+            // dispatch(SendDeleteStatusOkAC(true))
+        }
+    } catch (e) {
+    }
+}
 
 export default orderReducer

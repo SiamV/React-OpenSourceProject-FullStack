@@ -1,8 +1,14 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {useParams} from 'react-router-dom'
-import {writeTourCategoryAC} from "../../redux/reducers/toursReducer";
-import {setClientCard, setOrdersThunkCreator, setUpdateMode, writeFieldAC} from "../../redux/reducers/orderReducer";
+
+import {
+    deleteOrderThunkCreator,
+    saveOrderThunkCreator,
+    setClientCard,
+    setUpdateMode, updateOrderInDBThunkCreator,
+    writeFieldAC
+} from "../../redux/reducers/orderReducer";
 
 const ClientCard = () => {
     const dispatch = useDispatch();
@@ -28,10 +34,11 @@ const ClientCard = () => {
             }}>
                 <div>
                     <label htmlFor="tourDate">Дата: </label>
-                    <input type="date" id="tourDate" value={state.date}
+                    <input type="date" id="tourDate" value={state.date.slice(0,10)}
                            onChange={(e) => {
-                               writeUpdate(e, 'date')
-                           }} /></div>
+                               dispatch(writeFieldAC((e.target.value), 'date'))
+                           }} />
+                </div>
                 <div>
                     Тур: <input type="text" value={state.tourName}
                                 onChange={(e) => {
@@ -108,16 +115,17 @@ const ClientCard = () => {
 
             {state.updateMode &&
             <div>
-                <button onClick={() => {
+                <button onClick={() => {dispatch(updateOrderInDBThunkCreator(state, idOrder))
                 }}>update
                 </button>
-                <button onClick={() => {
+                <button onClick={() => {dispatch(deleteOrderThunkCreator(idOrder))
                 }}>delete
                 </button>
             </div>
             }
             {!state.updateMode &&
-            <button>save</button>
+            <button onClick={() => {dispatch(saveOrderThunkCreator(state))
+            }}>save</button>
             }
         </div>
     )
