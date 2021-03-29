@@ -1,0 +1,40 @@
+.ordersMainWrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.ordersWrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+}
+
+.blockWrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.dateBlock {
+    font-weight: 600;
+}
+.commissionBlock {
+    font-weight: 500;
+    border: solid 2px forestgreen;
+    text-align: center;
+}
+
+.addButton {
+    width: fit-content;
+    text-align: center;
+    color: #fff;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 10%;
+    box-shadow: 0 0 10px #000000;
+    margin-top: 10px;
+    margin-right: 10px;
+    margin-bottom: 5px;
+    padding: 5px
+}

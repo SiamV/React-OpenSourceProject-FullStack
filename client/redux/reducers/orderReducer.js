@@ -4,7 +4,7 @@ let defaultState = {
     orders: [],
     updateMode: false,
     date: '',
-    tourName: '',
+    tourName: 'Чиченица rus',
     operator: 'icTour',
     name: '',
     hotel: '',

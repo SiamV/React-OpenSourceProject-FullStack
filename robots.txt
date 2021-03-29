@@ -4,6 +4,7 @@ Disallow: /server/
 Disallow: /cgi-bin/
 Disallow: /package.json
 Disallow: /package-lock.json
+Disallow: /admin/
 
 
 Host: http://vitalysiam.ru/

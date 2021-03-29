@@ -1,0 +1,43 @@
+.wrapperButtons {
+    display: flex;
+    flex-direction: row;
+    padding: 5px;
+}
+.wrapperButtons .rightBlock {
+    margin-left: auto;
+}
+
+
+.formWrapper {
+    display: flex;
+    flex-direction: column;
+    border: solid 1px grey;
+    padding: 5px;
+}
+
+.formWrapper .dateContainer {
+    margin-bottom: 3px;
+}
+.formWrapper .dateContainer input{
+    width: 130px;
+}
+
+.formWrapper .textContainer {
+    margin-bottom: 3px;
+}
+.formWrapper .textContainer input{
+    width: 60%;
+}
+
+.formWrapper .numberContainer {
+    margin-bottom: 3px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.formWrapper .numberContainer input {
+    width: 50px;
+}
+.formWrapper .marginLeft {
+    margin-left: 20px;
+}

@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {useParams} from 'react-router-dom'
-
+import {useParams} from 'react-router-dom';
+import {NavLink} from "react-router-dom";
 import {
     deleteOrderThunkCreator,
     saveOrderThunkCreator,
@@ -9,6 +9,9 @@ import {
     setUpdateMode, updateOrderInDBThunkCreator,
     writeFieldAC
 } from "../../redux/reducers/orderReducer";
+import classes from './clientCard.module.css';
+import classes2 from './createTours.module.css'
+
 
 const ClientCard = () => {
     const dispatch = useDispatch();
@@ -30,22 +33,41 @@ const ClientCard = () => {
     }
     return (
         <div>
-            <form onSubmit={(event) => {
+            <form className={classes.formWrapper} onSubmit={(event) => {
             }}>
-                <div>
+                <div className={classes.dateContainer}>
                     <label htmlFor="tourDate">Дата: </label>
-                    <input type="date" id="tourDate" value={state.date.slice(0,10)}
+                    <input type="date" id="tourDate" value={state.date.slice(0, 10)}
                            onChange={(e) => {
                                dispatch(writeFieldAC((e.target.value), 'date'))
                            }} />
                 </div>
-                <div>
-                    Тур: <input type="text" value={state.tourName}
-                                onChange={(e) => {
-                                    writeUpdate(e, 'tourName')
-                                }} />
+                <div className={classes.textContainer}>
+                    <label htmlFor="tour">Тур: </label>
+
+                    <select id="tour" value={state.tourName} onChange={(e) => {
+                        writeUpdate(e, 'tourName')
+                    }}>
+                        <option value="Чиченица rus">Чиченица rus</option>
+                        <option value="Розовые озера rus">Розовые озера rus</option>
+                        <option value="Чиченица eng">Чиченица eng</option>
+                        <option value="Xcaret">Xcaret</option>
+                        <option value="Xplor">Explor</option>
+                        <option value="Xelha">Xelha</option>
+                        <option value="Combo1:Xcaret+Explor">Combo1:Xcaret+Explor</option>
+                        <option value="Combo2:Xcaret+Xelha">Combo2:Xcaret+Xelha</option>
+                        <option value="Combo3:Explor+Xelha">Combo3:Explor+Xelha</option>
+                        <option value="Приватка">Приватка</option>
+                        <option value="Острова">Острова</option>
+                        <option value="Дайвинг">Дайвинг</option>
+                    </select>
+
+                    {/*<input type="text" id={'tour'} value={state.tourName}*/}
+                    {/*       onChange={(e) => {*/}
+                    {/*           writeUpdate(e, 'tourName')*/}
+                    {/*       }} />*/}
                 </div>
-                <div>
+                <div className={classes.textContainer}>
                     <label htmlFor="company">Компания: </label>
                     <select id="company" value={state.operator} onChange={(e) => {
                         writeUpdate(e, 'operator')
@@ -54,41 +76,89 @@ const ClientCard = () => {
                         <option value="mexicoLine">mexicoLine</option>
                     </select>
                 </div>
-                <div>Имя клиента: <input type="text" value={state.name} onChange={(e) => {
-                    writeUpdate(e, 'name')
-                }} /></div>
-                <div>Отель: <input type="text" value={state.hotel} onChange={(e) => {
-                    writeUpdate(e, 'hotel')
-                }} /></div>
-                <div>Номер комнаты: <input type="number" value={state.roomNumber} onChange={(e) => {
-                    writeUpdate(e, 'roomNumber')
-                }} /></div>
-                <div>Взрослые: <input type="number" value={state.adult} onChange={(e) => {
-                    writeUpdate(e, 'adult')
-                }} /> цена: <input type="number" value={state.adultPrice} onChange={(e) => {
-                    writeUpdate(e, 'adultPrice')
-                }} />
-                </div>
-                <div>Дети: <input type="number" value={state.child} onChange={(e) => {
-                    writeUpdate(e, 'child')
-                }} />
-                    цена: <input type="number" value={state.childPrice} onChange={(e) => {
-                        writeUpdate(e, 'childPrice')
+                <div className={classes.textContainer}>
+                    <label htmlFor="nameClient">ФИО: </label>
+                    <input type="text" id="nameClient" value={state.name} onChange={(e) => {
+                        writeUpdate(e, 'name')
                     }} />
                 </div>
-                <div>Инфанты: <input type="number" value={state.infant} onChange={(e) => {
-                    writeUpdate(e, 'infant')
-                }} />
-                    цена: <input type="number" value={state.infantPrice} onChange={(e) => {
-                        writeUpdate(e, 'infantPrice')
-                    }} />
+                <div className={classes.textContainer}>
+                    <label htmlFor="hotel">Отель: </label>
+                    <input type="text" id={'hotel'} value={state.hotel} onChange={(e) => {
+                        writeUpdate(e, 'hotel')
+                    }} /></div>
+                <div className={classes.numberContainer}>
+                    <div>
+                        <label htmlFor="roomNumber">Номер комнаты: </label>
+                        <input type="number" id={'roomNumber'} value={state.roomNumber} onChange={(e) => {
+                            writeUpdate(e, 'roomNumber')
+                        }} />
+                    </div>
+                </div>
+                <div className={classes.numberContainer}>
+                    <div>
+                        <label htmlFor="adult">Взрослые: </label>
+                        <input type="number" id={'adult'} value={state.adult} style={{marginLeft: '12px'}}
+                               onChange={(e) => {
+                                   writeUpdate(e, 'adult')
+                               }} />
+                    </div>
+                    <div>
+                        <label htmlFor="priceAdult">цена: </label>
+                        <input type="number" id={'priceAdult'} value={state.adultPrice} onChange={(e) => {
+                            writeUpdate(e, 'adultPrice')
+                        }} />
+                    </div>
+                </div>
+                <div className={classes.numberContainer}>
+                    <div>
+                        <label htmlFor="child">Дети: </label>
+                        <input type="number" id={'child'} value={state.child} style={{marginLeft: '46px'}}
+                               onChange={(e) => {
+                                   writeUpdate(e, 'child')
+                               }} />
+                    </div>
+                    <div>
+                        <label htmlFor="priceChild">цена: </label>
+                        <input type="number" id={'priceChild'} value={state.childPrice} onChange={(e) => {
+                            writeUpdate(e, 'childPrice')
+                        }} />
+                    </div>
+                </div>
+                <div className={classes.numberContainer}>
+                    <div>
+                        <label htmlFor="infant">Инфанты: </label>
+                        <input type="number" id={'infant'} value={state.infant} style={{marginLeft: '14px'}}
+                               onChange={(e) => {
+                                   writeUpdate(e, 'infant')
+                               }} />
+                    </div>
                 </div>
 
-                <div>Комиссия: <input type="number" value={state.commission} onChange={(e) => {
-                    writeUpdate(e, 'commission')
-                }} /></div>
-
-                <div>
+                <div className={classes.numberContainer}>
+                    <label htmlFor="commission">Комиссия: </label>
+                    <div>
+                        <label htmlFor="commission">итого </label>
+                        <input type="number" id={'commission'} value={state.commission} onChange={(e) => {
+                            writeUpdate(e, 'commission')
+                        }} />
+                    </div>
+                </div>
+                <div className={classes.numberContainer}>
+                    <div>
+                        <label htmlFor="pickUpTime">Время пикапа: </label>
+                        <input type="text" id={'pickUpTime'} value={state.pickUpTime} onChange={(e) => {
+                            writeUpdate(e, 'pickUpTime')
+                        }} />
+                    </div>
+                    <div>
+                        <label htmlFor="guide">Гид: </label>
+                        <input type="text" id={'guide'} value={state.guide} onChange={(e) => {
+                            writeUpdate(e, 'guide')
+                        }} />
+                    </div>
+                </div>
+                <div className={classes.textContainer}>
                     <label htmlFor="contact">Контакты: </label>
                     <select id="contact" value={state.contact} onChange={(e) => {
                         writeUpdate(e, 'contact')
@@ -100,33 +170,44 @@ const ClientCard = () => {
                         <option value="other">other</option>
                     </select>
                 </div>
-                <div>Время пикапа: <input type="text" value={state.pickUpTime} onChange={(e) => {
-                    writeUpdate(e, 'pickUpTime')
-                }} /></div>
-                <div>Гид: <input type="text" value={state.guide} onChange={(e) => {
-                    writeUpdate(e, 'guide')
-                }} /></div>
-                <div>Примечание: <textarea value={state.note} onChange={(e) => {
-                    writeUpdate(e, 'note')
-                }} /></div>
+                <div className={classes.textContainer}>
+                    <label htmlFor="note">Примечание: </label>
+                    <textarea id={'note'} value={state.note} onChange={(e) => {
+                        writeUpdate(e, 'note')
+                    }} />
+                </div>
 
                 {/*<input type="submit" value="Отправить" />*/}
             </form>
 
-            {state.updateMode &&
-            <div>
-                <button onClick={() => {dispatch(updateOrderInDBThunkCreator(state, idOrder))
-                }}>update
-                </button>
-                <button onClick={() => {dispatch(deleteOrderThunkCreator(idOrder))
-                }}>delete
-                </button>
+            {/*block buttons*/}
+            <div className={classes.wrapperButtons}>
+                {state.updateMode ?
+                    <div>
+                        <button className={classes2.MenuButton}
+                                onClick={() => {
+                                    dispatch(updateOrderInDBThunkCreator(state, idOrder))
+                                }}>update
+                        </button>
+                        <button className={classes2.MenuButton}
+                                style={{backgroundColor: 'grey'}}
+                                onClick={() => {
+                                    dispatch(deleteOrderThunkCreator(idOrder))
+                                }}>delete
+                        </button>
+                    </div> :
+                    <div>
+                        <button className={classes2.MenuButton}
+                                onClick={() => {
+                                    dispatch(saveOrderThunkCreator(state))
+                                }}>save
+                        </button>
+                    </div>
+                }
+                <div className={classes.rightBlock}>
+                    <button className={classes2.MenuButton}><NavLink to={'/admin/tour-order'}>back</NavLink></button>
+                </div>
             </div>
-            }
-            {!state.updateMode &&
-            <button onClick={() => {dispatch(saveOrderThunkCreator(state))
-            }}>save</button>
-            }
         </div>
     )
 }

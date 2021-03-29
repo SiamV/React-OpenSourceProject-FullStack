@@ -8,7 +8,6 @@ import {
 } from "../../redux/reducers/toursReducer";
 import {savePhotoThC} from "../../redux/reducers/textEditorReducer";
 import classes from './createTours.module.css'
-import TextEditor from "../TextEditorDraft/TextEditor";
 import TextEditorHooks from "../TextEditorDraft/TextEditorHooks";
 import {NavLink} from "react-router-dom";
 
