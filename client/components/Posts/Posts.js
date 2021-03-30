@@ -70,7 +70,7 @@ const Posts = (props) => {
                                     onClick={() => {
                                         window.confirm('страница будет удалена!') ?
                                             dispatch(deleteTourThunkCreator(t.pageLink)) :
-                                            <NavLink to={`/`}>back</NavLink>
+                                            null
                                     }}>delete
                             </button>
                         </div>

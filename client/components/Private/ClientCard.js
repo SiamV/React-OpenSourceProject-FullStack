@@ -5,12 +5,13 @@ import {NavLink} from "react-router-dom";
 import {
     deleteOrderThunkCreator,
     saveOrderThunkCreator,
-    setClientCard,
-    setUpdateMode, updateOrderInDBThunkCreator,
+    setClientCard, setDeleteStatus, setFieldForAddMoreOrder, setSaveAndAddStatus, setSaveStatus,
+    setUpdateMode, setUpdateStatus, updateOrderInDBThunkCreator,
     writeFieldAC
 } from "../../redux/reducers/orderReducer";
 import classes from './clientCard.module.css';
 import classes2 from './createTours.module.css'
+import {deleteInfoAC} from "../../redux/reducers/toursReducer";
 
 
 const ClientCard = () => {
@@ -37,7 +38,7 @@ const ClientCard = () => {
             }}>
                 <div className={classes.dateContainer}>
                     <label htmlFor="tourDate">Дата: </label>
-                    <input type="date" id="tourDate" value={state.date.slice(0, 10)}
+                    <input type="date" id="tourDate" value={state.date && state.date.slice(0, 10)}
                            onChange={(e) => {
                                dispatch(writeFieldAC((e.target.value), 'date'))
                            }} />
@@ -48,6 +49,7 @@ const ClientCard = () => {
                     <select id="tour" value={state.tourName} onChange={(e) => {
                         writeUpdate(e, 'tourName')
                     }}>
+                        <option value="Выберите тур">Выберите тур</option>
                         <option value="Чиченица rus">Чиченица rus</option>
                         <option value="Розовые озера rus">Розовые озера rus</option>
                         <option value="Чиченица eng">Чиченица eng</option>
@@ -57,21 +59,18 @@ const ClientCard = () => {
                         <option value="Combo1:Xcaret+Explor">Combo1:Xcaret+Explor</option>
                         <option value="Combo2:Xcaret+Xelha">Combo2:Xcaret+Xelha</option>
                         <option value="Combo3:Explor+Xelha">Combo3:Explor+Xelha</option>
+                        <option value="Черепахи+сенот">Черепахи+сенот</option>
                         <option value="Приватка">Приватка</option>
                         <option value="Острова">Острова</option>
                         <option value="Дайвинг">Дайвинг</option>
                     </select>
-
-                    {/*<input type="text" id={'tour'} value={state.tourName}*/}
-                    {/*       onChange={(e) => {*/}
-                    {/*           writeUpdate(e, 'tourName')*/}
-                    {/*       }} />*/}
                 </div>
                 <div className={classes.textContainer}>
                     <label htmlFor="company">Компания: </label>
                     <select id="company" value={state.operator} onChange={(e) => {
                         writeUpdate(e, 'operator')
                     }}>
+                        <option value="Выберите компанию">Выберите компанию</option>
                         <option value="icTour">icTour</option>
                         <option value="mexicoLine">mexicoLine</option>
                     </select>
@@ -163,6 +162,7 @@ const ClientCard = () => {
                     <select id="contact" value={state.contact} onChange={(e) => {
                         writeUpdate(e, 'contact')
                     }}>
+                        <option value="...">...</option>
                         <option value="Instagram">Instagram</option>
                         <option value="WhatsApp">WhatsApp</option>
                         <option value="Telegram">Telegram</option>
@@ -190,17 +190,32 @@ const ClientCard = () => {
                                 }}>update
                         </button>
                         <button className={classes2.MenuButton}
+                                type='button'
                                 style={{backgroundColor: 'grey'}}
                                 onClick={() => {
-                                    dispatch(deleteOrderThunkCreator(idOrder))
+                                    window.confirm('страница будет удалена!') ?
+                                        dispatch(deleteOrderThunkCreator(idOrder)) :
+                                        null
                                 }}>delete
+                        </button>
+                        <button className={classes2.MenuButton}
+                                onClick={() => {
+                                    // dispatch(updateOrderInDBThunkCreator(state, idOrder))
+                                }}>add +1
                         </button>
                     </div> :
                     <div>
                         <button className={classes2.MenuButton}
-                                onClick={() => {
-                                    dispatch(saveOrderThunkCreator(state))
+                                id={'save'}
+                                onClick={(e) => {
+                                    dispatch(saveOrderThunkCreator(state, e.target.id))
                                 }}>save
+                        </button>
+                        <button className={classes2.MenuButton}
+                                id={'saveAndAdd'}
+                                onClick={(e) => {
+                                    dispatch(saveOrderThunkCreator(state, e.target.id))
+                                }}>save and add
                         </button>
                     </div>
                 }
@@ -208,6 +223,56 @@ const ClientCard = () => {
                     <button className={classes2.MenuButton}><NavLink to={'/admin/tour-order'}>back</NavLink></button>
                 </div>
             </div>
+
+            {/*block changed markers and link*/}
+            {state.deleteStatus &&
+            <div className={classes2.popup}>
+                <div className={classes2.popupContent}>Заказ удален</div>
+                <NavLink to={'/admin/tour-order'}>
+                    <button className={classes2.buttonInfo}
+                            type="button"
+                            onClick={() => {
+                                dispatch(setDeleteStatus(false))
+                            }}>Ok
+                    </button>
+                </NavLink>
+            </div>}
+            {state.saveStatus &&
+            <div className={classes2.popup}>
+                <div className={classes2.popupContent}>Заказ сохранен</div>
+                <NavLink to={'/admin/tour-order'}>
+                    <button className={classes2.buttonInfo}
+                            type="button"
+                            onClick={() => {
+                                dispatch(setSaveStatus(false))
+                            }}>Ok
+                    </button>
+                </NavLink>
+            </div>}
+            {state.saveAndAddStatus &&
+            <div className={classes2.popup}>
+                <div className={classes2.popupContent}>Заказ сохранен</div>
+                    <button className={classes2.buttonInfo}
+                            type="button"
+                            onClick={() => {
+                                dispatch(setSaveAndAddStatus(false))
+                                dispatch(setFieldForAddMoreOrder(state))
+                            }}>Ok
+                    </button>
+            </div>}
+            {state.updateStatus &&
+            <div className={classes2.popup}>
+                <div className={classes2.popupContent}>Заказ изменен</div>
+                <NavLink to={'/admin/tour-order'}>
+                    <button className={classes2.buttonInfo}
+                            type="button"
+                            onClick={() => {
+                                dispatch(setUpdateStatus(false))
+                                dispatch(setUpdateMode(false))
+                            }}>Ok
+                    </button>
+                </NavLink>
+            </div>}
         </div>
     )
 }

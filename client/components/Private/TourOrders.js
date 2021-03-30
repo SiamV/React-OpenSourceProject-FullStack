@@ -1,6 +1,11 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {setOrdersThunkCreator, setUpdateMode} from "../../redux/reducers/orderReducer";
+import {
+    cleanFieldsForNewOrder,
+    setDeleteStatus,
+    setOrdersThunkCreator, setSaveStatus,
+    setUpdateMode, setUpdateStatus
+} from "../../redux/reducers/orderReducer";
 import {NavLink} from "react-router-dom";
 import classes from './tourOrder.module.css';
 import classes2 from '../Tours/tours.module.css';
@@ -17,7 +22,7 @@ const TourOrders = () => {
         <div className={classes.ordersMainWrapper}>
             <NavLink className={classes2.navLinkH2} to={'/admin/create-tour-order'}>
                 <button className={classes.addButton} onClick={() => {
-                    dispatch(setUpdateMode(false))
+                    dispatch(cleanFieldsForNewOrder(new Date().toUTCString()))
                 }}>new order
                 </button>
             </NavLink>
@@ -54,7 +59,12 @@ const TourOrders = () => {
                                 </div>
                             </div>
                         </div>
-                        <NavLink className={classes2.navLinkH2} to={`/admin/tour-order/${client._id}`}>more...</NavLink>
+                        <NavLink className={classes2.navLinkH2} to={`/admin/tour-order/${client._id}`}
+                                 onClick={() => {
+                                     dispatch(setDeleteStatus(false))
+                                     dispatch(setUpdateStatus(false))
+                                     dispatch(setSaveStatus(false))
+                                 }}>more...</NavLink>
                     </div>
                 )
             )

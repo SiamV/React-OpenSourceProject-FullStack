@@ -1,0 +1,26 @@
+Clean field for create new order.
+Button delete to link a main page orders.
+Create tour with default current date.
+Info div a center.
+Create flags for update, save and delete in orderReducer.
+Add default field in tour, company and contacts.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

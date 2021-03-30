@@ -63,7 +63,7 @@ const PageTour = () => {
                                 onClick={() => {
                                     window.confirm('страница будет удалена!') ?
                                         dispatch(deleteTourThunkCreator(t.pageLink)) :
-                                        <NavLink to={`/tour/${t.pageLink}`}>back</NavLink>
+                                        null
                                 }}>delete
                         </button>
                     </div>
