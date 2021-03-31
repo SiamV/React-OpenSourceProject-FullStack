@@ -120,9 +120,9 @@ const orderReducer = (state = defaultState, action) => {
                 name: action.currentState.name,
                 hotel: action.currentState.hotel,
                 roomNumber: action.currentState.roomNumber,
-                adult: 0,
-                child: 0,
-                infant: 0,
+                adult: action.currentState.adult,
+                child: action.currentState.child,
+                infant: action.currentState.infant,
                 adultPrice: 0,
                 childPrice: 0,
                 infantPrice: 0,
@@ -229,11 +229,9 @@ export const saveOrderThunkCreator = (state, idButton) => async (dispatch) => {
             note: state.note
         })
         if (response.status === 200) {
-            dispatch(setSaveAndAddStatus(true))
-            // (idButton === 'save') ?
-            //     dispatch(setSaveStatus(true)) :
-            //     console.log('save and add')
-            //     dispatch(setSaveAndAddStatus(true))
+            (idButton === 'save') ?
+                dispatch(setSaveStatus(true)) :
+                dispatch(setSaveAndAddStatus(true))
         }
     } catch (e) {
     }

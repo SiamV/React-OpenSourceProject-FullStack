@@ -1,9 +1,5 @@
-Clean field for create new order.
-Button delete to link a main page orders.
-Create tour with default current date.
-Info div a center.
-Create flags for update, save and delete in orderReducer.
-Add default field in tour, company and contacts.
+Add button `save and add` in ClientCard.js for create new order.
+Add button `add +1` in ClientCard.js for add more order old client
 
 
 

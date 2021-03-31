@@ -199,8 +199,11 @@ const ClientCard = () => {
                                 }}>delete
                         </button>
                         <button className={classes2.MenuButton}
-                                onClick={() => {
-                                    // dispatch(updateOrderInDBThunkCreator(state, idOrder))
+                                id={'saveAndAddUpdate'}
+                                onClick={(e) => {
+                                    dispatch(setFieldForAddMoreOrder(state))
+                                    dispatch(setUpdateStatus(false))
+                                    dispatch(setUpdateMode(false))
                                 }}>add +1
                         </button>
                     </div> :
