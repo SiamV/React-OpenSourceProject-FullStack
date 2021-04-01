@@ -5,13 +5,15 @@ import loginReducer from "./reducers/loginReducer.js";
 import toursReducer from "./reducers/toursReducer.js";
 import textEditorReducer from "./reducers/textEditorReducer.js";
 import orderReducer from "./reducers/orderReducer.js";
+import reportReducer from "./reducers/reportReducer";
 
 
 let reducersStack = combineReducers({
     login: loginReducer,
     tours: toursReducer,
     editor: textEditorReducer,
-    orders: orderReducer
+    orders: orderReducer,
+    report: reportReducer
 })
 
 //connect redux chrome extension. delete after develop

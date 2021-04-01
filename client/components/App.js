@@ -21,6 +21,7 @@ import ForGEtAndAttachFiles from "./TestComponentsForFuture/ForGetAndAttachFiles
 import AdminRouter from "./Private/AdminRouter";
 import TourOrders from "./Private/TourOrders";
 import ClientCard from "./Private/ClientCard";
+import ReportForPeriod from "./Private/ReportForPeriod";
 
 //main structure project. Grid css
 const AppContainer = () => {
@@ -67,6 +68,7 @@ const AppContainer = () => {
                 {isAuth && <Route exact path={'/admin/tour-order'} render={() => <TourOrders />} />}
                 {isAuth && <Route exact path={'/admin/tour-order/:idOrder'} render={() => <ClientCard />} />}
                 {isAuth && <Route exact path={'/admin/create-tour-order'} render={() => <ClientCard />} />}
+                {isAuth && <Route exact path={'/admin/report'} render={() => <ReportForPeriod />} />}
             </div>
             <div className={'site-wrapper-footer'}>
                 <Footer />

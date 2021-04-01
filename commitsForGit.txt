@@ -1,5 +1,6 @@
-Add button `save and add` in ClientCard.js for create new order.
-Add button `add +1` in ClientCard.js for add more order old client
+Create ReportForPeriod.js for filter period.
+Filter data for period and write in state.
+
 
 
 

@@ -166,7 +166,6 @@ export const setOrdersThunkCreator = () => async (dispatch) => {
     try {
         let response = await axios.get('/api/v1/order')
         dispatch({type: SET_ORDERS, orders: response.data})
-        // dispatch(isLoadingAC(true))
     } catch (e) {
 
     }

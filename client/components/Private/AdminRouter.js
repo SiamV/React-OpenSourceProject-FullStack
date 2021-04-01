@@ -6,8 +6,9 @@ const AdminRouter = () => {
     return (
         <div className={classes.wrapper}>
             <ul>
-                <li><NavLink to={'/admin/my-editor'}> Page Editor</NavLink></li>
-                <li><NavLink to={'/admin/tour-order'}>My order</NavLink></li>
+                <li><NavLink to={'/admin/my-editor'}>Редактор постов и туров</NavLink></li>
+                <li><NavLink to={'/admin/tour-order'}>Мои заказы</NavLink></li>
+                <li><NavLink to={'/admin/report'}>Отчет за период</NavLink></li>
             </ul>
         </div>
     )
