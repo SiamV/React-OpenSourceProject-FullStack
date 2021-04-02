@@ -9,7 +9,6 @@ import {
 import {NavLink} from "react-router-dom";
 import classes from './tourOrder.module.css';
 import classes2 from '../Tours/tours.module.css';
-import classes3 from './createTours.module.css'
 
 const TourOrders = () => {
     useEffect(() => {

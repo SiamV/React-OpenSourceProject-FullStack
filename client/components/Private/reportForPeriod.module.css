@@ -1,0 +1,25 @@
+.mainWrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.mainWrapper table {
+    font-size: 12px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-collapse: collapse;
+}
+
+.mainWrapper tbody {
+
+}
+
+/*строка*/
+.mainWrapper tr {
+}
+
+/*ячейка*/
+.mainWrapper td {
+    width: fit-content;
+    border: 1px solid grey;
+}

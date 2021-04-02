@@ -1,5 +1,6 @@
-Create ReportForPeriod.js for filter period.
-Filter data for period and write in state.
+Table for ReportForPeriod.js and css.
+Install html2canvas, jsPDF.
+Save table in pdf. ReportForPeriod.js
 
 
 
