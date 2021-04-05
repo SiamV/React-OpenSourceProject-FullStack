@@ -1,18 +1,21 @@
 import React, {useEffect} from 'react'
 import {useDispatch, useSelector} from "react-redux";
 import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
+import autoTable from "jspdf-autotable";
 
 import {setOrdersThunkCreator, writeFieldAC} from "../../redux/reducers/orderReducer";
 import classes from "./reportForPeriod.module.css"
 import classes2 from "./clientCard.module.css";
 import classes3 from "./createTours.module.css"
 import {getFilteredOrders, setFromDateAC, setToDateAC} from "../../redux/reducers/reportReducer";
+// import '../../assets/Lora-Regular-normal.js'
+// import myFont from '../../assets/Roboto-Regular.bin'
 
 const ReportForPeriod = (props) => {
     useEffect(() => {
         dispatch(setOrdersThunkCreator())
     }, [])
+
 
     const dispatch = useDispatch()
     const orders = useSelector(state => state.orders.orders)
@@ -26,16 +29,32 @@ const ReportForPeriod = (props) => {
         })
     }
 
+    //Добавляем готовую таблицу в отчет
     const exportPdf = (date1, date2) => {
-        const input = document.getElementById("table")
-        html2canvas(input).then(canvas => {
-            // document.body.appendChild(canvas);  // if you want see your screenshot in body.
-            const imgData = canvas.toDataURL('image/png');
-            const doc = new jsPDF();
-            doc.addImage(imgData, 'JPEG', 10, 10,200, 280);
-            // doc.text('same text o file', 10, 10)
-            doc.save(`${new Date(date1).toUTCString().slice(5, 11)}-${new Date(date2).toUTCString().slice(5, 16)}.pdf`);
-        });
+        const doc = new jsPDF()
+//documentation
+//         const myFont = ... // load the *.ttf font file as binary string
+//
+// // add the font to jsPDF
+//         doc.addFileToVFS("MyFont.ttf", myFont);
+//         doc.addFont("MyFont.ttf", "MyFont", "normal");
+
+//         const myFont = fetch('https://fonts.googleapis.com/css2?family=Roboto')
+//             .then((response) => {
+//                 return response;
+//             })
+//         doc.addFileToVFS("MyFont.ttf", myFont);
+//         doc.addFont("MyFont.ttf", "MyFont", "normal");
+
+        // doc.setFont('Lora-Regular', 'normal')
+        autoTable(doc, {
+            html: '#table',
+            styles: {
+                textColor: [0, 0, 0],
+                columnStyles: {0: {fontStyle: 'bold'}}
+            }
+        })
+        doc.save(`${new Date(date1).toUTCString().slice(5, 11)}-${new Date(date2).toUTCString().slice(5, 16)}.pdf`)
     }
 
     return (
@@ -59,6 +78,7 @@ const ReportForPeriod = (props) => {
                         }}>show
                 </button>
                 <button className={classes3.MenuButton}
+                        style={{backgroundColor: 'orange'}}
                         onClick={() => {
                             exportPdf(fromDate, toDate)
                         }}>send pdf
@@ -69,12 +89,12 @@ const ReportForPeriod = (props) => {
                 id="table">
                 <tbody>
                 <tr>
-                    <td>Дата</td>
-                    <td>Отель</td>
-                    <td>Имя</td>
-                    <td>Тур</td>
-                    <td>кол</td>
-                    <td>цена</td>
+                    <td>Date</td>
+                    <td>Hotel</td>
+                    <td>Name</td>
+                    <td>Tour</td>
+                    <td>pax</td>
+                    <td>price</td>
                     <td>%</td>
                 </tr>
                 {filteredOrders.sort((a, b) => a.date < b.date ? -1 : 1).map((order, index) => {
@@ -96,7 +116,7 @@ const ReportForPeriod = (props) => {
                     <td />
                     <td />
                     <td />
-                    <td>Итого:</td>
+                    <td>Total:</td>
                     <td>{filteredOrders.reduce((result, order) => {
                         return result + order.commission
                     }, 0)}</td>
@@ -108,3 +128,30 @@ const ReportForPeriod = (props) => {
 }
 
 export default ReportForPeriod
+
+
+// exportPDF = () => {
+//     const unit = "pt";
+//     const size = "A4"; // Use A1, A2, A3 or A4
+//     const orientation = "portrait"; // portrait or landscape
+//
+//     const marginLeft = 40;
+//     const doc = new jsPDF(orientation, unit, size);
+//
+//     doc.setFontSize(15);
+//
+//     const title = "My Awesome Report";
+//     const headers = [["NAME", "PROFESSION"]];
+//
+//     const data = this.state.people.map(elt=> [elt.name, elt.profession]);
+//
+//     let content = {
+//         startY: 50,
+//         head: headers,
+//         body: data
+//     };
+//
+//     doc.text(title, marginLeft, 40);
+//     doc.autoTable(content);
+//     doc.save("report.pdf")
+// }

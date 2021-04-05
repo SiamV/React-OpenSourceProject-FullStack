@@ -1,7 +1,6 @@
-Table for ReportForPeriod.js and css.
-Install html2canvas, jsPDF.
-Save table in pdf. ReportForPeriod.js
-
+Use jspdf-autotable insteed html2canvas.
+Add button send pdf in ClientCard.js.
+Css pdf files.
 
 
 

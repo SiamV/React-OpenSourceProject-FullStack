@@ -2,6 +2,9 @@ import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {useParams} from 'react-router-dom';
 import {NavLink} from "react-router-dom";
+import jsPDF from 'jspdf';
+import autoTable from "jspdf-autotable";
+
 import {
     deleteOrderThunkCreator,
     saveOrderThunkCreator,
@@ -12,6 +15,7 @@ import {
 import classes from './clientCard.module.css';
 import classes2 from './createTours.module.css'
 import {deleteInfoAC} from "../../redux/reducers/toursReducer";
+import classes3 from "./createTours.module.css";
 
 
 const ClientCard = () => {
@@ -32,41 +36,73 @@ const ClientCard = () => {
     const writeUpdate = (e, nameField) => {
         dispatch(writeFieldAC(e.target.value, nameField))
     }
+
+    const exportPdf2 = () => {
+        const unit = "pt";
+        const size = "A4"; // Use A1, A2, A3 or A4
+        const orientation = "portrait"; // portrait or landscape
+
+        const marginLeft = 40;
+        const doc = new jsPDF(orientation, unit, size);
+
+        doc.setFontSize(16);
+
+        const title = `Order:`;
+        const headers = [["", ""]];
+
+        const data = [['Date: ', new Date(client.date).toUTCString().slice(5, 16)], ['Tour: ',client.tourName],
+            ['Pax and Price: ', `${client.adult}/${client.child}/${client.infant}   ${client.adultPrice}/${client.childPrice}/${client.infantPrice}`],
+            ['Hotel: ',client.hotel], ['Name: ',client.name],
+            ['Room number: ',client.roomNumber]];
+
+        let content = {
+            styles: {fontSize: 24},
+            theme: 'plain',
+            startY: 50,
+            head: headers,
+            body: data
+        };
+
+        doc.text(title, marginLeft, 40);
+        autoTable(doc, content)
+        doc.save(`${new Date(client.date).toUTCString().slice(5, 11)}-${client.tourName.slice(0, 7)}-${client.name}.pdf`)
+    }
+
     return (
         <div>
             <form className={classes.formWrapper} onSubmit={(event) => {
             }}>
                 <div className={classes.dateContainer}>
-                    <label htmlFor="tourDate">Дата: </label>
+                    <label htmlFor="tourDate">Date: </label>
                     <input type="date" id="tourDate" value={state.date && state.date.slice(0, 10)}
                            onChange={(e) => {
                                dispatch(writeFieldAC((e.target.value), 'date'))
                            }} />
                 </div>
                 <div className={classes.textContainer}>
-                    <label htmlFor="tour">Тур: </label>
+                    <label htmlFor="tour">Tour: </label>
 
                     <select id="tour" value={state.tourName} onChange={(e) => {
                         writeUpdate(e, 'tourName')
                     }}>
                         <option value="Выберите тур">Выберите тур</option>
-                        <option value="Чиченица rus">Чиченица rus</option>
-                        <option value="Розовые озера rus">Розовые озера rus</option>
-                        <option value="Чиченица eng">Чиченица eng</option>
+                        <option value="ChichenItza rus">ChichenItza rus</option>
+                        <option value="Pink lake rus">Pink lake rus</option>
+                        <option value="ChichenItza eng">ChichenItza eng</option>
                         <option value="Xcaret">Xcaret</option>
                         <option value="Xplor">Explor</option>
                         <option value="Xelha">Xelha</option>
                         <option value="Combo1:Xcaret+Explor">Combo1:Xcaret+Explor</option>
                         <option value="Combo2:Xcaret+Xelha">Combo2:Xcaret+Xelha</option>
                         <option value="Combo3:Explor+Xelha">Combo3:Explor+Xelha</option>
-                        <option value="Черепахи+сенот">Черепахи+сенот</option>
-                        <option value="Приватка">Приватка</option>
-                        <option value="Острова">Острова</option>
-                        <option value="Дайвинг">Дайвинг</option>
+                        <option value="Tortugas+cenote">Tortugas+cenote</option>
+                        <option value="Private tour">Private tour</option>
+                        <option value="Islands">Islands</option>
+                        <option value="Diving">Diving</option>
                     </select>
                 </div>
                 <div className={classes.textContainer}>
-                    <label htmlFor="company">Компания: </label>
+                    <label htmlFor="company">Company: </label>
                     <select id="company" value={state.operator} onChange={(e) => {
                         writeUpdate(e, 'operator')
                     }}>
@@ -76,19 +112,19 @@ const ClientCard = () => {
                     </select>
                 </div>
                 <div className={classes.textContainer}>
-                    <label htmlFor="nameClient">ФИО: </label>
+                    <label htmlFor="nameClient">Name: </label>
                     <input type="text" id="nameClient" value={state.name} onChange={(e) => {
                         writeUpdate(e, 'name')
                     }} />
                 </div>
                 <div className={classes.textContainer}>
-                    <label htmlFor="hotel">Отель: </label>
+                    <label htmlFor="hotel">Hotel: </label>
                     <input type="text" id={'hotel'} value={state.hotel} onChange={(e) => {
                         writeUpdate(e, 'hotel')
                     }} /></div>
                 <div className={classes.numberContainer}>
                     <div>
-                        <label htmlFor="roomNumber">Номер комнаты: </label>
+                        <label htmlFor="roomNumber">Room number: </label>
                         <input type="number" id={'roomNumber'} value={state.roomNumber} onChange={(e) => {
                             writeUpdate(e, 'roomNumber')
                         }} />
@@ -96,14 +132,14 @@ const ClientCard = () => {
                 </div>
                 <div className={classes.numberContainer}>
                     <div>
-                        <label htmlFor="adult">Взрослые: </label>
+                        <label htmlFor="adult">Adults: </label>
                         <input type="number" id={'adult'} value={state.adult} style={{marginLeft: '12px'}}
                                onChange={(e) => {
                                    writeUpdate(e, 'adult')
                                }} />
                     </div>
                     <div>
-                        <label htmlFor="priceAdult">цена: </label>
+                        <label htmlFor="priceAdult">price: </label>
                         <input type="number" id={'priceAdult'} value={state.adultPrice} onChange={(e) => {
                             writeUpdate(e, 'adultPrice')
                         }} />
@@ -111,14 +147,14 @@ const ClientCard = () => {
                 </div>
                 <div className={classes.numberContainer}>
                     <div>
-                        <label htmlFor="child">Дети: </label>
+                        <label htmlFor="child">Children: </label>
                         <input type="number" id={'child'} value={state.child} style={{marginLeft: '46px'}}
                                onChange={(e) => {
                                    writeUpdate(e, 'child')
                                }} />
                     </div>
                     <div>
-                        <label htmlFor="priceChild">цена: </label>
+                        <label htmlFor="priceChild">price: </label>
                         <input type="number" id={'priceChild'} value={state.childPrice} onChange={(e) => {
                             writeUpdate(e, 'childPrice')
                         }} />
@@ -126,7 +162,7 @@ const ClientCard = () => {
                 </div>
                 <div className={classes.numberContainer}>
                     <div>
-                        <label htmlFor="infant">Инфанты: </label>
+                        <label htmlFor="infant">Infants: </label>
                         <input type="number" id={'infant'} value={state.infant} style={{marginLeft: '14px'}}
                                onChange={(e) => {
                                    writeUpdate(e, 'infant')
@@ -135,9 +171,9 @@ const ClientCard = () => {
                 </div>
 
                 <div className={classes.numberContainer}>
-                    <label htmlFor="commission">Комиссия: </label>
+                    <label htmlFor="commission">Profit: </label>
                     <div>
-                        <label htmlFor="commission">итого </label>
+                        <label htmlFor="commission">total </label>
                         <input type="number" id={'commission'} value={state.commission} onChange={(e) => {
                             writeUpdate(e, 'commission')
                         }} />
@@ -145,20 +181,20 @@ const ClientCard = () => {
                 </div>
                 <div className={classes.numberContainer}>
                     <div>
-                        <label htmlFor="pickUpTime">Время пикапа: </label>
+                        <label htmlFor="pickUpTime">PickUp time: </label>
                         <input type="text" id={'pickUpTime'} value={state.pickUpTime} onChange={(e) => {
                             writeUpdate(e, 'pickUpTime')
                         }} />
                     </div>
                     <div>
-                        <label htmlFor="guide">Гид: </label>
+                        <label htmlFor="guide">Guid: </label>
                         <input type="text" id={'guide'} value={state.guide} onChange={(e) => {
                             writeUpdate(e, 'guide')
                         }} />
                     </div>
                 </div>
                 <div className={classes.textContainer}>
-                    <label htmlFor="contact">Контакты: </label>
+                    <label htmlFor="contact">Contacts: </label>
                     <select id="contact" value={state.contact} onChange={(e) => {
                         writeUpdate(e, 'contact')
                     }}>
@@ -171,7 +207,7 @@ const ClientCard = () => {
                     </select>
                 </div>
                 <div className={classes.textContainer}>
-                    <label htmlFor="note">Примечание: </label>
+                    <label htmlFor="note">Note: </label>
                     <textarea id={'note'} value={state.note} onChange={(e) => {
                         writeUpdate(e, 'note')
                     }} />
@@ -226,6 +262,14 @@ const ClientCard = () => {
                     <button className={classes2.MenuButton}><NavLink to={'/admin/tour-order'}>back</NavLink></button>
                 </div>
             </div>
+            <div>
+                <button className={classes2.MenuButton}
+                        style={{backgroundColor: 'orange'}}
+                        onClick={() => {
+                            exportPdf2()
+                        }}>send pdf
+                </button>
+            </div>
 
             {/*block changed markers and link*/}
             {state.deleteStatus &&
@@ -255,13 +299,13 @@ const ClientCard = () => {
             {state.saveAndAddStatus &&
             <div className={classes2.popup}>
                 <div className={classes2.popupContent}>Заказ сохранен</div>
-                    <button className={classes2.buttonInfo}
-                            type="button"
-                            onClick={() => {
-                                dispatch(setSaveAndAddStatus(false))
-                                dispatch(setFieldForAddMoreOrder(state))
-                            }}>Ok
-                    </button>
+                <button className={classes2.buttonInfo}
+                        type="button"
+                        onClick={() => {
+                            dispatch(setSaveAndAddStatus(false))
+                            dispatch(setFieldForAddMoreOrder(state))
+                        }}>Ok
+                </button>
             </div>}
             {state.updateStatus &&
             <div className={classes2.popup}>
