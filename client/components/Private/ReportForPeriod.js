@@ -25,7 +25,7 @@ const ReportForPeriod = (props) => {
 
     const filterDate = (db) => {
         return db.filter((order) => {
-            return order.date > fromDate && order.date < toDate
+            return order.date.slice(0, 10) >= fromDate && order.date.slice(0, 10) <= toDate
         })
     }
 

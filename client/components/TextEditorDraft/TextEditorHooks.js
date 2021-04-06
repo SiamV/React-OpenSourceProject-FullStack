@@ -5,14 +5,13 @@ import {
     EditorState,
     AtomicBlockUtils,
     RichUtils,
-    getDefaultKeyBinding,
     convertToRaw,
     convertFromRaw
 } from 'draft-js';
 import './TextEditor.css'
 import classes from './TextEditor.module.css'
 import path from 'path'
-import {savePhotoThC, SendPhotoStatusChangeToFalse, setStatusUpdate} from "../../redux/reducers/textEditorReducer";
+import {savePhotoThC, SendPhotoStatusChangeToFalse} from "../../redux/reducers/textEditorReducer";
 import {writeTourContentAC} from "../../redux/reducers/toursReducer";
 
 const __dirname = path.resolve(); //for ES6

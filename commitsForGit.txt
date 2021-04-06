@@ -1,7 +1,4 @@
-Use jspdf-autotable insteed html2canvas.
-Add button send pdf in ClientCard.js.
-Css pdf files.
-
+Filter including last dates. Correct Helmet in Posts and Tours.
 
 
 

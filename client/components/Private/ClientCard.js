@@ -66,6 +66,7 @@ const ClientCard = () => {
         doc.text(title, marginLeft, 40);
         autoTable(doc, content)
         doc.save(`${new Date(client.date).toUTCString().slice(5, 11)}-${client.tourName.slice(0, 7)}-${client.name}.pdf`)
+        // doc.send()
     }
 
     return (

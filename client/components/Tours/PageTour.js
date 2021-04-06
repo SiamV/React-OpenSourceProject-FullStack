@@ -31,8 +31,7 @@ const PageTour = () => {
         <div>{tours.filter(t => t.pageLink === pageLink).map((t, index) => (
             <div key={t._id}>
                 <Helmet>
-                    <title>{t.tourTitle}</title>
-                    <meta name="keywords" content={t.seoTitle} />
+                    <title>{t.seoTitle}</title>
                     <meta name="description" content={t.seoDescription} />
                 </Helmet>
                 <h2 className={classes.h2}>{t.tourTitle}</h2>
